@@ -16,7 +16,7 @@ PAGES = {
     "Bonding: Playground": bondingSimulator
 }
 
-st.write(navLogo)
+st.image(navLogo)
 st.sidebar.write('------------------')
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("", list(PAGES.keys()))
