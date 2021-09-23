@@ -58,15 +58,19 @@ def app():
     roiCharts.add_trace(go.Scatter(x = bondingSimulationResults_ROI_df['Epochs'], y = bondingSimulationResults_ROI_df['Bonding_ROI_5Days'],
                                                        mode = 'lines+markers',
                                                        name = '(4,4) Roi'))
+
     roiCharts.add_trace(go.Scatter(x = stakingSimulationResults_ROI_df['Epochs'], y = stakingSimulationResults_ROI_df['Staking_ROI_5Days'],
                                                        mode = 'lines+markers',
                                                        name = '(3,3) Roi'))
+    roiCharts.update_layout(paper_bgcolor='#fbfbfb')
+
 
     bondingGrowthChart = go.Figure()
 
     bondingGrowthChart.add_trace(go.Scatter(x = bondingSimulationResults_ohmGrowth_df['Epochs'], y = bondingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Bonding'],
                                                        mode = 'lines+markers',
                                                        name = '(4,4) Ohm accumulation'))
+    bondingGrowthChart.update_layout(paper_bgcolor='#fbfbfb')
 
 
     st.title('Bonding playground')
@@ -112,7 +116,7 @@ def app():
             Type some stuff here
             ''')
         with st.expander('(4,4) Ohm growth data', expanded=False):
-            st.dataframe(bondingGrowthChart)
+            st.dataframe(bondingSimulationResults_ohmGrowth_df)
         st.subheader('Explanation')
         st.write('''
         
