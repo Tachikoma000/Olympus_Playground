@@ -10,6 +10,7 @@ import pathlib  # url management
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import streamlit as st
+from PIL import Image
 import pathlib
 from pathlib import Path
 # endregion
