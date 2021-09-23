@@ -10,7 +10,7 @@ PAGES = {
     "Staking:  Playground": stakingSimulator,
 }
 
-st.sidebar.title('Olympus Playground')
+st.sidebar.image('Assets//playgroundOHM.PNG')
 st.sidebar.write('------------------')
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("", list(PAGES.keys()))
