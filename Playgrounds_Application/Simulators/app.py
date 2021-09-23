@@ -9,7 +9,7 @@ PAGES = {
     "Staking: Learn": stakingSimulator_Learn,
     "Staking:  Playground": stakingSimulator,
 }
-image = Image.open('Assets/playgroundOHM.PNG')
+image = Image.open('./Assets/playgroundOHM.PNG')
 
 st.sidebar.image(image)
 st.sidebar.write('------------------')
