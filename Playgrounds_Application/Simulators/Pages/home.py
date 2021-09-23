@@ -16,6 +16,9 @@ from pathlib import Path
 # endregion
 
 
+data_metrics_mission = Path(__file__).parents[1] / 'Assets/data_metrics_mission.png'
+data_metrics_mission  = Image.open(data_metrics_mission)
+
 data_metrics_vision = Path(__file__).parents[1] / 'Assets/data_metrics_vision.png'
 data_metrics_vision  = Image.open(data_metrics_vision)
 
@@ -29,15 +32,18 @@ def app():
         
         Special thanks to the Data and Metrics team! 
         ''')
-    st.write('--------------')
+    st.write('------------------')
     col1, col2 = st.columns((1,2))
     with col1:
-        st.image(data_metrics_vision)
+        st.image(data_metrics_mission)
     with col2:
         st.subheader('Vision')
         st.write('''
         Provide an advanced interactive simulation environment for the Olympus Protocol
         ''')
+    st.write('------------------')
+    col3, col4 = st.columns((2,1))
+    with col3:
         st.subheader('Mission')
         st.write('''
         Expand the reach of the Olympus ecosystem by:
@@ -58,4 +64,6 @@ def app():
 
         - Set goals and simulate metrics required to reach them
         ''')
-        st.write('---------------')
+    with col4:
+        st.image(data_metrics_vision)
+    st.write('------------------')

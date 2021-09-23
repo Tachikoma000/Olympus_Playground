@@ -12,7 +12,7 @@ PAGES = {
     "Home": home,
     "Staking: Learn": stakingSimulator_Learn,
     "Staking:  Playground": stakingSimulator,
-    "BondingL Learn": bondingSimulator_Learn,
+    "Bonding: Learn": bondingSimulator_Learn,
     "Bonding: Playground": bondingSimulator
 }
 
