@@ -7,6 +7,7 @@ from pathlib import Path
 st.set_page_config(layout="wide")
 
 navLogo = Path(__file__).parents[1] / 'Assets/playgroundOHM.PNG'
+navLogo = Image.open(navLogo)
 PAGES = {
     "Home": home,
     "Staking: Learn": stakingSimulator_Learn,
