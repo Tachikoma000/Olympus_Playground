@@ -2,8 +2,11 @@
 import streamlit as st
 from PIL import Image
 from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
-
+import pathlib
+from pathlib import Path
 st.set_page_config(layout="wide")
+
+navLogo = Path(__file__).parents[1] / 'Assets/playgroundOHM.PNG'
 PAGES = {
     "Home": home,
     "Staking: Learn": stakingSimulator_Learn,
@@ -12,6 +15,7 @@ PAGES = {
     "Bonding: Playground": bondingSimulator
 }
 
+st.image(navLogo)
 st.sidebar.write('------------------')
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("", list(PAGES.keys()))
