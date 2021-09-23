@@ -106,7 +106,7 @@ def app():
         ''')
     st.write("-----------------------------")
 
-    st.header('(4,4): Ohm accumulation')
+    st.header('(4,4) Ohm accumulation')
     col3, col4 = st.columns((2, 1))
     with col3:
         st.plotly_chart(bondingGrowthChart, use_container_width=True)

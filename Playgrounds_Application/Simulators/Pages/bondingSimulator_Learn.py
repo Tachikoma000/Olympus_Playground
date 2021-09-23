@@ -22,27 +22,27 @@ def app():
     st.write(
         '''
         Bonding is the process of locking in a fixed reward in OHM. You trade in DAI for OHM at a discount
-        and the OHM is vested linearly over a period of 5 days.
+        and the OHM is vested linearly over a period of 5 days
     
         As a bonder, you win if price of OHM increases during your vesting period; when this happens you benefits the
         discounted on OHM and the increase in price. You also win if price remains flat during the vesting period.
-        This is becuase profits are still gained from the discount.
+        This is becuase profits are still gained from the discount
     
         As a bonder, you loose if price of OHM decreases during your vesting period. If this happens, you will have to 
-        decide between OHM and SLP (whichever is worth more). 
+        decide between OHM and SLP (whichever is worth more)
     
         **So what is (4,4) and what does it have to do with Bonding?** 
         The (4,4) strategy is a maximizing strategy that combines the benefits of staking (3,3) and bonding (1,1). 
-        (4,4) simply means staking available OHMS during the vesting period to capture staking rewards during the vesting period.
+        (4,4) simply means staking available OHMS during the vesting period to capture staking rewards during the vesting period
 
         ''')
     st.title('What is (4,4) Playground? ')
     st.write(
         """
-        **(4,4) Playground is a simulator for understanding and forecasting the bond, claim and stake**.
+        **(4,4) Playground is a simulator for understanding and forecasting the bond, claim and stake**
         
         Use this simulator to:
-        - Strategize (4,4) profitability. 
+        - Strategize (4,4) profitability 
         - Forecast additional gains from using (4,4) compared to (3,3)
         - Forecast additional gains from staking bonding emissions at varying epochs
         - OHM growth over time with (4,4) strategy
