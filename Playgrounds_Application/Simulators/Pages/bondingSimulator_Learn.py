@@ -46,14 +46,14 @@ def app():
         - Forecast additional gains from using (4,4) compared to (3,3)
         - Forecast additional gains from staking bonding emissions at varying epochs
         - OHM growth over time with (4,4) strategy
-    
-                This is a far more complex and active strategy when compared to (3,3). Please ensure you understand the system mechanics completely before bonding with real money
-            
-            Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
-
-            References to system governing equations can be found here
-            [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
-            the mechanics of Olympus protocol
         """
     )
+
+    st.info('''
+    Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
+
+    References to system governing equations can be found here
+    [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
+    the mechanics of Olympus protocol
+        ''')
 # endregion

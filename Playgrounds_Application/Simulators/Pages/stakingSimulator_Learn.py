@@ -47,11 +47,15 @@ def app():
         - Required staked OHM to reach desired weekly incooom
         - Count down until you are earning desired weekly incooom
     
-        Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
-    
-        References to system governing equations can be found here
-        [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
-        the mechanics of Olympus protocol
         """
     )
+
+
+    st.info('''
+    Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
+
+    References to system governing equations can be found here
+    [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
+    the mechanics of Olympus protocol
+        ''')
 # endregion
