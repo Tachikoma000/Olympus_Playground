@@ -1,13 +1,14 @@
 """Main module for the stream lit app"""
 import streamlit as st
 from PIL import Image
-from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator
+from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 
 st.set_page_config(layout="wide")
 PAGES = {
     "Home": home,
     "Staking: Learn": stakingSimulator_Learn,
     "Staking:  Playground": stakingSimulator,
+    "BondingL Learn": bondingSimulator_Learn,
     "Bonding: Playground": bondingSimulator
 }
 

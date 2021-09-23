@@ -38,7 +38,6 @@ def app():
         priceofETH = st.text_input('Price of ETH to simulate ($)', value=3173.000)
         usdBonded = st.text_input('Amount to bond ($)', value=5000.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=100.0000)
-        bondDiscount = st.text_input('Bond discount (%)', value=6.000)
         bondROI = st.text_input('Bond ROI (%)', value=5.000)
         rewardYield = st.text_input('Rebase rate (%)', value=0.4583)
         gwei = st.text_input('Highest network gas fee (gwei)', value=83.0000, )
@@ -47,13 +46,12 @@ def app():
         priceofETH = float(priceofETH)
         usdBonded = float(usdBonded)
         initialOhms = float(initialOhms)
-        bondDiscount = float(bondDiscount)
         bondROI = float(bondROI)
         rewardYield = float(rewardYield)
         gwei = float(gwei)
 
 
-    bondingSimulationResults_ROI_df,bondingSimulationResults_ohmGrowth_df,stakingSimulationResults_ROI_df = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondDiscount,bondROI,rewardYield,gwei)
+    bondingSimulationResults_ROI_df,bondingSimulationResults_ohmGrowth_df,stakingSimulationResults_ROI_df = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
 
     roiCharts = go.Figure()
 
@@ -130,9 +128,9 @@ def app():
 # end region
 
 # region Description: Function to calculate ohm growth over time
-def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondDiscount,bondROI,rewardYield,gwei):
+def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei):
     # Protocol and ohm calcs:
-    discountedOhmPrice = round(ohmPrice / (1 + (bondDiscount / 100)),4)
+    discountedOhmPrice = round(ohmPrice / (1 + (bondROI / 100)),4)
     initOhmValue = round(initialOhms * ohmPrice,4)
     bondedOhms = round(initOhmValue / discountedOhmPrice,4)
     bondROI = round(bondROI / 100,4)

@@ -11,7 +11,7 @@ import pathlib  # url management
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import streamlit as st
-#import awesome_streamlit as ast
+# import awesome_stream lit as ast
 # endregion
 def app():
 # region Description: All about staking
