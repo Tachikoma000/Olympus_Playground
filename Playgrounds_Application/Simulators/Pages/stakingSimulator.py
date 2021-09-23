@@ -18,14 +18,6 @@ import streamlit as st
 # region Description: Build the app
 def app():
 
-    with st.sidebar.expander('About'):
-        st.write('''
-            [Asset allocation (OHM staked)](https://docs.olympusdao.finance/basics/staking), [APY](https://docs.olympusdao.finance/basics/basics#what-is-apy),
-            and [Rebase Rate](https://docs.olympusdao.finance/basics/basics#what-is-a-rebase) are main factors that determine returns and incooom over time.
-            Play with the simulator and see how your starting OHM affects your projected accured value over time.
-            Additionally, use the incooom parameters to forcast daily and weekly incooom from (3,3) alone. 
-        ''')
-
     with st.sidebar.expander('How to use'):
         st.write('''
                 Hover your mouse over the chart trend lines to see live feedback on Total ohms accumulated vs days.

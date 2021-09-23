@@ -15,7 +15,7 @@ import streamlit as st
 # endregion
 def app():
 # region Description: All about staking
-    st.title('The Staking Strategy (3,3): Learn ')
+    st.title('The Staking Strategy (3,3)')
     st.write(
         '''
         **Staking is the primary value accrual strategy of Olympus**. Stakers stake their OHM on the Olympus website to earn rebase rewards. 
