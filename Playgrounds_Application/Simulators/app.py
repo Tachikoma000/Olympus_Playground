@@ -1,6 +1,7 @@
 """Main module for the stream lit app"""
 import streamlit as st
 from PIL import Image
+from Assets import playgroundOHM
 from Pages import home, stakingSimulator, stakingSimulator_Learn
 
 st.set_page_config(layout="wide")
@@ -10,7 +11,7 @@ PAGES = {
     "Staking:  Playground": stakingSimulator,
 }
 
-st.sidebar.image('https://github.com/Tachikoma000/Olympus_Playground/blob/main/Playgrounds_Application/Simulators/Assets/playgroundOHM.PNG')
+st.sidebar.image(playgroundOHM)
 st.sidebar.write('------------------')
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("", list(PAGES.keys()))
