@@ -16,8 +16,8 @@ from pathlib import Path
 # endregion
 
 
-data_metricsHome_Img = Path(__file__).parents[0] / 'Assets/data_metrics_HomePage.gif'
-data_metricsHome_Img = Image.open(data_metricsHome_Img)
+data_metrics_vision = Path(__file__).parents[0] / 'Assets/data_metrics_vision.png'
+data_metrics_vision  = Image.open(data_metrics_vision)
 
 def app():
     # region Description: All about staking
@@ -30,4 +30,4 @@ def app():
         Special thanks to the Data and Metrics team! 
         ''')
     st.write('--------------')
-    st.image(data_metricsHome_Img)
+    st.image(data_metrics_vision)
