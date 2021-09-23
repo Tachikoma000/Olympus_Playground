@@ -10,8 +10,7 @@ PAGES = {
     "Staking:  Playground": stakingSimulator,
 }
 
-logo = Image.open('./Assets/playgroundOHM.PNG')
-st.sidebar.image(logo, use_column_width=True)
+st.sidebar.title('Olympus Playground')
 st.sidebar.write('------------------')
 st.sidebar.title('Navigation')
 selection = st.sidebar.radio("", list(PAGES.keys()))
