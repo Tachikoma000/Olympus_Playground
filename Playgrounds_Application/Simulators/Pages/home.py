@@ -10,7 +10,13 @@ import pathlib  # url management
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import streamlit as st
+import pathlib
+from pathlib import Path
 # endregion
+
+
+data_metricsHome_Img = Path(__file__).parents[0] / 'Assets/data_metrics_HomePage.gif'
+data_metricsHome_Img = Image.open(data_metricsHome_Img)
 
 def app():
     # region Description: All about staking
@@ -22,3 +28,5 @@ def app():
         
         Special thanks to the Data and Metrics team! 
         ''')
+    st.write('--------------')
+    st.image(data_metricsHome_Img)
