@@ -16,7 +16,7 @@ from pathlib import Path
 # endregion
 
 
-data_metrics_vision = Path(__file__).parents[0] / 'Assets/data_metrics_vision.png'
+data_metrics_vision = Path(__file__).parents[1] / 'Assets/data_metrics_vision.png'
 data_metrics_vision  = Image.open(data_metrics_vision)
 
 def app():
