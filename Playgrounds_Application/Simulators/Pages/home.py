@@ -38,7 +38,7 @@ def app():
         st.write('''
         Provide an advanced interactive simulation environment for the Olympus Protocol
         ''')
-        St.subheader('Mission')
+        st.subheader('Mission')
         st.write('''
         Expand the reach of the Olympus ecosystem by:
         - Fostering a community of research, development, and knowledge symmetry 
