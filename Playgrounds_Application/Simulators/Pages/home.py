@@ -30,4 +30,8 @@ def app():
         Special thanks to the Data and Metrics team! 
         ''')
     st.write('--------------')
-    st.image(data_metrics_vision)
+    col1, col2 = st.columns((1,2))
+    with col1:
+        st.image(data_metrics_vision)
+    with col2:
+        st.subheader('Vision')
