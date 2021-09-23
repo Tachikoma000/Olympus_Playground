@@ -17,8 +17,8 @@ def app():
     st.title('Welcome to your Playground!')
     st.write(
         '''
-        This is a simple projection calculator for Staking and bonding ohm in OlympusDAO protocol
-        Welcome to Olympus Playground
-        This is an interactive notebook to study, play and forcast the growth of your ohm over time. 
-        This notebook is designed to work hand in hand with the awesome gitbook created by the DAO and all of Brians calcs!
+        This is an interactive projection calculator for Staking and bonding ohm in OlympusDAO protocol.
+        Educational material and equations in this app are designed to work hand in hand with the awesome gitbook created by the DAO. 
+        
+        Special thanks to the Data and Metrics team! 
         ''')
