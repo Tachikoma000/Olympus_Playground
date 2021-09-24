@@ -51,7 +51,7 @@ def app():
         gwei = float(gwei)
 
 
-    bondingSimulationResults_ROI_df,bondingSimulationResults_ohmGrowth_df,stakingSimulationResults_ROI_df = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
+    bondingSimulationResults_ROI_df,bondingSimulationResults_ohmGrowth_df,stakingSimulationResults_ROI_df,stakingSimulationResults_ohmGrowth_df = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
 
     roiCharts = go.Figure()
 
@@ -67,9 +67,15 @@ def app():
 
     bondingGrowthChart = go.Figure()
 
-    bondingGrowthChart.add_trace(go.Scatter(x = bondingSimulationResults_ohmGrowth_df['Epochs'], y = bondingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Bonding'],
-                                                       mode = 'lines+markers',
-                                                       name = '(4,4) Ohm accumulation'))
+    bondingGrowthChart.add_trace(go.Scatter(x = bondingSimulationResults_ohmGrowth_df['Epochs'],
+                                            y = bondingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Bonding'],
+                                            mode = 'lines+markers',
+                                            name = '(4,4) Ohm accumulation'))
+
+    bondingGrowthChart.add_trace(go.Scatter(x=stakingSimulationResults_ohmGrowth_df['Epochs'],
+                                            y=stakingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Staking'],
+                                            mode='lines+markers',
+                                            name='(3,3) Ohm accumulation'))
     bondingGrowthChart.update_layout(paper_bgcolor='#fbfbfb')
 
 
@@ -106,7 +112,7 @@ def app():
         ''')
     st.write("-----------------------------")
 
-    st.header('(4,4) Ohm accumulation')
+    st.header('(4,4) and (3,3) Ohm Growth Comparison')
     col3, col4 = st.columns((2, 1))
     with col3:
         st.plotly_chart(bondingGrowthChart, use_container_width=True)
@@ -170,12 +176,23 @@ def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYi
     ohmGrowthEpochs = 16
     stakingSimulationResults_ROI_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])
     stakingSimulationResults_ROI_df['Days'] = round(stakingSimulationResults_ROI_df.Epochs / 3,1)
+    stakingSimulationResults_ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])
+    stakingSimulationResults_ohmGrowth_df['Days'] = round(stakingSimulationResults_ohmGrowth_df.Epochs / 3,1)
+    ohmStakedGrowth = bondedOhms
     accumulatedOhmsROI_Staking = []
     accumulatedOhms_Staking = []
+
     for elements in stakingSimulationResults_ROI_df.Epochs:
         stakingOhmsGrowth_ROI = round(((initOhmValue - stakingGasFee) * ((rebaseConst ** 15) / initOhmValue) - 1) * 100,4)
         accumulatedOhmsROI_Staking.append(stakingOhmsGrowth_ROI)
     stakingSimulationResults_ROI_df['Staking_ROI_5Days'] = accumulatedOhmsROI_Staking
+
+    for elements in stakingSimulationResults_ohmGrowth_df.Epochs:
+        accumulatedOhms_Staking.append(ohmStakedGrowth)
+        ohmStakedGrowth = ohmStakedGrowth * (rebaseConst)
+    stakingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Staking'] = accumulatedOhms_Staking  # Clean up and add the new array to the main data frame
+    stakingSimulationResults_ohmGrowth_df.Days = np.around(stakingSimulationResults_ohmGrowth_df.Days, decimals=1)  # Python is funny so let's round up our numbers . 1 decimal place for days",
+    stakingSimulationResults_ohmGrowth_df.Total_Ohms = np.around(stakingSimulationResults_ohmGrowth_df.Accumulated_Ohms_Staking,decimals=3)  # Python is funny so let's round up our numbers . 3 decimal place for ohms"
 
     # (4,4)
     bondingRate = (round(bondROI / 100, 4))  # bonding reward rate
@@ -204,6 +221,6 @@ def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYi
     bondingSimulationResults_ROI_df['Bonding_ROI_5Days'] = accumulatedOhmsROI_Bonding
     # ================================================================================
 
-    return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df
+    return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df
 # end region
 
