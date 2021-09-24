@@ -52,7 +52,7 @@ def app():
 
 
     bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df,\
-    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
+    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,bondingRate_P,currentAPY_P = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
 
     roiCharts = go.Figure()
 
@@ -117,15 +117,18 @@ def app():
         of the total 15 epochs (5 days)
         ''')
     st.write("-----------------------------")
-
+    stakingRate_P, bondingRate_P, currentAPY_P
     st.header('(4,4) and (3,3) Ohm Growth Comparison')
     col3, col4 = st.columns((2, 1))
     with col3:
         st.plotly_chart(bondingGrowthChart, use_container_width=True)
     with col4:
         with st.expander('Key parameters used for forcast', expanded=True):
-            st.write('''
-            Type some stuff here
+            st.write(f'''
+            ### Rates
+            - Reward Rate (3,3): **{stakingRate_P} %**
+            - Reward Rate (4,4): **{bondingRate_P} %**
+            - APY (3,3): **{currentAPY_P} %**
             ''')
         with st.expander('(4,4) Ohm growth data', expanded=False):
             st.dataframe(bondingSimulationResults_ohmGrowth_df)
@@ -156,7 +159,7 @@ def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYi
     rewardRate = round(rewardYield / 100, 4)
     rebaseConst = 1 + rewardRate  # calculate a constant for use in APY calculation
     currentAPY = (rebaseConst) ** (1095) - 1  # current APY equation
-    currentAPY_P = (currentAPY) * 100  # convert to %
+    currentAPY_P = round((currentAPY) * 100,2)  # convert to %
     # ========================================================================================
 
     # Calculate fees
@@ -227,6 +230,8 @@ def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYi
     bondingSimulationResults_ROI_df['Bonding_ROI_5Days'] = accumulatedOhmsROI_Bonding
     # ================================================================================
 
-    return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df,discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee
+    return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df,\
+           stakingSimulationResults_ohmGrowth_df,discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee,\
+           unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,bondingRate_P,currentAPY_P
 # end region
 
