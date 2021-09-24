@@ -51,7 +51,8 @@ def app():
         gwei = float(gwei)
 
 
-    bondingSimulationResults_ROI_df,bondingSimulationResults_ohmGrowth_df,stakingSimulationResults_ROI_df,stakingSimulationResults_ohmGrowth_df = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
+    bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df,\
+    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
 
     roiCharts = go.Figure()
 
@@ -88,8 +89,13 @@ def app():
         st.plotly_chart(roiCharts, use_container_width=True)
     with col2:
         with st.expander('Key parameters used for forcast', expanded=True):
-            st.write('''
-            Type some stuff here
+            st.write(f'''
+            ### Fees
+            - Claim and Stake Fees: **$ {claimGasFee}**
+            - Staking Fees: **$ {stakingGasFee}**
+            - Unstaking Fees: **$ {unstakingGasFee}**
+            - Swapping Fees: **$ {swappingGasFee}**
+            - Bonding Fees: **$ {bondingGasFee}**
             ''')
         with st.expander('ROI Data', expanded=False):
             st.subheader('(3,3) ROI over five day vesting period')
@@ -221,6 +227,6 @@ def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYi
     bondingSimulationResults_ROI_df['Bonding_ROI_5Days'] = accumulatedOhmsROI_Bonding
     # ================================================================================
 
-    return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df
+    return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df,discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee
 # end region
 
