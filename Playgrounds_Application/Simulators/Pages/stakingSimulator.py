@@ -69,7 +69,7 @@ def app():
     st.title('Staking Playground')
     st.write("-----------------------------")
 
-    col1, col2 = st.columns((5, 1))
+    col1, col2 = st.columns((5, 1.3))
     with col1:
         st.header('OHM Growth Forecast')
         st.plotly_chart(ohmGrowthResult_df_Chart,use_container_width=True)

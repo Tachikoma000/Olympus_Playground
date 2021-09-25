@@ -37,10 +37,10 @@ def app():
     with col1:
         st.image(data_metrics_mission)
     with col2:
-        st.write(' ')
-        st.write(' ')
-        st.write(' ')
-        st.write(' ')
+        #st.write(' ')
+        #st.write(' ')
+        #st.write(' ')
+        #st.write(' ')
         st.write(' ')
         st.write(' ')
         st.write(' ')

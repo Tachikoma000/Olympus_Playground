@@ -91,7 +91,7 @@ def app():
     st.title('Bonding playground')
     st.write("-----------------------------")
 
-    col1, col2 = st.columns((4,1))
+    col1, col2 = st.columns((4,1.25))
     with col1:
         st.header('(4,4) and (3,3) ROI Comparisons')
         st.plotly_chart(roiCharts, use_container_width=True)
@@ -123,7 +123,7 @@ def app():
             ''')
     st.write("-----------------------------")
 
-    col3, col4 = st.columns((4, 1))
+    col3, col4 = st.columns((4, 1.25))
     with col3:
         st.header('(4,4) and (3,3) Ohm Growth Comparison')
         st.plotly_chart(bondingGrowthChart, use_container_width=True)
@@ -157,15 +157,15 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     rewardRate = round(rewardYield / 100, 4)
     rebaseConst = 1 + rewardRate  # calculate a constant for use in APY calculation
     currentAPY = (rebaseConst) ** (1095)   # current APY equation
-    currentAPY_P = round((currentAPY) * 100,2)  # convert to %
+    currentAPY_P = round((currentAPY) * 100,1)  # convert to %
     # ========================================================================================
 
     # Calculate fees
-    stakingGasFee = round(179123 * ((gwei * priceofETH) / pow(10, 9)),4)
-    unstakingGasFee = round(89654 * ((gwei * priceofETH) / (10 ** 9)),4)
-    swappingGasFee = round(225748 * ((gwei * priceofETH) / (10 ** 9)) + ((0.3 / 100) * initOhmValue),4)
-    claimGasFee = round(80209 * ((gwei * priceofETH) / (10 ** 9)),4)
-    bondingGasFee = round((258057) * ((gwei * priceofETH) / (10 ** 9)),4)
+    stakingGasFee = round(179123 * ((gwei * priceofETH) / pow(10, 9)),1)
+    unstakingGasFee = round(89654 * ((gwei * priceofETH) / (10 ** 9)),1)
+    swappingGasFee = round(225748 * ((gwei * priceofETH) / (10 ** 9)) + ((0.3 / 100) * initOhmValue),1)
+    claimGasFee = round(80209 * ((gwei * priceofETH) / (10 ** 9)),1)
+    bondingGasFee = round((258057) * ((gwei * priceofETH) / (10 ** 9)),1)
     # miscFee = 823373 * ((gwei*priceofETH)/(10**9))
     # ================================================================================
 
@@ -175,7 +175,7 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
 
     # (3,3)
     stakingRate = round(((rebaseConst) ** 15) - 1,4)  # staking reward rate
-    stakingRate_P = round(stakingRate * 100, 4)  # staking reward rate in percentage
+    stakingRate_P = round(stakingRate * 100, 2)  # staking reward rate in percentage
     stakingOhmsGained = round(((initOhmValue - stakingGasFee) * (stakingRate / initOhmValue) - 1),4)
     # ================================================================================
 
