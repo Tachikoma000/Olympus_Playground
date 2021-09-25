@@ -52,7 +52,7 @@ def app():
 
 
     bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df,\
-    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,bondingRate_P,currentAPY_P = bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei)
+    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,bondingRate_P,currentAPY_P = bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei)
 
     roiCharts = go.Figure()
 
