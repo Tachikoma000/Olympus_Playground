@@ -44,7 +44,7 @@ def app():
 
         ohmPrice = float(ohmPrice)
         priceofETH = float(priceofETH)
-        usdBonded = float(usdBonded)
+        #usdBonded = float(usdBonded)
         initialOhms = float(initialOhms)
         bondROI = float(bondROI)
         rewardYield = float(rewardYield)
