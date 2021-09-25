@@ -36,7 +36,7 @@ def app():
 
         ohmPrice = st.text_input('Price of OHM to simulate ($)', value=600.000)
         priceofETH = st.text_input('Price of ETH to simulate ($)', value=3173.000)
-        usdBonded = st.text_input('Amount to bond ($)', value=5000.000)
+        #usdBonded = st.text_input('Amount to bond ($)', value=5000.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=100.0000)
         bondROI = st.text_input('Bond ROI (%)', value=5.000)
         rewardYield = st.text_input('Rebase rate (%)', value=0.4583)
@@ -167,7 +167,7 @@ def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYi
     unstakingGasFee = round(89654 * ((gwei * priceofETH) / (10 ** 9)),4)
     swappingGasFee = round(225748 * ((gwei * priceofETH) / (10 ** 9)) + ((0.3 / 100) * initOhmValue),4)
     claimGasFee = round(80209 * ((gwei * priceofETH) / (10 ** 9)),4)
-    bondingGasFee = round((258057) * ((33 * 2400) / (10 ** 9)),4)
+    bondingGasFee = round((258057) * ((gwei * 2400) / (10 ** 9)),4)
     # miscFee = 823373 * ((gwei*priceofETH)/(10**9))
     # ================================================================================
 
