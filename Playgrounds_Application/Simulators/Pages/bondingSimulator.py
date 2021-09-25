@@ -32,7 +32,7 @@ def app():
                 Use the slider and number input boxes to adjust your goals and see the results displayed the provided charts and tables. 
             ''')
 
-    with st.sidebar.expander('Control Parameters'):
+    with st.sidebar.expander('Control Parameters',expanded=True):
 
         ohmPrice = st.text_input('Price of OHM to simulate ($)', value=600.000)
         priceofETH = st.text_input('Price of ETH to simulate ($)', value=3173.000)

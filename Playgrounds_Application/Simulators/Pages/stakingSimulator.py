@@ -24,7 +24,7 @@ def app():
                 Use the slider and number input boxes to adjust your goals and see the results displayed on the incoom charts and table. 
             ''')
 
-    with st.sidebar.expander('Control Parameters'):
+    with st.sidebar.expander('Control Parameters', expanded=True):
         ohmGrowthDays = st.slider('Days', value=365, min_value=1, max_value=730, step=1)
         ohmPrice = st.text_input('Price of OHM to simulate ($)', value=500.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=1.0000)
