@@ -147,7 +147,7 @@ def app():
 # end region
 
 # region Description: Function to calculate ohm growth over time
-def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYield,gwei):
+def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     # Protocol and ohm calcs:
     discountedOhmPrice = round(ohmPrice / (1 + (bondROI / 100)),4)
     initOhmValue = round(initialOhms * ohmPrice,4)
@@ -178,7 +178,7 @@ def bondingSimulation(ohmPrice,priceofETH,usdBonded,initialOhms,bondROI,rewardYi
     # (3,3)
     stakingRate = round(((rebaseConst) ** 15) - 1,4)  # staking reward rate
     stakingRate_P = round(stakingRate * 100, 4)  # staking reward rate in percentage
-    stakingOhmsGained = round(((usdBonded - stakingGasFee) * (stakingRate / usdBonded) - 1),4)
+    stakingOhmsGained = round(((initOhmValue - stakingGasFee) * (stakingRate / initOhmValue) - 1),4)
     # ================================================================================
 
     # Calculate ohm roi over 5 day period for comparison
