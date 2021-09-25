@@ -35,12 +35,12 @@ def app():
     with st.sidebar.expander('Control Parameters',expanded=True):
 
         ohmPrice = st.text_input('Price of OHM to simulate ($)', value=600.000)
-        priceofETH = st.text_input('Price of ETH to simulate ($)', value=3173.000)
+        priceofETH = st.text_input('Price of ETH to simulate ($)', value=3000.000)
         #usdBonded = st.text_input('Amount to bond ($)', value=5000.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=100.0000)
-        bondROI = st.text_input('Bond ROI (%)', value=5.000)
-        rewardYield = st.text_input('Rebase rate (%)', value=0.4583)
-        gwei = st.text_input('Highest network gas fee (gwei)', value=83.0000, )
+        bondROI = st.text_input('Bond ROI (%)', value=6.000)
+        rewardYield = st.text_input('Rebase rate (%)', value=0.3928)
+        gwei = st.text_input('Highest network gas fee (gwei)', value=40.0000, )
 
         ohmPrice = float(ohmPrice)
         priceofETH = float(priceofETH)
@@ -52,7 +52,7 @@ def app():
 
 
     bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df,\
-    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,bondingRate_P,currentAPY_P = bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei)
+    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,currentAPY_P = bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei)
 
     roiCharts = go.Figure()
 
@@ -117,7 +117,7 @@ def app():
         of the total 15 epochs (5 days)
         ''')
     st.write("-----------------------------")
-    stakingRate_P, bondingRate_P, currentAPY_P
+    #stakingRate_P, bondingRate_P, currentAPY_P
     st.header('(4,4) and (3,3) Ohm Growth Comparison')
     col3, col4 = st.columns((2, 1))
     with col3:
@@ -126,8 +126,8 @@ def app():
         with st.expander('Key parameters used for forcast', expanded=True):
             st.write(f'''
             ### Rates
-            - Reward Rate (3,3): **{stakingRate_P} %**
-            - Reward Rate (4,4): **{bondingRate_P} %**
+            - 5 Day ROI (3,3): **{stakingRate_P} %**
+            - 5 Day ROI (4,4): **{bondROI} %**
             - APY (3,3): **{currentAPY_P} %**
             ''')
         with st.expander('(4,4) Ohm growth data', expanded=False):
@@ -140,7 +140,6 @@ def app():
         
         Similar to the ROI chart, the x-axis represents the claiming and staking frequency. 
         
-        Claiming and staking fees are built into this simulation
         ''')
     st.write("-----------------------------")
     st.info('Forcasts are for educational purposes alone and should not be used as financial advice')
@@ -158,7 +157,7 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     # Calculate the rebase rate and Current APY (next epoch rebase pulled from hippo data source)
     rewardRate = round(rewardYield / 100, 4)
     rebaseConst = 1 + rewardRate  # calculate a constant for use in APY calculation
-    currentAPY = (rebaseConst) ** (1095) - 1  # current APY equation
+    currentAPY = (rebaseConst) ** (1095)   # current APY equation
     currentAPY_P = round((currentAPY) * 100,2)  # convert to %
     # ========================================================================================
 
@@ -167,7 +166,7 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     unstakingGasFee = round(89654 * ((gwei * priceofETH) / (10 ** 9)),4)
     swappingGasFee = round(225748 * ((gwei * priceofETH) / (10 ** 9)) + ((0.3 / 100) * initOhmValue),4)
     claimGasFee = round(80209 * ((gwei * priceofETH) / (10 ** 9)),4)
-    bondingGasFee = round((258057) * ((gwei * 2400) / (10 ** 9)),4)
+    bondingGasFee = round((258057) * ((gwei * priceofETH) / (10 ** 9)),4)
     # miscFee = 823373 * ((gwei*priceofETH)/(10**9))
     # ================================================================================
 
@@ -205,7 +204,8 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
 
     # (4,4)
     bondingRate = (round(bondROI / 100, 4))  # bonding reward rate
-    bondingRate_P = round(bondingRate * 100, 4)  # bonding reward rate in percentage
+    bondingRate_P = bondROI
+    #round(bondingRate * 100, 4)  # bonding reward rate in percentage
     # bondingOhmsGained = (usdBonded*bondingRate / discountedOhmPrice)  # ohms gained from bonding
     # ================================================================================
 
@@ -220,7 +220,7 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     accumulatedOhmsROI_Bonding = []
 
     for elements in bondingSimulationResults_ohmGrowth_df.Epochs:
-        bondedOhmsGrowth = round(((bondedOhms/(1+elements))*((1.0048**15)-1))/((1.0048**(15/(1+elements)))-1),3)
+        bondedOhmsGrowth = round(((bondedOhms/(1+elements))*((rebaseConst**15)-1))/((rebaseConst**(15/(1+elements)))-1),3)
         accumulatedOhms_Bonding.append(bondedOhmsGrowth)
     bondingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Bonding'] = accumulatedOhms_Bonding
 
@@ -232,6 +232,6 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
 
     return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df,\
            stakingSimulationResults_ohmGrowth_df,discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee,\
-           unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,bondingRate_P,currentAPY_P
+           unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,currentAPY_P
 # end region
 

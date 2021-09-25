@@ -28,7 +28,7 @@ def app():
         ohmGrowthDays = st.slider('Days', value=365, min_value=1, max_value=730, step=1)
         ohmPrice = st.text_input('Price of OHM to simulate ($)', value=500.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=1.0000)
-        rewardYield = st.text_input('Rebase rate (%)', value=0.4583)
+        rewardYield = st.text_input('Rebase rate (%)', value=0.3928)
         desiredUSDTarget = st.text_input('Desired OHM value (USD)', value=10000.0000,)
         desiredOHMTarget = st.text_input('Desired amount of OHMS', value=500.0000, )
         desiredDailyIncooom = st.text_input('Desired daily incooom (USD)', value=5000.0000,)

@@ -6,7 +6,7 @@ import pathlib
 from pathlib import Path
 st.set_page_config(layout="wide")
 
-navLogo = Path(__file__).parents[0] / 'Assets/playgroundOHM.PNG'
+navLogo = Path(__file__).parents[0] / 'Assets/playgrounds_Logo.png'
 navLogo = Image.open(navLogo)
 PAGES = {
     "Home": home,
