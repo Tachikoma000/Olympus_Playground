@@ -69,7 +69,7 @@ def app():
 
         - Simulate bonding outcomes based on interactive input parameters
 
-        - Design and simulate incooom strategies
+        - Design and simulate income strategies
 
         - Set goals and simulate metrics required to reach them
         ''')

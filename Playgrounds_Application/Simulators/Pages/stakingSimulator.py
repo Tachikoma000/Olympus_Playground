@@ -123,14 +123,14 @@ def app():
                 - It would take **{forcastOHMTarget} days** until you accumulate **{desiredOHMTarget} ohms**. Keep in mind that this prediction is calculated based on 
                     your selected rebase rate of **{rewardYield} %** and an initial of **{initialOhms} ohms** staked. Use the OIP-18 Framework to adjust your rebase rate parameter. 
 
-                - To start earning a daily incooom of **$ {desiredDailyIncooom}** from staking rewards, you will need **{requiredOHMDailyIncooom} ohms**, 
+                - To start earning a daily income of **$ {desiredDailyIncooom}** from staking rewards, you will need **{requiredOHMDailyIncooom} ohms**, 
                 and based on the rebase rate you entered; it would take **{forcastDailyIncooom} days** to reach your goal. 
                 Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} ohms** staked,
                 and predicated price of **$ {ohmPrice}**/ohm
 
-                - To start earning a weekly incooom of **$ {desiredWeeklyIncooom}** from staking rewards, you will need **{requiredOHMWeeklyIncooom} ohms**, 
+                - To start earning a weekly income of **$ {desiredWeeklyIncooom}** from staking rewards, you will need **{requiredOHMWeeklyIncooom} ohms**, 
                 and based on the rebase rate you entered; it would take **{forcastWeeklyIncooom}** to reach your goal. 
-                Remember that this prediction relies on your selected rebase rate of **0.4583%**, initial **1.0 ohms** staked,
+                Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} ohms** staked,
                 and predicated price of **$ {ohmPrice}**/ohm
                 ''')
     st.write("-----------------------------")

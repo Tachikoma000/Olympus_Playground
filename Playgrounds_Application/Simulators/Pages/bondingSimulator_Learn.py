@@ -24,11 +24,11 @@ def app():
         Bonding is the process of locking in a fixed reward in OHM. You trade in DAI for OHM at a discount
         and the OHM is vested linearly over a period of 5 days
     
-        As a bonder, you win if price of OHM increases during your vesting period; when this happens you benefits the
-        discounted on OHM and the increase in price. You also win if price remains flat during the vesting period.
+        As a bonder, you win if the price of OHM increases during your vesting period; when this happens you benefit from the
+        discount on OHM and the increase in price. You also win if price remains relatively the same during the vesting period.
         This is becuase profits are still gained from the discount
     
-        As a bonder, you loose if price of OHM decreases during your vesting period. If this happens, you will have to 
+        As a bonder, you loose if the price of OHM decreases during your vesting period. If this happens, you will have to 
         decide between OHM and SLP (whichever is worth more)
     
         **So what is (4,4) and what does it have to do with Bonding?** 
@@ -39,7 +39,7 @@ def app():
     st.title('What is (4,4) Playground? ')
     st.write(
         """
-        **(4,4) Playground is a simulator for understanding and forecasting the bond, claim and stake**
+        **(4,4) Playground is a simulator for understanding and forecasting the bond, claim, and stake strategy**
         
         Use this simulator to:
         - Strategize (4,4) profitability 
@@ -55,5 +55,7 @@ def app():
     References to system governing equations can be found here
     [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
     the mechanics of Olympus protocol
+    
+    Forecasts are for educational purposes alone and should not be construed as financial advice
         ''')
 # endregion

@@ -34,18 +34,18 @@ def app():
     st.title('What is (3,3) Playground? ')
     st.write(
         """
-        **(3,3) Playground is a simulator for staking, and incooom strategies**
+        **(3,3) Playground is a simulator for staking, and income strategies**
         
         Use this simulator to:
-        - Forcast ROI ar current and future reward yield percent
+        - Forecast ROI ar current and future reward yield percent
         - OHM growth over time
         - OHM and USD value over time
                         
-        We love the incooom, use this simulator to strategize:
-        - Required staked OHM to reach desired daily incooom
-        - Count down until you are earning desired daily incooom
-        - Required staked OHM to reach desired weekly incooom
-        - Count down until you are earning desired weekly incooom
+        We love the income, use this simulator to strategize:
+        - Required staked OHM to reach desired daily income
+        - Count down until you are earning desired daily income
+        - Required staked OHM to reach desired weekly income
+        - Count down until you are earning desired weekly income
     
         """
     )
@@ -57,5 +57,7 @@ def app():
     References to system governing equations can be found here
     [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
     the mechanics of Olympus protocol
+    
+    Forecasts are for educational purposes alone and should not be construed as financial advice
         ''')
 # endregion

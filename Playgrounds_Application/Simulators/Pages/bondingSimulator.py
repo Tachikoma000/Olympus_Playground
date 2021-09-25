@@ -118,7 +118,7 @@ def app():
             -The blue trend line is the ROI based claiming and staking frequency during the 5 day 
             vesting period
 
-            For example, tick 6 on the x - axis means you only claimed and staked during the 6 epochs
+            For example, tick 6 on the x-axis (Epochs) means you only claimed and staked during the first 6 epochs
             of the total 15 epochs (5 days)
             ''')
     st.write("-----------------------------")
@@ -136,10 +136,10 @@ def app():
             ''')
         with st.expander('Chart Explanation', expanded=False):
             st.write('''
-            This chart shows you the ohm growth over the 5 day period if you were to claim and stake at 
+            This chart shows you the ohm growth over the 5 day period as you claim and stake before 
             each epoch. 
             
-            Similar to the ROI chart, the x-axis represents the claiming and staking frequency. 
+            Similar to the ROI chart, the x-axis represents the claiming and staking frequency over the 15 Epochs (5 Days) 
             ''')
     st.write("-----------------------------")
 # end region
