@@ -19,7 +19,7 @@ from pathlib import Path
 data_metrics_mission = Path(__file__).parents[1] / 'Assets/data_metrics_mission.png'
 data_metrics_mission  = Image.open(data_metrics_mission)
 
-data_metrics_vision = Path(__file__).parents[1] / 'Assets/data_metrics_vision.png'
+data_metrics_vision = Path(__file__).parents[1] / 'Assets/wireframe_playground_white.png'
 data_metrics_vision  = Image.open(data_metrics_vision)
 
 def app():
@@ -33,10 +33,22 @@ def app():
         Special thanks to the Data and Metrics team, without which this app will not exist! 
         ''')
     st.write('------------------')
-    col1, col2 = st.columns((1,2))
+    col1, col2 = st.columns((1,1.5))
     with col1:
         st.image(data_metrics_mission)
     with col2:
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
+        st.write(' ')
         st.subheader('Vision')
         st.write('''
         Provide an advanced interactive simulation environment for the Olympus Protocol
@@ -47,6 +59,7 @@ def app():
         st.subheader('Mission')
         st.write('''
         Expand the reach of the Olympus ecosystem by:
+        Provide an advanced interactive simulation environment for the Olympus Protocol
         - Fostering a community of research, development, and knowledge symmetry 
 
         - Reducing the barrier of entry and learning curve for the protocol by creating an intuitive yet highly descriptive simulation environment 
