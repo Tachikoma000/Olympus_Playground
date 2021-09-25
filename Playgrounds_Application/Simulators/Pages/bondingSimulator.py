@@ -59,11 +59,16 @@ def app():
     roiCharts.add_trace(go.Scatter(x = bondingSimulationResults_ROI_df['Epochs'], y = bondingSimulationResults_ROI_df['Bonding_ROI_5Days'],
                                                        mode = 'lines+markers',
                                                        name = '(4,4) Roi'))
+    roiCharts.update_layout(xaxis_title='Epochs', yaxis_title='ROI', height=500)
+    roiCharts.data[0].update(line_color='teal')
+
 
     roiCharts.add_trace(go.Scatter(x = stakingSimulationResults_ROI_df['Epochs'], y = stakingSimulationResults_ROI_df['Staking_ROI_5Days'],
                                                        mode = 'lines+markers',
                                                        name = '(3,3) Roi'))
-    roiCharts.update_layout(paper_bgcolor='#fbfbfb')
+    roiCharts.data[1].update(line_color='red')
+
+    #roiCharts.update_layout(paper_bgcolor='#fbfbfb')
 
 
     bondingGrowthChart = go.Figure()
@@ -71,78 +76,72 @@ def app():
     bondingGrowthChart.add_trace(go.Scatter(x = bondingSimulationResults_ohmGrowth_df['Epochs'],
                                             y = bondingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Bonding'],
                                             mode = 'lines+markers',
-                                            name = '(4,4) Ohm accumulation'))
+                                            name = '(4,4)'))
+    bondingGrowthChart.update_layout(xaxis_title='Epochs', yaxis_title='OHM Accumulated', height=500)
+    bondingGrowthChart.data[0].update(line_color='teal')
 
     bondingGrowthChart.add_trace(go.Scatter(x=stakingSimulationResults_ohmGrowth_df['Epochs'],
                                             y=stakingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Staking'],
                                             mode='lines+markers',
-                                            name='(3,3) Ohm accumulation'))
-    bondingGrowthChart.update_layout(paper_bgcolor='#fbfbfb')
+                                            name='(3,3)'))
+    bondingGrowthChart.data[1].update(line_color='red')
+    #bondingGrowthChart.update_layout(paper_bgcolor='#fbfbfb')
 
 
     st.title('Bonding playground')
     st.write("-----------------------------")
 
-    st.header('(4,4) and (3,3) ROI Comparisons')
-    col1, col2 = st.columns((2,1))
+    col1, col2 = st.columns((4,1))
     with col1:
+        st.header('(4,4) and (3,3) ROI Comparisons')
         st.plotly_chart(roiCharts, use_container_width=True)
     with col2:
-        with st.expander('Key parameters used for forcast', expanded=True):
-            st.write(f'''
-            ### Fees
-            - Claim and Stake Fees: **$ {claimGasFee}**
-            - Staking Fees: **$ {stakingGasFee}**
-            - Unstaking Fees: **$ {unstakingGasFee}**
-            - Swapping Fees: **$ {swappingGasFee}**
-            - Bonding Fees: **$ {bondingGasFee}**
-            ''')
-        with st.expander('ROI Data', expanded=False):
-            st.subheader('(3,3) ROI over five day vesting period')
-            st.dataframe(stakingSimulationResults_ROI_df)
-            st.subheader('(4,4) ROI over five day vesting period')
-            st.write(bondingSimulationResults_ROI_df)
-        st.subheader('Explantion')
-        st.write('''
+        st.header('Fees')
+        st.info(f'''
+        - Claim and Stake Fees: **$ {claimGasFee}**
         
-        The chart compares the ROI from (3,3) alone and (4,4) with varying claiming and staking frequency 
-        over the 5 day vesting period. 
+        - Staking Fees: **$ {stakingGasFee}**
         
-        -The red trend line is the 5 day ROI if you were to (3,3) alone
+        - Unstaking Fees: **$ {unstakingGasFee}**
         
-        -The blue trend line is the ROI based claiming and staking frequency during the 5 day 
-        vesting period
+        - Swapping Fees: **$ {swappingGasFee}**
         
-        For example, tick 6 on the x - axis means you only claimed and staked during the 6 epochs
-        of the total 15 epochs (5 days)
+        - Bonding Fees: **$ {bondingGasFee}**
         ''')
+        with st.expander('Chart Explanation', expanded=False):
+            st.write('''
+            The chart compares the ROI from (3,3) alone and (4,4) with varying claiming and staking frequency 
+            over the 5 day vesting period. 
+
+            -The red trend line is the 5 day ROI if you were to (3,3) alone
+
+            -The blue trend line is the ROI based claiming and staking frequency during the 5 day 
+            vesting period
+
+            For example, tick 6 on the x - axis means you only claimed and staked during the 6 epochs
+            of the total 15 epochs (5 days)
+            ''')
     st.write("-----------------------------")
-    #stakingRate_P, bondingRate_P, currentAPY_P
-    st.header('(4,4) and (3,3) Ohm Growth Comparison')
-    col3, col4 = st.columns((2, 1))
+
+    col3, col4 = st.columns((4, 1))
     with col3:
+        st.header('(4,4) and (3,3) Ohm Growth Comparison')
         st.plotly_chart(bondingGrowthChart, use_container_width=True)
     with col4:
-        with st.expander('Key parameters used for forcast', expanded=True):
-            st.write(f'''
-            ### Rates
-            - 5 Day ROI (3,3): **{stakingRate_P} %**
-            - 5 Day ROI (4,4): **{bondROI} %**
-            - APY (3,3): **{currentAPY_P} %**
+        st.header('Rates Comparison')
+        st.info(f'''
+        - 5 Day ROI (3,3): **{stakingRate_P} %**
+        - 5 Day ROI (4,4): **{bondROI} %**
+        - APY (3,3): **{currentAPY_P} %**
             ''')
-        with st.expander('(4,4) Ohm growth data', expanded=False):
-            st.dataframe(bondingSimulationResults_ohmGrowth_df)
-        st.subheader('Explanation')
-        st.write('''
-        
-        This chart shows you the ohm growth over the 5 day period if you were to claim and stake at 
-        each epoch. 
-        
-        Similar to the ROI chart, the x-axis represents the claiming and staking frequency. 
-        
-        ''')
+        with st.expander('Chart Explanation', expanded=False):
+            st.write('''
+            This chart shows you the ohm growth over the 5 day period if you were to claim and stake at 
+            each epoch. 
+            
+            Similar to the ROI chart, the x-axis represents the claiming and staking frequency. 
+            ''')
     st.write("-----------------------------")
-    st.info('Forcasts are for educational purposes alone and should not be used as financial advice')
 # end region
 
 # region Description: Function to calculate ohm growth over time

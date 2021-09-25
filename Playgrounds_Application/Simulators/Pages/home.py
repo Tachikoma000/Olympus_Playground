@@ -16,10 +16,10 @@ from pathlib import Path
 # endregion
 
 
-data_metrics_mission = Path(__file__).parents[1] / 'Assets/Asset_1.png'
+data_metrics_mission = Path(__file__).parents[1] / 'Assets/ark_transparent.png'
 data_metrics_mission  = Image.open(data_metrics_mission)
 
-data_metrics_vision = Path(__file__).parents[1] / 'Assets/wireframe_Omega_no_bg.png'
+data_metrics_vision = Path(__file__).parents[1] / 'Assets/Asset_1.png'
 data_metrics_vision  = Image.open(data_metrics_vision)
 
 def app():
@@ -58,6 +58,8 @@ def app():
     st.write('------------------')
     col3, col4 = st.columns((1,1))
     with col3:
+        st.write(' ')
+        st.write(' ')
         st.subheader('Mission')
         st.write('''
         Provide an isolated environment for ohmies to:

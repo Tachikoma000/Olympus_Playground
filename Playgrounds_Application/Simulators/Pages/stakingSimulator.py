@@ -12,6 +12,7 @@ import plotly.graph_objects as go  # cleaner graphs
 import plotly.figure_factory as ff
 import altair as alt
 import streamlit as st
+
 # endregion
 
 
@@ -46,6 +47,13 @@ def app():
 
     ohmGrowthResult_df = ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays)
     roiSimulationResult_df,incooomSimulationResult_df = incooomProjection(ohmPrice,rewardYield, initialOhms, desiredUSDTarget,desiredOHMTarget, desiredDailyIncooom,desiredWeeklyIncooom)
+
+    dailyROI = float(roiSimulationResult_df.Percentage[0])
+    fiveDayROI = float(roiSimulationResult_df.Percentage[1])
+    sevenDayROI = float(roiSimulationResult_df.Percentage[2])
+    oneMonthROI = float(roiSimulationResult_df.Percentage[3])
+    oneYearROI = float(roiSimulationResult_df.Percentage[4])
+
     forcastUSDTarget = float(incooomSimulationResult_df.Results[0])
     forcastOHMTarget = float(incooomSimulationResult_df.Results[1])
     requiredOHMDailyIncooom = float(incooomSimulationResult_df.Results[2])
@@ -53,65 +61,81 @@ def app():
     requiredOHMWeeklyIncooom = float(incooomSimulationResult_df.Results[4])
     forcastWeeklyIncooom = float(incooomSimulationResult_df.Results[5])
 
-    ohmGrowthResult_df_Chart = px.scatter(ohmGrowthResult_df, x = 'Days', y = 'Total_Ohms', )
+    ohmGrowthResult_df_Chart = px.scatter(ohmGrowthResult_df, x = 'Days', y = 'Total_Ohms', height=500 )
     ohmGrowthResult_df_Chart = ohmGrowthResult_df_Chart.update_traces(marker_size=2)
-    ohmGrowthResult_df_Chart.update_layout(paper_bgcolor = '#fbfbfb')
+    #ohmGrowthResult_df_Chart.update_layout(paper_bgcolor = '#fbfbfb')
 
 
-    st.title('Staking playground')
+    st.title('Staking Playground')
     st.write("-----------------------------")
 
-    st.header('OHM growth forcast')
-    col1, col2 = st.columns((2, 1))
+    col1, col2 = st.columns((5, 1))
     with col1:
+        st.header('OHM Growth Forecast')
         st.plotly_chart(ohmGrowthResult_df_Chart,use_container_width=True)
     with col2:
-        with st.expander('Key parameters used for forcast', expanded=True):
-            st.write('''
-                        [Asset allocation (OHM staked)](https://docs.olympusdao.finance/basics/staking), [APY](https://docs.olympusdao.finance/basics/basics#what-is-apy),
-                        and [Rebase Rate](https://docs.olympusdao.finance/basics/basics#what-is-a-rebase) are main factors that determine returns and incooom over time.                        Play with the simulator and see how your starting OHM affects your projected accured value over time.
-                        Additionally, use the incooom parameters to forcast daily and weekly incooom from (3,3) alone. 
-                     ''')
-        with st.expander('Forcast data'):
-            st.write(ohmGrowthResult_df)
-        st.write(f'''
-        ### Results explanation
-        This chart shows you the ohm growth projection over **{ohmGrowthDays} days**.
-        Projection is calculated based on your selected rebase rate of **{rewardYield} %** and an 
-        initial **{initialOhms} ohms**.
+        st.header('ROI')
+        st.info(f'''
+        - Daily ROI: **{dailyROI} %**
+        
+        - 5 Day ROI: **{fiveDayROI} %**
+         
+        - 7 Day ROI: **{sevenDayROI} %**
+        
+        - 1 Month ROI: **{oneMonthROI} %**
+        
+        - 1 Year ROI: **{oneYearROI} %**
         ''')
+        with st.expander('Chart Explanation', expanded=True):
+            st.write(f'''
+            This chart shows you the ohm growth projection over **{ohmGrowthDays} days** days. Projection is calculated based on your selected rebase rate of **{rewardYield} %** and an initial **{initialOhms} ohms**.
+                     ''')
     st.write("-----------------------------")
 
-    st.header('Roi and incooom forcast')
-    col3, col4 = st.columns((2, 1))
+    st.header('Income Forecast')
+    col3, col4 = st.columns((0.25, 0.25))
     with col3:
-        st.write(f'''
-        Based on your control parameters, these are the predicted outcomes assuming market stability and your parameters
-        hold true. 
-        
-        - It would take **{forcastUSDTarget} days** until you accumulate enough ohms worth **$ {desiredUSDTarget}**. Keep in mind that you are also predicting 
-        that the price of ohm will be **$ {ohmPrice}** on this day. 
-        
-        - It would take **{forcastOHMTarget} days** until you accumulate **{desiredOHMTarget} ohms**. Keep in mind that this prediction is calculated based on 
-        your selected rebase rate of **{rewardYield} %** and an initial of **{initialOhms} ohms** staked. Use the OIP-18 Framework to adjust your rebase rate parameter. 
-        
-        - To start earning a daily incooom of **$ {desiredDailyIncooom}** from staking rewards, you will need **{requiredOHMDailyIncooom} ohms**, 
-        and based on the rebase rate you entered; it would take **{forcastDailyIncooom} days** to reach your goal. 
-        Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} ohms** staked,
-         and predicated price of **$ {ohmPrice}**/ohm
-         
-        - To start earning a weekly incooom of **$ {desiredWeeklyIncooom}** from staking rewards, you will need **{requiredOHMWeeklyIncooom} ohms**, 
-        and based on the rebase rate you entered; it would take **480 days** to reach your goal. 
-        Remember that this prediction relies on your selected rebase rate of **0.4583%**, initial **1.0 ohms** staked,
-         and predicated price of **$ {ohmPrice}**/ohm
-         
-         
+        st.info(f'''
+        Days until desired USD value: {forcastUSDTarget}
         ''')
     with col4:
-        st.write(roiSimulationResult_df)
+        st.info(f'''
+        Days until desired OHM balance: {forcastOHMTarget}
+        ''')
+    col5, col6 = st.columns((0.25, 0.25))
+    with col5:
+        st.info(f'''
+        Days until desired daily income: {forcastDailyIncooom}
+        ''')
+    with col6:
+        st.info(f'''
+        Days until desired weekly: {forcastWeeklyIncooom}
+        ''')
+
+    with st.expander("Income Breakdown"):
+        st.write(f'''
+                Based on your control parameters, these are the predicted outcomes assuming market stability and your parameters
+                hold true. 
+
+                - It would take **{forcastUSDTarget} days** until you accumulate enough ohms worth **$ {desiredUSDTarget}**. Keep in mind that you are also predicting 
+                that the price of ohm will be **$ {ohmPrice}** on this day. 
+
+                - It would take **{forcastOHMTarget} days** until you accumulate **{desiredOHMTarget} ohms**. Keep in mind that this prediction is calculated based on 
+                    your selected rebase rate of **{rewardYield} %** and an initial of **{initialOhms} ohms** staked. Use the OIP-18 Framework to adjust your rebase rate parameter. 
+
+                - To start earning a daily incooom of **$ {desiredDailyIncooom}** from staking rewards, you will need **{requiredOHMDailyIncooom} ohms**, 
+                and based on the rebase rate you entered; it would take **{forcastDailyIncooom} days** to reach your goal. 
+                Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} ohms** staked,
+                and predicated price of **$ {ohmPrice}**/ohm
+
+                - To start earning a weekly incooom of **$ {desiredWeeklyIncooom}** from staking rewards, you will need **{requiredOHMWeeklyIncooom} ohms**, 
+                and based on the rebase rate you entered; it would take **{forcastWeeklyIncooom}** to reach your goal. 
+                Remember that this prediction relies on your selected rebase rate of **0.4583%**, initial **1.0 ohms** staked,
+                and predicated price of **$ {ohmPrice}**/ohm
+                ''')
     st.write("-----------------------------")
 
-    st.info('Forcasts are for educational purposes alone and should not be used as financial advice')
+    #st.info('Forcasts are for educational purposes alone and should not be used as financial advice')
 # end region
 
 
@@ -143,30 +167,30 @@ def incooomProjection(ohmPrice,rewardYield, initialOhms, desiredUSDTarget,desire
     rewardYield = round(rewardYield / 100, 5)
     rebaseConst = 1 + rewardYield
     # current staking %APY. Need to make this read from a source or user entry
-    currentAPY = 17407 / 100
+    #currentAPY = 17407 / 100
 
     # Let's get some ROI Outputs starting with the daily
-    dailyROI = (1 + rewardYield)**3 - 1  # Equation to calculate your daily ROI based on reward Yield
+    dailyROI = (1+rewardYield)**3 -1  # Equation to calculate your daily ROI based on reward Yield
     dailyROI_P = round(dailyROI * 100, 2)  # daily ROI in Percentage
     # ================================================================================
 
     # 5 day ROI
-    fivedayROI = (1 + rewardYield)**(5 *3) - 1  # Equation to calculate your 5 day ROI based on reward Yield
+    fivedayROI = (1+rewardYield)**(5*3)-1   # Equation to calculate your 5 day ROI based on reward Yield
     fivedayROI_P = round(fivedayROI * 100, 2)  # 5 day ROI in Percentage
     # ================================================================================
 
     # 7 day ROI
-    sevendayROI = (1 + rewardYield)**( 7 * 3) - 1  # Equation to calculate your 7 day ROI based on reward Yield
+    sevendayROI = (1+rewardYield)**( 7 * 3)-1  # Equation to calculate your 7 day ROI based on reward Yield
     sevendayROI_P = round(sevendayROI * 100, 2)  # 7 day ROI in Percentage
     # ================================================================================
 
     # 30 day ROI
-    monthlyROI = (1 + rewardYield)**( 30 *3) - 1  # Equation to calculate your 30 day ROI based on reward Yield
+    monthlyROI = (1+rewardYield)**( 30 *3)-1  # Equation to calculate your 30 day ROI based on reward Yield
     monthlyROI_P = round(monthlyROI * 100, 2)  # 30 day ROI in Percentage
     # ================================================================================
 
     # Annual ROI
-    annualROI = (1 + rewardYield)**( 365 *3) - 1  # Equation to calculate your annual ROI based on reward Yield
+    annualROI = (1+rewardYield)**( 365 *3)-1  # Equation to calculate your annual ROI based on reward Yield
     annualROI_P = round(annualROI * 100, 2)  # Equation to calculate your annual ROI based on reward Yield
     # ================================================================================
 
