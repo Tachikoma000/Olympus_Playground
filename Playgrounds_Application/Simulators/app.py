@@ -44,7 +44,7 @@ with col1:
     st.write(' ')
 with col2:
     st.image(navLogo)
-    st.markdown("<h3 style='text-align: center; color: white; font-famil:fieldwork'>Soon™</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: #00bff3; font-famil:fieldwork'>Soon™</h3>", unsafe_allow_html=True)
 st.write('------------------')
 with col3:
     st.write(' ')
