@@ -1,10 +1,11 @@
 """Main module for the stream lit app"""
 import streamlit as st
+from streamlit_lottie import st_lottie
 from PIL import Image
 from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 import pathlib
 from pathlib import Path
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 
 navLogo = Path(__file__).parents[0] / 'Assets/Asset_3.png'
 navLogo = Image.open(navLogo)
