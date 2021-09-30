@@ -1,8 +1,14 @@
 # ==============THE LIBRARIES
 # region Description: Import all required libraries for this simulator
 #from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
+import json
+from logging import PlaceHolder
+import time
+
 import streamlit as st
 from streamlit import session_state
+from streamlit_lottie import st_lottie
+
 import urllib.request
 import requests
 from PIL import Image
@@ -13,6 +19,8 @@ from pathlib import Path
 
 navLogo = Path(__file__).parents[0] / 'Assets/glow.png'
 navLogo = Image.open(navLogo)
+
+lottie_waiting = load_lottieurl('https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json')
 
 #animatedLoading = Path(__file__).parents[1] /'Assets/sphere_dots_intro.json'
 
@@ -53,7 +61,7 @@ with col3:
     st.write(' ')
 
 #lottie_waiting = load_lottieurl('https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json')
-#st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
+st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
 
 
 #https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json
