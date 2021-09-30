@@ -1,23 +1,17 @@
 # ==============THE LIBRARIES
 # region Description: Import all required libraries for this simulator
 #from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
-import json
 import streamlit as st
-#import streamlit_lottie
-#from streamlit_lottie import st_lottie
 from streamlit import session_state
-#from SessionState import _get_state
-
 import urllib.request
 import requests
-
 from PIL import Image
 import pathlib
 from pathlib import Path
 # endregion
 
 
-navLogo = Path(__file__).parents[1] / 'Assets/Asset_3.png'
+navLogo = Path(__file__).parents[0] / 'Assets/Asset_3.png'
 navLogo = Image.open(navLogo)
 
 #animatedLoading = Path(__file__).parents[1] /'Assets/sphere_dots_intro.json'
