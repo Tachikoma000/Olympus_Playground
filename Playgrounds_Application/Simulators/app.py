@@ -3,6 +3,7 @@
 #from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 import json
 import streamlit as st
+import streamlit_lottie
 from streamlit_lottie import st_lottie
 from streamlit import session_state
 #from SessionState import _get_state
