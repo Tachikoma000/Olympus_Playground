@@ -1,6 +1,6 @@
 """Main module for the stream lit app"""
 import streamlit as st
-from streamlit_lottie import st_lottie
+
 from PIL import Image
 from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 import pathlib
