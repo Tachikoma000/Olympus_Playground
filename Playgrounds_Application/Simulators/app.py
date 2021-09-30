@@ -3,10 +3,10 @@
 #from Pages import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 import json
 import streamlit as st
-import streamlit_lottie
-from streamlit_lottie import st_lottie
+#import streamlit_lottie
+#from streamlit_lottie import st_lottie
 from streamlit import session_state
-#from SessionState import _get_state
+from SessionState import _get_state
 
 import urllib.request
 import requests
@@ -39,7 +39,7 @@ def load_lottiefile(filepath: str):
     with open(filepath, 'r') as f:
         return json.load(f)
 
-lottie_hello = load_lottiefile('12855-dot-cluster-loader.json')
+#lottie_hello = load_lottiefile('12855-dot-cluster-loader.json')
 
 col1, col2, col3 = st.columns((1, 5, 1))
 
@@ -58,8 +58,8 @@ with col3:
     st.write(' ')
     st.write(' ')
 
-lottie_waiting = load_lottieurl('https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json')
-st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
+#lottie_waiting = load_lottieurl('https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json')
+#st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
 
 
 #https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json
