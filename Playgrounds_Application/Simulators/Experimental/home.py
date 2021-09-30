@@ -1,6 +1,6 @@
 # ==============THE LIBRARIES
 # region Description: Import all required libraries for this simulator
-from pycoingecko import CoinGeckoAPI # Coin gecko API: Pulls live data from coin gecko
+
 import math  # Needed for basic math operations\n",
 import pandas as pd  # Needed fpr dataframe creation and operations\n",
 import numpy as np  # Needed for array manipulations\n",
