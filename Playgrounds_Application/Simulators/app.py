@@ -11,7 +11,7 @@ from pathlib import Path
 # endregion
 
 
-navLogo = Path(__file__).parents[0] / 'Assets/Asset_3.png'
+navLogo = Path(__file__).parents[0] / 'Assets/Playgrounds_Logo.png'
 navLogo = Image.open(navLogo)
 
 #animatedLoading = Path(__file__).parents[1] /'Assets/sphere_dots_intro.json'
