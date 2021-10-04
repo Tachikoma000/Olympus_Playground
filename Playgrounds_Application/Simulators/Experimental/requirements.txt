@@ -1,3 +1,9 @@
 streamlit-lottie
 streamlit==0.89.0
 toml
+pandas
+numpy
+matplotlib
+plotly==5.3.1
+plotly_express==0.4.0
+pycoingecko
