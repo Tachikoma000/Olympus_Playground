@@ -5,6 +5,9 @@ import pathlib
 from pathlib import Path
 #st.set_page_config(layout="wide")
 
+CURRENT_THEME = "dark"
+IS_DARK_THEME = True
+
 navLogo = Path(__file__).parents[0] / 'Assets/Asset_3.png'
 navLogo = Image.open(navLogo)
 PAGES = {
