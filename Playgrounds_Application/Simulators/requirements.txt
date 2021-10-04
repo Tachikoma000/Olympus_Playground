@@ -1,5 +1,6 @@
 streamlit-lottie
 streamlit==0.89.0
+streamlit-component-lib
 toml
 pandas
 numpy
