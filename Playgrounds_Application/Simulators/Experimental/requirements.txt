@@ -1,1 +1,2 @@
 streamlit-lottie
+streamlit==0.89.0
