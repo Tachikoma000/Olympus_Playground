@@ -3,7 +3,7 @@ from PIL import Image
 from Experimental import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 import pathlib
 from pathlib import Path
-#st.set_page_config(layout="wide")
+st.set_page_config(layout="wide")
 
 CURRENT_THEME = "dark"
 IS_DARK_THEME = True

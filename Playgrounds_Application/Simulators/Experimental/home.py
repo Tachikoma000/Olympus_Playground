@@ -50,7 +50,7 @@ main_bg_ext = "jpg"
 
 def app():
     st.markdown("""<style> div.stButton > button:first-child {text-align: center;position:relative;} </style>""",unsafe_allow_html=True)
-    col1, col2, col3= st.columns((1,5,1))
+    col1, col2, col3= st.columns((1,1.5,1))
     with col1:
         st.empty()
     with col2:
