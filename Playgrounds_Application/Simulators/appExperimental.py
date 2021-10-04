@@ -3,9 +3,9 @@ from PIL import Image
 from Experimental import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 import pathlib
 from pathlib import Path
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 
-navLogo = Path(__file__).parents[0] / 'Assets/Playgrounds_Logo.png'
+navLogo = Path(__file__).parents[0] / 'Assets/Asset_3.png'
 navLogo = Image.open(navLogo)
 PAGES = {
     "Home": home,
