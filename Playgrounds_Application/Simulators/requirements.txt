@@ -1,5 +1,5 @@
 streamlit-lottie
-streamlit==0.89.0
+streamlit==0.79.0
 pandas
 numpy
 matplotlib
