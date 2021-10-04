@@ -13,7 +13,7 @@ PAGES = {
     "Staking:  Playground": stakingSimulator,
     "Bonding: Learn": bondingSimulator_Learn,
     "Bonding: Playground": bondingSimulator
-    # end of section
+    # end of section 2
 }
 
 st.sidebar.image(navLogo)
