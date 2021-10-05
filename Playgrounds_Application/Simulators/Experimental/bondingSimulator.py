@@ -11,6 +11,7 @@ import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import plotly.figure_factory as ff
 import altair as alt
+from bokeh.plotting import figure
 import streamlit as st
 # endregion
 
@@ -34,9 +35,8 @@ def app():
 
     with st.sidebar.expander('Control Parameters',expanded=True):
 
-        ohmPrice = st.text_input('Price of OHM to simulate ($)', value=600.000)
-        priceofETH = st.text_input('Price of ETH to simulate ($)', value=3000.000)
-        #usdBonded = st.text_input('Amount to bond ($)', value=5000.000)
+        ohmPrice = st.text_input('Price of OHM to simulate ($)', value=800.000)
+        priceofETH = st.text_input('Price of ETH to simulate ($)', value=3500.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=100.0000)
         bondROI = st.text_input('Bond ROI (%)', value=6.000)
         rewardYield = st.text_input('Rebase rate (%)', value=0.3928)
@@ -44,193 +44,159 @@ def app():
 
         ohmPrice = float(ohmPrice)
         priceofETH = float(priceofETH)
-        #usdBonded = float(usdBonded)
         initialOhms = float(initialOhms)
         bondROI = float(bondROI)
         rewardYield = float(rewardYield)
         gwei = float(gwei)
 
+    vestedOhms_df, stakedOhmsROI_df, stake_bond_df ,stakingGasFee,unstakingGasFee,swappingGasFee,claimGasFee,bondingGasFee,maxBondROI,stakingRewardRate_P,\
+        maxStakeGrowth,maxBondGrowth,ohmGained= bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei)
 
-    bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df, stakingSimulationResults_ohmGrowth_df,\
-    discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee, unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,currentAPY_P = bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei)
+    #st.write(vestedOhms_df)
+    #st.write(stakedOhmsROI_df)
+    #st.write(stake_bond_df)
+    #st.line_chart(stake_bond_df)
 
-    roiCharts = go.Figure()
+    # plots
+    stake_bond_chart = go.Figure()
 
-    roiCharts.add_trace(go.Scatter(x = bondingSimulationResults_ROI_df['Epochs'], y = bondingSimulationResults_ROI_df['Bonding_ROI_5Days'],
-                                                       mode = 'lines+markers',
-                                                       name = '(4,4) Roi'))
-    roiCharts.update_layout(xaxis_title='Epochs', yaxis_title='ROI', height=500)
-    roiCharts.data[0].update(line_color='teal')
+    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Vested_Ohms, name='(4,4) Growth', fill=None,))
+    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_Growth,name='(3,3) Growth'))
 
+    stake_bond_chart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
+    stake_bond_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
-    roiCharts.add_trace(go.Scatter(x = stakingSimulationResults_ROI_df['Epochs'], y = stakingSimulationResults_ROI_df['Staking_ROI_5Days'],
-                                                       mode = 'lines+markers',
-                                                       name = '(3,3) Roi'))
-    roiCharts.data[1].update(line_color='red')
-
-    #roiCharts.update_layout(paper_bgcolor='#fbfbfb')
-
-
-    bondingGrowthChart = go.Figure()
-
-    bondingGrowthChart.add_trace(go.Scatter(x = bondingSimulationResults_ohmGrowth_df['Epochs'],
-                                            y = bondingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Bonding'],
-                                            mode = 'lines+markers',
-                                            name = '(4,4)'))
-    bondingGrowthChart.update_layout(xaxis_title='Epochs', yaxis_title='OHM Accumulated', height=500)
-    bondingGrowthChart.data[0].update(line_color='teal')
-
-    bondingGrowthChart.add_trace(go.Scatter(x=stakingSimulationResults_ohmGrowth_df['Epochs'],
-                                            y=stakingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Staking'],
-                                            mode='lines+markers',
-                                            name='(3,3)'))
-    bondingGrowthChart.data[1].update(line_color='red')
-    #bondingGrowthChart.update_layout(paper_bgcolor='#fbfbfb')
+    stake_bond_chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
+    stake_bond_chart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.01,mirror=True)
 
 
-    st.title('Bonding playground')
-    st.write("-----------------------------")
+    #=============================
 
-    col1, col2 = st.columns((4,1.25))
-    with col1:
-        st.header('(4,4) and (3,3) ROI Comparisons')
-        st.plotly_chart(roiCharts, use_container_width=True)
-    with col2:
-        st.header('Fees')
-        st.info(f'''
-        - Claim and Stake Fees: **$ {claimGasFee}**
-        
-        - Staking Fees: **$ {stakingGasFee}**
-        
-        - Unstaking Fees: **$ {unstakingGasFee}**
-        
-        - Swapping Fees: **$ {swappingGasFee}**
-        
-        - Bonding Fees: **$ {bondingGasFee}**
-        ''')
-        with st.expander('Chart Explanation', expanded=False):
-            st.write('''
-            The chart compares the ROI from (3,3) alone and (4,4) with varying claiming and staking frequency 
-            over the 5 day vesting period. 
+    stake_bond_ROIchart = go.Figure()
 
-            -The red trend line is the 5 day ROI if you were to (3,3) alone
+    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_ROI,name='(3,3) ROI  ', fill=None,))
+    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Bond_ROI,name='(4,4) ROI  '))
 
-            -The blue trend line is the ROI based claiming and staking frequency during the 5 day 
-            vesting period
+    stake_bond_ROIchart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
+    stake_bond_ROIchart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
-            For example, tick 6 on the x-axis (Epochs) means you only claimed and staked during the first 6 epochs
-            of the total 15 epochs (5 days)
-            ''')
-    st.write("-----------------------------")
+    stake_bond_ROIchart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
+    stake_bond_ROIchart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.01,mirror=True)
 
-    col3, col4 = st.columns((4, 1.25))
-    with col3:
-        st.header('(4,4) and (3,3) Ohm Growth Comparison')
-        st.plotly_chart(bondingGrowthChart, use_container_width=True)
-    with col4:
-        st.header('Rates Comparison')
-        st.info(f'''
-        - 5 Day ROI (3,3): **{stakingRate_P} %**
-        - 5 Day ROI (4,4): **{bondROI} %**
-        - APY (3,3): **{currentAPY_P} %**
-            ''')
-        with st.expander('Chart Explanation', expanded=False):
-            st.write('''
-            This chart shows you the ohm growth over the 5 day period as you claim and stake before 
-            each epoch. 
-            
-            Similar to the ROI chart, the x-axis represents the claiming and staking frequency over the 15 Epochs (5 Days) 
-            ''')
-    st.write("-----------------------------")
+
 # end region
+
+
+# Layout and object placement
+
+    st.title('(4,4) Playground')
+    st.write('---------------')
+
+    col1,col2 = st.columns((4,1.3))
+    with col1:
+        st.header('(4,4) and (3,3) Ohm Growth Comparison')
+        st.plotly_chart(stake_bond_chart, use_container_width=True)
+    with col2:
+        st.info(f'''
+        - Max (3,3): ** {maxStakeGrowth} OHMs**
+        - Max (4,4): ** {maxBondGrowth} OHMs**
+        - Bonus: ** {ohmGained} OHMs**
+
+        ''')
+    st.write("-----------------------------")
+    col3,col4 = st.columns((4,1.3))
+    with col3:
+        st.header('(4,4) and (3,3) ROI Growth Comparison')
+        st.plotly_chart(stake_bond_ROIchart, use_container_width=True)
+    with col4:
+        st.info(f'''
+        - Stake (3,3) ROI: **{stakingRewardRate_P} %**
+        - Bond ROI: **{bondROI} %**
+        - Max (4,4) ROI: **{maxBondROI} %**
+            ''')
 
 # region Description: Function to calculate ohm growth over time
 def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     # Protocol and ohm calcs:
-    discountedOhmPrice = round(ohmPrice / (1 + (bondROI / 100)),4)
-    initOhmValue = round(initialOhms * ohmPrice,4)
-    bondedOhms = round(initOhmValue / discountedOhmPrice,4)
-    bondROI = round(bondROI / 100,4)
+    usdBonded = ohmPrice * initialOhms
+    bondROI = (bondROI/100)
+    bondPrice = ohmPrice / (1 + (bondROI))
+    bondedOhms = usdBonded / bondPrice
+    bondedOhmsValue = bondedOhms * ohmPrice
     # ========================================================================================
-
     # Calculate the rebase rate and Current APY (next epoch rebase pulled from hippo data source)
-    rewardRate = round(rewardYield / 100, 4)
-    rebaseConst = 1 + rewardRate  # calculate a constant for use in APY calculation
+    rewardYield = rewardYield / 100
+    rebaseConst = 1 + rewardYield  # calculate a constant for use in APY calculation
     currentAPY = (rebaseConst) ** (1095)   # current APY equation
-    currentAPY_P = round((currentAPY) * 100,1)  # convert to %
+    currentAPY_P = (currentAPY) * 100  # convert to %
     # ========================================================================================
-
     # Calculate fees
-    stakingGasFee = round(179123 * ((gwei * priceofETH) / pow(10, 9)),1)
-    unstakingGasFee = round(89654 * ((gwei * priceofETH) / (10 ** 9)),1)
-    swappingGasFee = round(225748 * ((gwei * priceofETH) / (10 ** 9)) + ((0.3 / 100) * initOhmValue),1)
-    claimGasFee = round(80209 * ((gwei * priceofETH) / (10 ** 9)),1)
-    bondingGasFee = round((258057) * ((gwei * priceofETH) / (10 ** 9)),1)
+    stakingGasFee = 179123 * ((gwei * priceofETH) / (10 ** 9))
+    unstakingGasFee = 89654 * ((gwei * priceofETH) / (10 ** 9))
+    swappingGasFee = 225748 * ((gwei * priceofETH) / (10 ** 9)) + ((0.3 / 100) * bondedOhmsValue)
+    claimGasFee = 80209 * ((gwei * priceofETH) / (10 ** 9))
+    bondingGasFee = 258057 * ((gwei * priceofETH) / (10 ** 9))
     # miscFee = 823373 * ((gwei*priceofETH)/(10**9))
     # ================================================================================
 
     claimStakeGasFee = stakingGasFee + claimGasFee
     remainingGasFee = bondingGasFee + unstakingGasFee + swappingGasFee
     # ================================================================================
+    # (3,3) Rate for the 15 epochs
+    stakingRewardRate = (1+rewardYield) ** 15 - 1
+    stakingRewardRate_P = round(stakingRewardRate*100,2)
+    #stakingOhmsGained = round(((initOhmValue - stakingGasFee) * (stakingRate / initOhmValue) - 1),4)
 
-    # (3,3)
-    stakingRate = round(((rebaseConst) ** 15) - 1,4)  # staking reward rate
-    stakingRate_P = round(stakingRate * 100, 2)  # staking reward rate in percentage
-    stakingOhmsGained = round(((initOhmValue - stakingGasFee) * (stakingRate / initOhmValue) - 1),4)
+    # (3,3) Ohm gained after 15 epochs
+    stakingOhmGrowth = stakingRewardRate * bondedOhmsValue / ohmPrice
+    stakingOhmGrowth = round(stakingOhmGrowth, 4)
+    # ================================================================================
+    vestedOhms_df = pd.DataFrame(np.arange(1, 16), columns=['Epochs'])
+    vestedOhms_df['Days'] = vestedOhms_df.Epochs / 3
+    vestedOhmGrowth = np.array([], dtype=np.float64)
+    bondROIGrowth = np.array([], dtype=np.float64)
+
+    stakedOhmsROI_df = pd.DataFrame(np.arange(1, 16), columns=['Epochs'])
+    stakedOhmsROI_df['Days'] = stakedOhmsROI_df.Epochs / 3
+    stakedROIAdjustedGrowth = np.array([], dtype=np.float64)
+    stakeROIGrowth = np.array([], dtype=np.float64)
+    stakedOhmsGrowth = np.array([], dtype=np.float64)
+    stakeGrowth = initialOhms
+
+    for epochs in vestedOhms_df.Epochs:
+        vestedOhm = ((bondedOhms / (1 + epochs)) * (((1+rewardYield) ** 15) - 1)) / ((1+rewardYield) ** (15 / (1 + epochs)) - 1)
+        vestedOhmROI = (((vestedOhm * ohmPrice - epochs * (claimStakeGasFee) - remainingGasFee) / usdBonded) - 1) * 100
+        vestedOhmGrowth = np.append(vestedOhmGrowth, vestedOhm)
+        bondROIGrowth = np.append(bondROIGrowth, vestedOhmROI)
+    vestedOhms_df['Vested_Ohms'] = vestedOhmGrowth
+    vestedOhms_df['Bond_ROI'] = bondROIGrowth
+
+    for epochs in stakedOhmsROI_df.Epochs:
+        stakedOhmsGrowth = np.append(stakedOhmsGrowth, stakeGrowth)
+        stakedROIAdjusted = ((usdBonded - stakingGasFee) * (((1+rewardYield) ** 15) / usdBonded) - 1) * 100
+        stakeROI = stakingRewardRate * 100
+        stakeGrowth = stakeGrowth * (1+rewardYield)
+        stakedROIAdjustedGrowth = np.append(stakedROIAdjustedGrowth, stakedROIAdjusted)
+        stakeROIGrowth = np.append(stakeROIGrowth, stakeROI)
+    stakedOhmsROI_df['Stake_ROI'] = stakeROIGrowth
+    stakedOhmsROI_df['Staked_feeAdjustedROI'] = stakedROIAdjustedGrowth
+    stakedOhmsROI_df['Stake_Growth'] = stakedOhmsGrowth
     # ================================================================================
 
-    # Calculate ohm roi over 5 day period for comparison
-    ohmGrowthEpochs = 16
-    stakingSimulationResults_ROI_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])
-    stakingSimulationResults_ROI_df['Days'] = round(stakingSimulationResults_ROI_df.Epochs / 3,1)
-    stakingSimulationResults_ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])
-    stakingSimulationResults_ohmGrowth_df['Days'] = round(stakingSimulationResults_ohmGrowth_df.Epochs / 3,1)
-    ohmStakedGrowth = bondedOhms
-    accumulatedOhmsROI_Staking = []
-    accumulatedOhms_Staking = []
+    cols_to_use = stakedOhmsROI_df.columns.difference(vestedOhms_df.columns)
+    stake_bond_df = pd.merge(vestedOhms_df, stakedOhmsROI_df[cols_to_use], left_index=True, right_index=True, how='outer')
+    #stake_bond_df = pd.concat([vestedOhms_df,stakedOhmsROI_df],axis = 1, join = 'inner')
 
-    for elements in stakingSimulationResults_ROI_df.Epochs:
-        stakingOhmsGrowth_ROI = round(((initOhmValue - stakingGasFee) * ((rebaseConst ** 15) / initOhmValue) - 1) * 100,4)
-        accumulatedOhmsROI_Staking.append(stakingOhmsGrowth_ROI)
-    stakingSimulationResults_ROI_df['Staking_ROI_5Days'] = accumulatedOhmsROI_Staking
+    maxBondROI = round(stake_bond_df.Bond_ROI.max(),2)
+    maxStakeGrowth = round(stake_bond_df.Stake_Growth.max(),2)
+    maxBondGrowth = round(stake_bond_df.Vested_Ohms.max(), 2)
+    ohmGained = round((stake_bond_df.Vested_Ohms.max()-stake_bond_df.Stake_Growth.max()),2)
+    stakingGasFee = round(stakingGasFee,2)
+    unstakingGasFee = round(unstakingGasFee,2)
+    swappingGasFee = round(swappingGasFee,2)
+    claimGasFee = round(claimGasFee,2)
+    bondingGasFee = round(bondingGasFee,2)
 
-    for elements in stakingSimulationResults_ohmGrowth_df.Epochs:
-        accumulatedOhms_Staking.append(ohmStakedGrowth)
-        ohmStakedGrowth = ohmStakedGrowth * (rebaseConst)
-    stakingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Staking'] = accumulatedOhms_Staking  # Clean up and add the new array to the main data frame
-    stakingSimulationResults_ohmGrowth_df.Days = np.around(stakingSimulationResults_ohmGrowth_df.Days, decimals=1)  # Python is funny so let's round up our numbers . 1 decimal place for days",
-    stakingSimulationResults_ohmGrowth_df.Total_Ohms = np.around(stakingSimulationResults_ohmGrowth_df.Accumulated_Ohms_Staking,decimals=3)  # Python is funny so let's round up our numbers . 3 decimal place for ohms"
 
-    # (4,4)
-    bondingRate = (round(bondROI / 100, 4))  # bonding reward rate
-    bondingRate_P = bondROI
-    #round(bondingRate * 100, 4)  # bonding reward rate in percentage
-    # bondingOhmsGained = (usdBonded*bondingRate / discountedOhmPrice)  # ohms gained from bonding
-    # ================================================================================
-
-    # Instantiate a data frame to hold the staking only ohm growth over 5 days
-    bondingSimulationResults_ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs), columns=['Epochs'])
-    bondingSimulationResults_ohmGrowth_df['Days'] = round(bondingSimulationResults_ohmGrowth_df.Epochs / 3,1)
-
-    bondingSimulationResults_ROI_df = pd.DataFrame(np.arange(ohmGrowthEpochs), columns=['Epochs'])
-    bondingSimulationResults_ROI_df['Days'] = round(bondingSimulationResults_ROI_df.Epochs / 3,1)
-
-    accumulatedOhms_Bonding = []
-    accumulatedOhmsROI_Bonding = []
-
-    for elements in bondingSimulationResults_ohmGrowth_df.Epochs:
-        bondedOhmsGrowth = round(((bondedOhms/(1+elements))*((rebaseConst**15)-1))/((rebaseConst**(15/(1+elements)))-1),3)
-        accumulatedOhms_Bonding.append(bondedOhmsGrowth)
-    bondingSimulationResults_ohmGrowth_df['Accumulated_Ohms_Bonding'] = accumulatedOhms_Bonding
-
-    for elements in bondingSimulationResults_ROI_df.Epochs:
-        bondingOhmsGrowth_ROI = round((((bondingSimulationResults_ohmGrowth_df.Accumulated_Ohms_Bonding.iloc[elements]*ohmPrice-elements*(claimStakeGasFee)-remainingGasFee)/initOhmValue)-1)*100,3)
-        accumulatedOhmsROI_Bonding.append(bondingOhmsGrowth_ROI)
-    bondingSimulationResults_ROI_df['Bonding_ROI_5Days'] = accumulatedOhmsROI_Bonding
-    # ================================================================================
-
-    return bondingSimulationResults_ROI_df, bondingSimulationResults_ohmGrowth_df, stakingSimulationResults_ROI_df,\
-           stakingSimulationResults_ohmGrowth_df,discountedOhmPrice,claimGasFee, remainingGasFee, stakingGasFee,\
-           unstakingGasFee, swappingGasFee, bondingGasFee, stakingRate_P,currentAPY_P
+    return vestedOhms_df, stakedOhmsROI_df, stake_bond_df ,stakingGasFee,unstakingGasFee,swappingGasFee,claimGasFee,bondingGasFee,maxBondROI,stakingRewardRate_P,maxStakeGrowth,maxBondGrowth,ohmGained
 # end region
-
