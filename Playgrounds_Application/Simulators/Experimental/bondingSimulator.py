@@ -10,8 +10,6 @@ import pathlib  # url management
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import plotly.figure_factory as ff
-import altair as alt
-from bokeh.plotting import figure
 import streamlit as st
 # endregion
 
