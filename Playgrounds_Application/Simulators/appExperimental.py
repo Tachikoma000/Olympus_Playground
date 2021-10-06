@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from Experimental import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
+from Experimental import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator, mainDashboard
 import pathlib
 from pathlib import Path
 st.set_page_config(layout="wide")
@@ -12,6 +12,7 @@ navLogo = Path(__file__).parents[0] / 'Assets/Asset_3.png'
 navLogo = Image.open(navLogo)
 PAGES = {
     "Home": home,
+    "Playgrounds Ω Explorer": mainDashboard,
     "Staking: Learn": stakingSimulator_Learn,
     "Staking:  Playground": stakingSimulator,
     "Bonding: Learn": bondingSimulator_Learn,
