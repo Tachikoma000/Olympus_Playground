@@ -1,7 +1,7 @@
 """staking learn page shown when the user enters the learn application"""
 # ==============THE LIBRARIES
-# region Description: Import all required libraries for this app: Staking learn page
-from pycoingecko import CoinGeckoAPI  # Coin gecko API: Pulls live data from coin gecko
+# region Description: Import all required libraries for this simulator
+
 import math  # Needed for basic math operations\n",
 import pandas as pd  # Needed fpr dataframe creation and operations\n",
 import numpy as np  # Needed for array manipulations\n",
@@ -11,10 +11,17 @@ import pathlib  # url management
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import streamlit as st
+from PIL import Image
+import pathlib
+from pathlib import Path
+import base64
 
 
 # import awesome_streamlit as ast
 # endregion
+
+playgroundHome = Path(__file__).parents[1] / 'Assets/PG_bond.png'
+playgroundHome  = Image.open(playgroundHome)
 def app():
 # region Description: All about staking
 
@@ -37,18 +44,21 @@ def app():
 
         ''')
     st.title('What is (4,4) Playground? ')
-    st.write(
-        """
-        **(4,4) Playground is a simulator for understanding and forecasting the bond, claim, and stake strategy**
-        
-        Use this simulator to:
-        - Strategize (4,4) profitability 
-        - Forecast additional gains from using (4,4) compared to (3,3)
-        - Forecast additional gains from staking bonding emissions at varying epochs
-        - OHM growth over time with (4,4) strategy
-        """
-    )
+    col3,col4 = st.columns((4,3))
+    with col3:
+        st.write(
+            """
+            **(4,4) Playground is a simulator for understanding and forecasting the bond, claim, and stake strategy**
 
+            Use this simulator to:
+            - Strategize (4,4) profitability 
+            - Forecast additional gains from using (4,4) compared to (3,3)
+            - Forecast additional gains from staking bonding emissions at varying epochs
+            - OHM growth over time with (4,4) strategy
+            """
+        )
+    with col4:
+        st.image(playgroundHome)
     st.info('''
     Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
 

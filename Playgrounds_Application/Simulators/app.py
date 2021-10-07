@@ -60,10 +60,10 @@ with col3:
     st.write(' ')
     st.write(' ')
 
-lottie_waiting = load_lottieurl('https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json')
+lottie_waiting = load_lottieurl('https://assets1.lottiefiles.com/private_files/lf30_1Zdfht.json')
 st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
 
-
+#https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json
 #https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json
 #https://assets10.lottiefiles.com/packages/lf20_hhvgzywn.json
 #https://assets3.lottiefiles.com/packages/lf20_75vM6p.json

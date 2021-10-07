@@ -1,7 +1,7 @@
 """staking learn page shown when the user enters the learn application"""
 # ==============THE LIBRARIES
 # region Description: Import all required libraries for this app: Staking learn page
-from pycoingecko import CoinGeckoAPI  # Coin gecko API: Pulls live data from coin gecko
+# region Description: Import all required libraries for this simulator
 import math  # Needed for basic math operations\n",
 import pandas as pd  # Needed fpr dataframe creation and operations\n",
 import numpy as np  # Needed for array manipulations\n",
@@ -10,10 +10,16 @@ import matplotlib.pyplot as plt  # Needed for quickly ploting results"
 import pathlib  # url management
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
-import requests
 import streamlit as st
-from datetime import datetime, timedelta
+from PIL import Image
+import pathlib
+from pathlib import Path
+import base64
+import requests
 
+
+bondingLearn_1 = Path(__file__).parents[1] / 'Assets/PG_bond.png'
+bondingLearn_1  = Image.open(bondingLearn_1)
 
 # import awesome_stream lit as ast
 # endregion

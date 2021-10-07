@@ -14,10 +14,25 @@ from PIL import Image
 import pathlib
 from pathlib import Path
 import base64
+import json
+from logging import PlaceHolder
+import time
+from streamlit import session_state
+from streamlit_lottie import st_lottie
+import requests
+import urllib.request
 from Experimental import stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator
 # endregion
 
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
+def load_lottiefile(filepath: str):
+    with open(filepath, 'r') as f:
+        return json.load(f)
 
 data_metrics_mission = Path(__file__).parents[1] / 'Assets/ark_transparent.png'
 data_metrics_mission  = Image.open(data_metrics_mission)
@@ -60,11 +75,13 @@ def app():
         st.write('')
         st.write('')
         st.image(playgroundHome, use_column_width=True)
-        st.markdown(
-            """<a style='display: block;ffont-family: Montserrat, sans-serif;font-style: normal;font-weight: 100;color:#d93c68; text-align: center;' href="https://www.example.com/">Enter</a>
-            """,
-            unsafe_allow_html=True,
-        )
+        lottie_waiting = load_lottieurl('https://assets9.lottiefiles.com/packages/lf20_anre6w2q.json')
+        st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
+        #st.markdown(
+         #   """<a style='display: block;ffont-family: Montserrat, sans-serif;font-style: normal;font-weight: 100;color:#d93c68; text-align: center;' href="https://www.example.com/">Enter</a>
+          #  """,
+          #  unsafe_allow_html=True,
+        #)
     with col3:
         st.empty()
 
