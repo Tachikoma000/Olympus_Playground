@@ -60,11 +60,11 @@ def app():
         st.write('')
         st.write('')
         st.image(playgroundHome, use_column_width=True)
-        #st.markdown(
-            #"""<a style='display: block;ffont-family: fieldwork, sans-serif;font-style: normal;font-weight: 600;color:#d93c68; text-align: center;' href="https://www.example.com/">Enter</a>
-           # """,
-            #unsafe_allow_html=True,
-       # )
+        st.markdown(
+            """<a style='display: block;ffont-family: fieldwork, sans-serif;font-style: normal;font-weight: 600;color:#d93c68; text-align: center;' href="https://www.example.com/">Enter</a>
+            """,
+            unsafe_allow_html=True,
+        )
     with col3:
         st.empty()
 

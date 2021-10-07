@@ -11,6 +11,7 @@ import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import plotly.figure_factory as ff
 import streamlit as st
+import requests
 
 # endregion
 
@@ -39,6 +40,63 @@ def app():
     oip18_dataFrame = pd.DataFrame(oip18_dict)
     #minOIPRate = oip18_dataFrame.min()
 
+    @st.cache
+    def run_query(q):
+
+        # endpoint where you are making the request
+        request = requests.post('https://api.thegraph.com/subgraphs/name/drondin/olympus-graph'
+                                '',
+                                json={'query': query})
+        if request.status_code == 200:
+            return request.json()
+        else:
+            raise Exception('Query failed. return code is {}.      {}'.format(request.status_code, query))
+
+    # The Graph query... these queries are made available to us on the olympus sub graph -
+    query = """
+
+        {
+        protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+            timestamp
+            ohmCirculatingSupply
+            sOhmCirculatingSupply
+            totalSupply
+            ohmPrice
+            marketCap
+            totalValueLocked
+            treasuryMarketValue
+            treasuryRiskFreeValue
+            runwayCurrent
+            currentAPY
+            nextEpochRebase
+            nextDistributedOhm
+          }
+        }
+        """
+    result = run_query(query)
+
+    # results come as a list of dictionaries, which is in a nested dictionary. so we have to extract the dictionary we care about
+    dataDict = result['data']['protocolMetrics']
+    protocolMetrics_df = pd.DataFrame(dataDict)
+    protocolMetrics_df = protocolMetrics_df.astype(float)
+    protocolMetrics_df['dateTime'] = pd.to_datetime(protocolMetrics_df.timestamp, unit='s')
+    protocolMetrics_df['dateTime'] = protocolMetrics_df['dateTime'].dt.date
+    protocolMetrics_df = protocolMetrics_df.set_index('dateTime')
+    #st.write(protocolMetrics_df)
+
+    currentOhmPrice = round(float(protocolMetrics_df.ohmPrice.iloc[0]),2)
+    currentOCirc = round(float(protocolMetrics_df.ohmCirculatingSupply.iloc[0]), 2)
+    currentSOCirc = round(float(protocolMetrics_df.sOhmCirculatingSupply.iloc[0]), 2)
+    currentTSupply = round(float(protocolMetrics_df.totalSupply.iloc[0]), 2)
+    currentMCap = round(float(protocolMetrics_df.marketCap.iloc[0]), 2)
+    currentTVL = round(float(protocolMetrics_df.totalValueLocked.iloc[0]),2)
+    currentTMV = round(float(protocolMetrics_df.treasuryMarketValue.iloc[0]), 2)
+    currentTRFV = round(float(protocolMetrics_df.treasuryRiskFreeValue.iloc[0]), 2)
+    currentRunway = round(float(protocolMetrics_df.runwayCurrent.iloc[0]), 2)
+    currentAPY = round(float(protocolMetrics_df.currentAPY.iloc[0]), 2)
+    currentEpochs = round(float(protocolMetrics_df.nextEpochRebase.iloc[0]), 4)
+    currentNextDist = round(float(protocolMetrics_df.nextDistributedOhm.iloc[0]), 2)
+    # assign the results to a variable called results
 
     with st.sidebar.expander('How to use'):
         st.write('''
@@ -114,15 +172,13 @@ def app():
     with col2:
         st.header('Current Protocol Metrics')
         st.info(f'''
-                - OHM Price: **$933.6**
+                - Current Price: **$ {currentOhmPrice}**
 
-                - Index: **20.7**
+                - Current APY: **{currentAPY}%**
 
-                - APY: **7288.2%**
+                - Reward Yield: **{currentEpochs}%**
 
-                - Reward Yield: **0.3936%**
-
-                - Supply: **2.847784e+06**
+                - Supply: **{currentTSupply}**
                 ''')
     st.write("-----------------------------")
     col3, col4 = st.columns((4, 1.3))
