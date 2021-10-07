@@ -59,6 +59,7 @@ def app():
     protocolMetrics_df = pd.DataFrame(dataDict)
     protocolMetrics_df = protocolMetrics_df.astype(float)
     protocolMetrics_df['dateTime'] = pd.to_datetime(protocolMetrics_df.timestamp,unit='s')
+    protocolMetrics_df['dateTime'] = protocolMetrics_df['dateTime'].dt.date
     protocolMetrics_df = protocolMetrics_df.set_index('dateTime')
 
 
@@ -70,14 +71,22 @@ def app():
 
     cols = ["ohmCirculatingSupply", "sOhmCirculatingSupply", "totalSupply"]
     selected_metric = st.multiselect("Select a metric to explore", protocolMetrics_df.columns.tolist(),default=cols)
-    daysFilter_Range = st.slider("How many days of data would you like to see?", value=[0,100])
-    #daysFilter_Range = st.slider("How many days of data would you like to see?", 0,100,100)
-    rangeDiff = daysFilter_Range[1]-daysFilter_Range[0]
+    selected_metric_df = protocolMetrics_df[selected_metric]
+    #selected_dates = st.date_input('Date Range', [datetime.date(selected_metric_df.index.min()),datetime.date(selected_metric_df.index.max())])
+    startDate = st.date_input('Start Date',selected_metric_df.index.min())
+    endDate = st.date_input('End Date',selected_metric_df.index.max())
+    if startDate < endDate:
+        pass
+    else:
+        st.error('Error: Date out of possible range')
+    mask = (selected_metric_df.index > startDate) & (selected_metric_df.index <= endDate)
+    selected_metric_df = selected_metric_df.loc[mask]
+    #st.write(startDate)
+    #st.write(endDate)
+    #st.write(type(startDate))
+    #st.write(selected_metric_df.index.inferred_type == "datetime64")
 
-    #end = datetime.today().strftime('%Y-%m-%d')
-    #start = (datetime.today() - timedelta(daysFilter_Range)).strftime('%Y-%m-%d')
-    selected_metric_df = protocolMetrics_df[selected_metric].iloc[daysFilter_Range[0]:daysFilter_Range[1]]
-    #st.write(rangeDiff)
+
 
     explorer_chart = px.line(selected_metric_df)
     explorer_chart.update_layout(autosize=True, showlegend=True ,legend_title_text='Metrics', margin=dict(l=20, r=30, t=10, b=20))
