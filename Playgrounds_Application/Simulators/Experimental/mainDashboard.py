@@ -96,7 +96,7 @@ def app():
         st.subheader('Metrics visualized')
         explorer_chart = px.line(selected_metric_df)
         explorer_chart.update_layout(autosize=True, showlegend=True ,legend_title_text='Metrics', margin=dict(l=20, r=30, t=10, b=20))
-        explorer_chart.update_layout(dragmode = 'drawopenpath',newshape_line_color='cyan')
+        #explorer_chart.update_layout(dragmode = 'drawopenpath',newshape_line_color='cyan')
         explorer_chart.update_layout(legend=dict(yanchor="top",y=0.99,xanchor="left",x=0.01))
         explorer_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
         explorer_chart.update_xaxes(title = 'Date',showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.1,mirror=True)
