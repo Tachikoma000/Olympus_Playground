@@ -8,3 +8,4 @@ plotly==5.3.1
 plotly_express==0.4.0
 pycoingecko
 DateTime
+millify
