@@ -162,8 +162,10 @@ def app():
     ohmGrowthResult_df_Chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,mirror=True)
     ohmGrowthResult_df_Chart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,mirror=True, zeroline=False)
 
-    st.title('Staking Playground')
-    st.write("-----------------------------")
+    st.title('Playground: Staking')
+    st.markdown('''----''')
+    #st.title('Staking Playground')
+    #st.write("-----------------------------")
 
     col1, col2 = st.columns((4,1.3))
     with col1:

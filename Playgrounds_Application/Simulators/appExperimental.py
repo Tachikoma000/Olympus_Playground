@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 CURRENT_THEME = "dark"
 IS_DARK_THEME = True
 
-navLogo = Path(__file__).parents[0] / 'Assets/glow_4.png'
+navLogo = Path(__file__).parents[0] / 'Assets/glow_5.png'
 navLogo = Image.open(navLogo)
 PAGES = {
     "Home": home,

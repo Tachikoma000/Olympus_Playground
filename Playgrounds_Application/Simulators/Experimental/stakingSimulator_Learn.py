@@ -15,40 +15,52 @@ import streamlit as st
 # endregion
 def app():
 # region Description: All about staking
-    st.title('The Staking Strategy (3,3)')
-    st.write(
-        '''
-        **Staking is the primary value accrual strategy of Olympus**. Stakers stake their OHM on the Olympus website to earn rebase rewards. 
-        The rebase rewards come from the proceed from bond sales, and can vary based on the number of OHM staked in the protocol and the reward rate set by monetary policy
+
+    st.title('Learn: Staking')
+    st.markdown('''----''')
+    st.title('The Staking Strategy')
+    col1,col2 = st.columns((2.5,1.4))
+    with col1:
+        st.write(
+            '''
+            **Staking is the primary value accrual strategy of Olympus**. Stakers stake their OHM on the Olympus website to earn rebase rewards. 
+            The rebase rewards come from the proceed from bond sales, and can vary based on the number of OHM staked in the protocol and the reward rate set by monetary policy
         
-        **Staking is a passive, long-term strategy**. The increase in your stake of OHM translates into a constantly falling cost basis converging on zero. 
-        This means even if the market price of OHM drops below your initial purchase price, given a long enough staking period, the increase in your staked OHM balance should eventually outpace the fall in price
+            **Staking is a passive, long-term strategy**. The increase in your stake of OHM translates into a constantly falling cost basis converging on zero. 
+            This means even if the market price of OHM drops below your initial purchase price, given a long enough staking period, the increase in your staked OHM balance should eventually outpace the fall in price
         
-        **When you stake, you lock OHM and receive an equal amount of sOHM**. Your sOHM balance rebases up automatically at the end of every epoch. 
-        sOHM is transferable and therefore composable with other DeFi protocols
+            **When you stake, you lock OHM and receive an equal amount of sOHM**. Your sOHM balance rebases up automatically at the end of every epoch. 
+            sOHM is transferable and therefore composable with other DeFi protocols
         
-        **When you unstake, you burn sOHM and receive an equal amount of OHM**. Unstaking means the user will forfeit the upcoming rebase reward. 
-        Note that the forfeited reward is only applicable to the unstaked amount; the remaining staked OHM (if any) will continue to receive rebase rewards
-        
-        ''')
+            **When you unstake, you burn sOHM and receive an equal amount of OHM**. Unstaking means the user will forfeit the upcoming rebase reward. 
+            Note that the forfeited reward is only applicable to the unstaked amount; the remaining staked OHM (if any) will continue to receive rebase rewards
+            
+            ''')
+    st.markdown('''----''')
     st.title('What is (3,3) Playground? ')
-    st.write(
-        """
-        **(3,3) Playground is a simulator for staking, and income strategies**
-        
-        Use this simulator to:
-        - Forecast ROI ar current and future reward yield percent
-        - OHM growth over time
-        - OHM and USD value over time
-                        
+    col3,col4 = st.columns((0.5,1))
+    with col3:
+        st.write(
+            """
+            **(3,3) Playground is a simulator for staking, and income strategies**
+            
+            Use this simulator to:
+            - Forecast ROI ar current and future reward yield percent
+            - OHM growth over time
+            - OHM and USD value over time
+            """)
+    with col4:
+        st.write(
+        """    
         We love the income, use this simulator to strategize:
         - Required staked OHM to reach desired daily income
         - Count down until you are earning desired daily income
         - Required staked OHM to reach desired weekly income
         - Count down until you are earning desired weekly income
-    
-        """
-    )
+        """)
+
+
+    st.markdown('''----''')
 
 
     st.info('''

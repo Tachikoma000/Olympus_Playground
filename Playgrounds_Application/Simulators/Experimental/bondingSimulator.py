@@ -58,8 +58,8 @@ def app():
     # plots
     stake_bond_chart = go.Figure()
 
-    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Vested_Ohms, name='(4,4) Growth', fill=None,))
-    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_Growth,name='(3,3) Growth'))
+    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Vested_Ohms, name='(4,4) Growth', fill=None, line=dict(color='#00aff3', width=2)))
+    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_Growth,name='(3,3) Growth', line=dict(color='#ff2a0a', width=2)))
 
     stake_bond_chart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
     stake_bond_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
@@ -72,8 +72,8 @@ def app():
 
     stake_bond_ROIchart = go.Figure()
 
-    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_ROI,name='(3,3) ROI  ', fill=None,))
-    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Bond_ROI,name='(4,4) ROI  '))
+    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Bond_ROI, name='(4,4) ROI  ',line=dict(color='#00aff3', width=2)))
+    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_ROI,name='(3,3) ROI  ', fill=None,line=dict(color='#ff2a0a', width=2)))
 
     stake_bond_ROIchart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
     stake_bond_ROIchart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
@@ -87,31 +87,42 @@ def app():
 
 # Layout and object placement
 
-    st.title('(4,4) Playground')
-    st.write('---------------')
+    st.title('Playground: (4,4) Simulation')
+    st.markdown('''----''')
 
     col1,col2 = st.columns((4,1.3))
     with col1:
         st.header('(4,4) and (3,3) Ohm Growth Comparison')
         st.plotly_chart(stake_bond_chart, use_container_width=True)
     with col2:
+        st.header('Results summary')
         st.info(f'''
         - Max (3,3): ** {maxStakeGrowth} OHMs**
         - Max (4,4): ** {maxBondGrowth} OHMs**
         - Bonus: ** {ohmGained} OHMs**
-
         ''')
+        st.header('Explanation')
+        st.info('''
+        This chart shows you xx
+        ''')
+
+
     st.write("-----------------------------")
     col3,col4 = st.columns((4,1.3))
     with col3:
         st.header('(4,4) and (3,3) ROI Growth Comparison')
         st.plotly_chart(stake_bond_ROIchart, use_container_width=True)
     with col4:
+        st.header('Results summary')
         st.info(f'''
         - Stake (3,3) ROI: **{stakingRewardRate_P} %**
         - Bond ROI: **{bondROI} %**
         - Max (4,4) ROI: **{maxBondROI} %**
             ''')
+        st.header('Explanation')
+        st.info('''
+        This chart shows you xx
+        ''')
 
 # region Description: Function to calculate ohm growth over time
 def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
