@@ -72,11 +72,11 @@ def app():
 
 
 # do stuff with the data: app
+    st.sidebar.info('Some information on what this page is about')
+    st.sidebar.info('Instructions')
 
     st.title('Playgrounds Ω Explorer')
     st.markdown('''----''')
-    st.sidebar.info('Some information on what this page is about')
-    st.sidebar.info('Instructions')
 
 
     col1, col2, col3, col4 = st.columns(4)
@@ -86,26 +86,23 @@ def app():
     col4.metric(label="Rebase Rate", value="%.4f" % protocolMetrics_df.nextEpochRebase.iloc[0])
     st.markdown('''----''')
 
+
     cols = ["ohmCirculatingSupply", "sOhmCirculatingSupply", "totalSupply"]
     st.subheader('Select metrics to explore')
     selected_metric = st.multiselect("",protocolMetrics_df.columns.tolist(),default=cols)
     selected_metric_df = protocolMetrics_df[selected_metric]
-
     st.subheader('Filter by date')
     col5,col6 = st.columns((1,1))
     with col5:
         startDate = st.date_input('Start Date',selected_metric_df.index.min())
     with col6:
         endDate = st.date_input('End Date',selected_metric_df.index.max())
-
     if startDate < endDate:
         pass
     else:
         st.error('Error: Date out of possible range')
     mask = (selected_metric_df.index > startDate) & (selected_metric_df.index <= endDate)
     selected_metric_df = selected_metric_df.loc[mask]
-
-
     st.subheader('Metrics visualized')
     explorer_chart = px.line(selected_metric_df)
     explorer_chart.update_layout(autosize=True, showlegend=True ,legend_title_text='Metrics', margin=dict(l=20, r=30, t=10, b=20))
@@ -114,6 +111,10 @@ def app():
     explorer_chart.update_xaxes(title = 'Date',showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.1,mirror=True)
     explorer_chart.update_yaxes(title = 'Metrics',showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,mirror=True)
     st.plotly_chart(explorer_chart, use_container_width=True)
+    st.subheader('Selected metrics in tabulated view')
+    with st.expander("Click me!"):
+        st.write(selected_metric_df)
+    st.markdown('''----''')
 
 
     st.subheader('Metrics Definitions')
@@ -136,11 +137,4 @@ def app():
     - Runway Available: Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway
     
     ''')
-
-    st.subheader('Metrics in tabulated view')
-    with st.expander("Click me!"):
-        st.write(selected_metric_df)
-
-    st.write('---')
-
 # endregion
