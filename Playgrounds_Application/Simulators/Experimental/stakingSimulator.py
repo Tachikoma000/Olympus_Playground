@@ -110,7 +110,7 @@ def app():
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=1.0000)
         rewardYield = st.text_input('Rebase rate (%)', value=0.3928)
         minOIPRate = st.text_input('Min Reward Rate (%)', value=0.1587)
-        maxOIPRate = st.text_input('Min Reward Rate (%)', value=0.3058)
+        maxOIPRate = st.text_input('Max Reward Rate (%)', value=0.3058)
         desiredUSDTarget = st.text_input('Desired OHM value (USD)', value=10000.0000,)
         desiredOHMTarget = st.text_input('Desired amount of OHMS', value=500.0000, )
         desiredDailyIncooom = st.text_input('Desired daily incooom (USD)', value=5000.0000,)
