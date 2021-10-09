@@ -17,7 +17,7 @@ from pathlib import Path
 # endregion
 
 
-navLogo = Path(__file__).parents[0] / 'Assets/glow.png'
+navLogo = Path(__file__).parents[0] / 'Assets/glow_5.png'
 navLogo = Image.open(navLogo)
 
 
@@ -60,9 +60,9 @@ with col3:
     st.write(' ')
     st.write(' ')
 
-lottie_waiting = load_lottieurl('https://assets1.lottiefiles.com/private_files/lf30_1Zdfht.json')
+lottie_waiting = load_lottieurl('https://assets4.lottiefiles.com/packages/lf20_476npssk.json')
 st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
-
+#https://assets1.lottiefiles.com/private_files/lf30_1Zdfht.json
 #https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json
 #https://assets7.lottiefiles.com/packages/lf20_wvwimamz.json
 #https://assets10.lottiefiles.com/packages/lf20_hhvgzywn.json
