@@ -296,6 +296,7 @@ def ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, s
     # Data frame to hold all required data point. Data required would be Epochs since rebase are distributed every Epoch
     ohmGrowthEpochs = (ohmGrowthDays * 3)+1
     sellEpochs = sellDays * 3
+    cadenceConst = sellEpochs
     percentSale = percentSale/100
 
     ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])  # In this case let's consider 1096 Epochs which is 365 days
@@ -320,9 +321,9 @@ def ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, s
         ohmStakedGrowth = ohmStakedGrowth * (1 + rewardYield)  # compound the total amount of ohms
         pA_ohmStakedGrowth = pA_ohmStakedGrowth * (1 + rewardYield)
         if elements == sellEpochs:
+            sellEpochs = sellEpochs + cadenceConst
             print(totalOhms[-1] - (totalOhms[-1] * percentSale))
-            pA_ohmStakedGrowth = totalOhms[-1] - (totalOhms[-1] * percentSale)
-            sellEpochs = sellEpochs + sellEpochs
+            pA_ohmStakedGrowth = pA_totalOhms[-1] - (pA_totalOhms[-1]*percentSale)
         else:
             pass
     ohmGrowth_df['Total_Ohms'] = totalOhms  # Clean up and add the new array to the main data frame
