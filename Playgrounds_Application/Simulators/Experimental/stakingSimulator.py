@@ -6,15 +6,21 @@ import pandas as pd  # Needed fpr dataframe creation and operations\n",
 import numpy as np  # Needed for array manipulations\n",
 from itertools import islice  # Needed for more complex row and coloumn slicing\n",
 import matplotlib.pyplot as plt  # Needed for quickly ploting results"
+import base64
+from PIL import Image
 import pathlib  # url management
+from pathlib import Path
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import plotly.figure_factory as ff
 import streamlit as st
 import requests
 
+
 # endregion
 
+stakingPlay_Logo = Path(__file__).parents[1] / 'Assets/stakingPlayground_logo.png'
+stakingPlay_Logo  = Image.open(stakingPlay_Logo)
 
 # region Description: Build the app
 def app():
@@ -158,44 +164,32 @@ def app():
 
     ohmGrowthResult_df_Chart.update_layout(autosize=True, showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
     ohmGrowthResult_df_Chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
+    ohmGrowthResult_df_Chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01))
 
     ohmGrowthResult_df_Chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,mirror=True)
     ohmGrowthResult_df_Chart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,mirror=True, zeroline=False)
 
-    st.title('Playground: Staking')
-    st.markdown('''----''')
+
     #st.title('Staking Playground')
     #st.write("-----------------------------")
 
-    col1, col2 = st.columns((4,1.3))
+    col1, col2 = st.columns((1,1))
     with col1:
-        st.header('OIP-18 Reward Rate Framework')
-        st.table(oip18_dataFrame)
-    with col2:
-        st.header('Current Protocol Metrics')
-        st.info(f'''
-                - Current Price: **$ {currentOhmPrice}**
-
-                - Current APY: **{currentAPY}%**
-
-                - Reward Yield: **{currentEpochs}%**
-
-                - Supply: **{currentTSupply}**
-                ''')
-    st.write("-----------------------------")
-    col3, col4 = st.columns((4, 1.3))
-    with col3:
+        st.image(stakingPlay_Logo)
+    st.markdown('''----''')
+    col5, col6 = st.columns((4, 1.3))
+    with col5:
         st.header('OHM Growth Forecast')
         st.plotly_chart(ohmGrowthResult_df_Chart,use_container_width=True)
-        if ohmGrowthResult_df.Total_Ohms.max() > ohmGrowthResult_df.Max_OhmGrowth.max():
-            st.write('Your simulated ohm growth deviates above max reward rate, please see the OIP-18 Frame work ')
-            st.write('please see the OIP-18 Frame work and adjust accordingly: ')
-        elif ohmGrowthResult_df.Total_Ohms.max() < ohmGrowthResult_df.Min_OhmGrowth.max():
-            st.write('Your simulated ohm growth deviates below min reward rate ')
-            st.write('please see the OIP-18 Frame work and adjust accordingly: ')
-        else:
-            st.write('Your simulated ohm growth is within max and min reward rate range')
-    with col4:
+        st.header('OIP-18 Reward Rate Framework')
+    with st.expander('Click to view'):
+        col7, col8 = st.columns((3.2,1))
+        with col7:
+            st.table(oip18_dataFrame)
+        with col8:
+            st.info('Hello')
+
+    with col6:
         st.header('ROI')
         st.info(f'''
         - Daily ROI: **{dailyROI} %**
@@ -215,21 +209,21 @@ def app():
     st.write("-----------------------------")
 
     st.header('Income Forecast')
-    col5, col6 = st.columns((0.25, 0.25))
-    with col5:
+    col7, col8 = st.columns((0.25, 0.25))
+    with col7:
         st.info(f'''
         Days until desired USD value: {forcastUSDTarget}
         ''')
-    with col6:
+    with col8:
         st.info(f'''
         Days until desired OHM balance: {forcastOHMTarget}
         ''')
-    col5, col6 = st.columns((0.25, 0.25))
-    with col5:
+    col9, col10 = st.columns((0.25, 0.25))
+    with col9:
         st.info(f'''
         Days until desired daily income: {forcastDailyIncooom}
         ''')
-    with col6:
+    with col10:
         st.info(f'''
         Days until desired weekly: {forcastWeeklyIncooom}
         ''')

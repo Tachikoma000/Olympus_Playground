@@ -6,6 +6,7 @@ import pandas as pd  # Needed fpr dataframe creation and operations\n",
 import numpy as np  # Needed for array manipulations\n",
 from itertools import islice  # Needed for more complex row and coloumn slicing\n",
 import matplotlib.pyplot as plt  # Needed for quickly ploting results"
+import base64
 from PIL import Image
 import pathlib  # url management
 from pathlib import Path
@@ -13,7 +14,7 @@ import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import plotly.figure_factory as ff
 import streamlit as st
-import base64
+
 # endregion
 
 
