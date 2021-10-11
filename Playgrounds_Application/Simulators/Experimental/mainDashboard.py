@@ -128,7 +128,7 @@ def app():
     - Treasury Risk Free Value: Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.
     
     - Reward Rate: Reward rate is the configured percentage of OHM distributed to all stakers on each rebase relative to the total supply. 
-                    The reward rate is precisely set by the policy team.
+                    The reward rate is precisely set by the policy team, and voted upon by the community.
     
     - APY: Annual Percentage Yield, is the normalized representation of an interest rate,
             based on a compounding period over one year. 
