@@ -104,19 +104,43 @@ def app():
     currentNextDist = round(float(protocolMetrics_df.nextDistributedOhm.iloc[0]), 2)
     # assign the results to a variable called results
 
-    with st.sidebar.expander('How to use'):
-        st.write('''
-                Hover your mouse over the chart trend lines to see live feedback on Total ohms accumulated vs days.
-                Use the slider and number input boxes to adjust your goals and see the results displayed on the incoom charts and table. 
-            ''')
-
-    with st.sidebar.expander('Control Parameters', expanded=True):
+    with st.sidebar.expander('OHM growth simulation Controls', expanded=True):
+        st.info('''
+        This section allows you to simulate your ohm growth over any number of days
+        
+        Use this section to input:
+        - Number of days to simulate
+        - OHM price at end of selected number of days
+        - Rebase Yield throughout the simulation period (Your selected days) 
+                ''')
         ohmGrowthDays = st.slider('Days', value=365, min_value=1, max_value=730, step=1)
         ohmPrice = st.text_input('Price of OHM to simulate ($)', value=500.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=1.0000)
-        rewardYield = st.text_input('Rebase rate (%)', value=0.3928)
-        minOIPRate = st.text_input('Min Reward Rate (%)', value=0.1587)
-        maxOIPRate = st.text_input('Max Reward Rate (%)', value=0.3058)
+        rewardYield = st.text_input('Rebase Yield (%)', value=0.3928)
+
+    with st.sidebar.expander('Profit taking simulation controls'):
+        st.info('''
+        This section allows you simulate and compare your ohm growth if you decide to take profit at certain intervals
+        
+        Use this section to input:
+        - Profit taking intervals (Days)
+        - Percent OHMS to sell on your profit taking days
+                ''')
+        #minOIPRate = st.text_input('Min Reward Rate (%)', value=0.1587)
+        #maxOIPRate = st.text_input('Max Reward Rate (%)', value=0.3058)
+        sellDays = st.text_input('Sell Interval (Days)', value = 30)
+        percentSale = st.text_input('Total OHMS to sell (%)', value = 5)
+
+    with st.sidebar.expander('Income forecast simulation controls'):
+        st.info('''
+                This section allows you simulate what your "income" could be in the form of staking rewards.
+            
+                Use this section to input:
+                - Your desired OHM value in USD
+                - Your desired amount of OHMS
+                - Your desired daily incooom (AKA desired daily staking rewards)
+                - Your desired weekly incooom (AKA desired weekly staking rewards)
+                        ''')
         desiredUSDTarget = st.text_input('Desired OHM value (USD)', value=10000.0000,)
         desiredOHMTarget = st.text_input('Desired amount of OHMS', value=500.0000, )
         desiredDailyIncooom = st.text_input('Desired daily incooom (USD)', value=5000.0000,)
@@ -127,14 +151,16 @@ def app():
         ohmPrice = float(ohmPrice)
         initialOhms = float(initialOhms)
         rewardYield = float(rewardYield)
-        minOIPRate = float(minOIPRate)
-        maxOIPRate = float(maxOIPRate)
+        #minOIPRate = float(minOIPRate)
+        #maxOIPRate = float(maxOIPRate)
+        sellDays = float(sellDays)
+        percentSale = float(percentSale)
         desiredUSDTarget = float(desiredUSDTarget)
         desiredOHMTarget = float(desiredOHMTarget)
         desiredDailyIncooom = float(desiredDailyIncooom)
         desiredWeeklyIncooom = float(desiredWeeklyIncooom)
 
-    ohmGrowthResult_df = ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, minOIPRate,maxOIPRate)
+    ohmGrowthResult_df = ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, sellDays)
     roiSimulationResult_df,incooomSimulationResult_df = incooomProjection(ohmPrice,rewardYield, initialOhms, desiredUSDTarget,desiredOHMTarget, desiredDailyIncooom,desiredWeeklyIncooom)
 
     dailyROI = float(roiSimulationResult_df.Percentage[0])
@@ -153,12 +179,14 @@ def app():
 
     ohmGrowth_X = ohmGrowthResult_df.Days
     ohmGrowth_Y = ohmGrowthResult_df.Total_Ohms
-    minohmGrowth_Y = ohmGrowthResult_df.Min_OhmGrowth
-    maxohmGrowth_Y = ohmGrowthResult_df.Max_OhmGrowth
+    ProfitAdjusted_ohmGrowth_Y = ohmGrowthResult_df.Profit_Adjusted_Total_Ohms
+    #minohmGrowth_Y = ohmGrowthResult_df.Min_OhmGrowth
+    #maxohmGrowth_Y = ohmGrowthResult_df.Max_OhmGrowth
 
     ohmGrowthResult_df_Chart = go.Figure()
 
     ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Total_Ohms, name='(3,3) ROI  ', fill=None, ))
+    ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Profit_Adjusted_Total_Ohms, name='(3,3) Profit adjusted ROI  ', fill='tonexty', ))
     #ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Min_OhmGrowth, name='Min Growth Rate  ', fill=None, ))
     #ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Max_OhmGrowth, name='Max Growth Rate  ', fill='tonexty', ))
 
@@ -256,42 +284,65 @@ def app():
 
 
 # region Description: Function to calculate ohm growth over time
-def ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, minOIPRate, maxOIPRate):
+def ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, sellDays):
+
     # Data frame to hold all required data point. Data required would be Epochs since rebase are distributed every Epoch
-    ohmGrowthEpochs = ohmGrowthDays * 3
+    ohmGrowthEpochs = (ohmGrowthDays * 3)+1
+    sellEpochs = sellDays * 3
+    percentSale = percentSale/100
+
     ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])  # In this case let's consider 1096 Epochs which is 365 days
     ohmGrowth_df['Days'] = ohmGrowth_df.Epochs / 3  # There are 3 Epochs per day so divide by 3 to get Days
+
+    profitAdjusted_ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])
+    profitAdjusted_ohmGrowth_df['Days'] = profitAdjusted_ohmGrowth_df.Epochs / 3
+
     # To Calculate the ohm growth over 3000 Epochs or 1000 days, we loop through the exponential ohm growth equation every epoch
     totalOhms = []  # create an empty array that will hold the componded rewards
+    pA_totalOhms = []
+
     rewardYield = round(rewardYield / 100, 5)
     ohmStakedGrowth = initialOhms  # Initial staked ohms used to project growth over time
+    pA_ohmStakedGrowth = initialOhms
+
+
     # Initialize the for loop to have loops equal to number of rows or number of epochs
     for elements in ohmGrowth_df.Epochs:
         totalOhms.append(ohmStakedGrowth)  # populate the empty array with calclated values each iteration
+        pA_totalOhms.append(pA_ohmStakedGrowth)
         ohmStakedGrowth = ohmStakedGrowth * (1 + rewardYield)  # compound the total amount of ohms
+        pA_ohmStakedGrowth = pA_ohmStakedGrowth * (1 + rewardYield)
+        if elements == sellEpochs:
+            print(totalOhms[-1] - (totalOhms[-1] * percentSale))
+            pA_ohmStakedGrowth = totalOhms[-1] - (totalOhms[-1] * percentSale)
+            sellEpochs = sellEpochs + sellEpochs
+        else:
+            pass
     ohmGrowth_df['Total_Ohms'] = totalOhms  # Clean up and add the new array to the main data frame
+    ohmGrowth_df['Profit_Adjusted_Total_Ohms'] = pA_totalOhms
     ohmGrowth_df.Days = np.around( ohmGrowth_df.Days, decimals=1)  # Python is funny so let's round up our numbers . 1 decimal place for days",
     ohmGrowth_df.Total_Ohms = np.around( ohmGrowth_df.Total_Ohms, decimals=3 )  # Python is funny so let's round up our numbers . 3 decimal place for ohms"
+    ohmGrowth_df.Profit_Adjusted_Total_Ohms = np.around(ohmGrowth_df.Profit_Adjusted_Total_Ohms, decimals=3)
 
-    totalOhms_minOIPRate = []
-    minOIPRate = round(minOIPRate / 100, 5)
-    ohmStakedGrowth_minOIPRate = initialOhms  # Initial staked ohms used to project growth over time
+    #totalOhms_minOIPRate = []
+    #minOIPRate = round(minOIPRate / 100, 5)
+    #ohmStakedGrowth_minOIPRate = initialOhms  # Initial staked ohms used to project growth over time
     # Initialize the for loop to have loops equal to number of rows or number of epochs
-    for elements in ohmGrowth_df.Epochs:
-        totalOhms_minOIPRate.append(
-            ohmStakedGrowth_minOIPRate)  # populate the empty array with calclated values each iteration
-        ohmStakedGrowth_minOIPRate = ohmStakedGrowth_minOIPRate * (1 + minOIPRate)  # compound the total amount of ohms
-    ohmGrowth_df['Min_OhmGrowth'] = totalOhms_minOIPRate  # Clean up and add the new array to the main data frame
+    #for elements in ohmGrowth_df.Epochs:
+        #totalOhms_minOIPRate.append(
+            #ohmStakedGrowth_minOIPRate)  # populate the empty array with calclated values each iteration
+       # ohmStakedGrowth_minOIPRate = ohmStakedGrowth_minOIPRate * (1 + minOIPRate)  # compound the total amount of ohms
+    #ohmGrowth_df['Min_OhmGrowth'] = totalOhms_minOIPRate  # Clean up and add the new array to the main data frame
 
-    totalOhms_maxOIPRate = []
-    maxOIPRate = round(maxOIPRate / 100, 5)
-    ohmStakedGrowth_maxOIPRate = initialOhms  # Initial staked ohms used to project growth over time
+    #totalOhms_maxOIPRate = []
+    #maxOIPRate = round(maxOIPRate / 100, 5)
+    #ohmStakedGrowth_maxOIPRate = initialOhms  # Initial staked ohms used to project growth over time
     # Initialize the for loop to have loops equal to number of rows or number of epochs
-    for elements in ohmGrowth_df.Epochs:
-        totalOhms_maxOIPRate.append(
-            ohmStakedGrowth_maxOIPRate)  # populate the empty array with calclated values each iteration
-        ohmStakedGrowth_maxOIPRate = ohmStakedGrowth_maxOIPRate * (1 + maxOIPRate)  # compound the total amount of ohms
-    ohmGrowth_df['Max_OhmGrowth'] = totalOhms_maxOIPRate  # Clean up and add the new array to the main data frame
+    #for elements in ohmGrowth_df.Epochs:
+        #totalOhms_maxOIPRate.append(
+            #ohmStakedGrowth_maxOIPRate)  # populate the empty array with calclated values each iteration
+        #ohmStakedGrowth_maxOIPRate = ohmStakedGrowth_maxOIPRate * (1 + maxOIPRate)  # compound the total amount of ohms
+    #ohmGrowth_df['Max_OhmGrowth'] = totalOhms_maxOIPRate  # Clean up and add the new array to the main data frame
 
     # ================================================================================
     return ohmGrowth_df
