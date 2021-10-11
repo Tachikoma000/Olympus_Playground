@@ -17,7 +17,7 @@ import base64
 # endregion
 
 
-bondingPlay_Logo = Path(__file__).parents[1] / 'Assets/bondingPlayground_Logo.png'
+bondingPlay_Logo = Path(__file__).parents[1] / 'Assets/bondingPlayground_logo.png'
 bondingPlay_Logo  = Image.open(bondingPlay_Logo)
 # ================THE APP
 # region Description: Build the app
