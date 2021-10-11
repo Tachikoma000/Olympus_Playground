@@ -103,6 +103,7 @@ def app():
         st.error('Error: Date out of possible range')
     mask = (selected_metric_df.index > startDate) & (selected_metric_df.index <= endDate)
     selected_metric_df = selected_metric_df.loc[mask]
+    selected_metric_df_CSV = selected_metric_df.to_csv().encode('utf-8')
     st.subheader('Metrics visualized')
     explorer_chart = px.line(selected_metric_df)
     explorer_chart.update_layout(autosize=True, showlegend=True ,legend_title_text='Metrics', margin=dict(l=20, r=30, t=10, b=20))
@@ -114,6 +115,14 @@ def app():
     st.subheader('Selected metrics in tabulated view')
     with st.expander("Click me!"):
         st.write(selected_metric_df)
+        st.download_button(
+            "Press to download selected protocol metrics data",
+            selected_metric_df_CSV,
+            "protocolMetrics.csv",
+            "text/csv",
+            key='browser-data'
+        )
+
     st.markdown('''----''')
 
 

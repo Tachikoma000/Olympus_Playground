@@ -55,7 +55,7 @@ def app():
         gwei = float(gwei)
 
     vestedOhms_df, stakedOhmsROI_df, stake_bond_df ,stakingGasFee,unstakingGasFee,swappingGasFee,claimGasFee,bondingGasFee,maxBondROI,stakingRewardRate_P,\
-        maxStakeGrowth,maxBondGrowth,ohmGained= bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei)
+        maxStakeGrowth,maxBondGrowth,ohmGained , vestedOhms_df_CSV,stakedOhmsROI_df_CSV = bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei)
 
     #st.write(vestedOhms_df)
     #st.write(stakedOhmsROI_df)
@@ -114,6 +114,13 @@ def app():
         st.info('''
         This chart shows you xx
         ''')
+        st.download_button(
+            "Press to download your (4,4) simulation results",
+            vestedOhms_df_CSV,
+            "ohmGrowthSim.csv",
+            "text/csv",
+            key='browser-data'
+        )
     st.write("-----------------------------")
     col5,col6 = st.columns((4,1.3))
     with col5:
@@ -213,6 +220,8 @@ def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     claimGasFee = round(claimGasFee,2)
     bondingGasFee = round(bondingGasFee,2)
 
+    vestedOhms_df_CSV = vestedOhms_df.to_csv().encode('utf-8')
+    stakedOhmsROI_df_CSV = stakedOhmsROI_df.to_csv().encode('utf-8')
 
-    return vestedOhms_df, stakedOhmsROI_df, stake_bond_df ,stakingGasFee,unstakingGasFee,swappingGasFee,claimGasFee,bondingGasFee,maxBondROI,stakingRewardRate_P,maxStakeGrowth,maxBondGrowth,ohmGained
+    return vestedOhms_df, stakedOhmsROI_df, stake_bond_df ,stakingGasFee,unstakingGasFee,swappingGasFee,claimGasFee,bondingGasFee,maxBondROI,stakingRewardRate_P,maxStakeGrowth,maxBondGrowth,ohmGained,vestedOhms_df_CSV,stakedOhmsROI_df_CSV
 # end region

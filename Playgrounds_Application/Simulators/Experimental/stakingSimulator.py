@@ -160,7 +160,7 @@ def app():
         desiredDailyIncooom = float(desiredDailyIncooom)
         desiredWeeklyIncooom = float(desiredWeeklyIncooom)
 
-    ohmGrowthResult_df = ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, sellDays)
+    ohmGrowthResult_df,ohmGrowth_df_CSV = ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, sellDays)
     roiSimulationResult_df,incooomSimulationResult_df = incooomProjection(ohmPrice,rewardYield, initialOhms, desiredUSDTarget,desiredOHMTarget, desiredDailyIncooom,desiredWeeklyIncooom)
 
     dailyROI = float(roiSimulationResult_df.Percentage[0])
@@ -234,6 +234,13 @@ def app():
             st.write(f'''
             This chart shows you the ohm growth projection over **{ohmGrowthDays} days** days. Projection is calculated based on your selected rebase rate of **{rewardYield} %** and an initial **{initialOhms} ohms**.
                      ''')
+        st.download_button(
+            "Press to download your (3,3) simulation results",
+            ohmGrowth_df_CSV,
+            "ohmGrowthSim.csv",
+            "text/csv",
+            key='browser-data'
+        )
     st.write("-----------------------------")
 
     st.header('Income Forecast')
@@ -344,8 +351,11 @@ def ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, s
         #ohmStakedGrowth_maxOIPRate = ohmStakedGrowth_maxOIPRate * (1 + maxOIPRate)  # compound the total amount of ohms
     #ohmGrowth_df['Max_OhmGrowth'] = totalOhms_maxOIPRate  # Clean up and add the new array to the main data frame
 
+    ohmGrowth_df_CSV = ohmGrowth_df.to_csv().encode('utf-8')
     # ================================================================================
-    return ohmGrowth_df
+
+
+    return ohmGrowth_df,ohmGrowth_df_CSV
 # end region
 
 # region Description: Function to calculate income forcast
