@@ -41,7 +41,7 @@ def app():
     query = """
 
     {
-    protocolMetrics(first: 300, orderBy: timestamp, orderDirection: desc) {
+    protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
         timestamp
         ohmCirculatingSupply
         sOhmCirculatingSupply
