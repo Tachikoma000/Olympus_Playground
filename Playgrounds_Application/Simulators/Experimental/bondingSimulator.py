@@ -6,13 +6,19 @@ import pandas as pd  # Needed fpr dataframe creation and operations\n",
 import numpy as np  # Needed for array manipulations\n",
 from itertools import islice  # Needed for more complex row and coloumn slicing\n",
 import matplotlib.pyplot as plt  # Needed for quickly ploting results"
+from PIL import Image
 import pathlib  # url management
+from pathlib import Path
 import plotly.express as px  # cleaner graphs
 import plotly.graph_objects as go  # cleaner graphs
 import plotly.figure_factory as ff
 import streamlit as st
+import base64
 # endregion
 
+
+bondingPlay_Logo = Path(__file__).parents[1] / 'Assets/bondingPlayground_Logo.png'
+bondingPlay_Logo  = Image.open(bondingPlay_Logo)
 # ================THE APP
 # region Description: Build the app
 def app():
@@ -62,6 +68,7 @@ def app():
     stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_Growth,name='(3,3) Growth', line=dict(color='#ff2a0a', width=2)))
 
     stake_bond_chart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
+    stake_bond_chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01))
     stake_bond_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
     stake_bond_chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
@@ -76,6 +83,7 @@ def app():
     stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_ROI,name='(3,3) ROI  ', fill=None,line=dict(color='#ff2a0a', width=2)))
 
     stake_bond_ROIchart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
+    stake_bond_ROIchart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01))
     stake_bond_ROIchart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
     stake_bond_ROIchart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
@@ -86,15 +94,15 @@ def app():
 
 
 # Layout and object placement
-
-    st.title('Playground: (4,4) Simulation')
-    st.markdown('''----''')
-
-    col1,col2 = st.columns((4,1.3))
+    col1,col2 = st.columns((1,1))
     with col1:
+        st.image(bondingPlay_Logo)
+    st.markdown('''----''')
+    col3,col4 = st.columns((4,1.3))
+    with col3:
         st.header('(4,4) and (3,3) Ohm Growth Comparison')
         st.plotly_chart(stake_bond_chart, use_container_width=True)
-    with col2:
+    with col4:
         st.header('Results summary')
         st.info(f'''
         - Max (3,3): ** {maxStakeGrowth} OHMs**
@@ -105,14 +113,12 @@ def app():
         st.info('''
         This chart shows you xx
         ''')
-
-
     st.write("-----------------------------")
-    col3,col4 = st.columns((4,1.3))
-    with col3:
+    col5,col6 = st.columns((4,1.3))
+    with col5:
         st.header('(4,4) and (3,3) ROI Growth Comparison')
         st.plotly_chart(stake_bond_ROIchart, use_container_width=True)
-    with col4:
+    with col6:
         st.header('Results summary')
         st.info(f'''
         - Stake (3,3) ROI: **{stakingRewardRate_P} %**

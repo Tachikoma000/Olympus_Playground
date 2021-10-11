@@ -19,6 +19,8 @@ import base64
 
 # import awesome_streamlit as ast
 # endregion
+learnBonding_logo = Path(__file__).parents[1] / 'Assets/Learn_bonding_logo.png'
+learnBonding_logo  = Image.open(learnBonding_logo)
 
 learnBonding_strat = Path(__file__).parents[1] / 'Assets/44_learn_2.png'
 learnBonding_strat  = Image.open(learnBonding_strat)
@@ -29,41 +31,49 @@ learn_44_playground  = Image.open(learn_44_playground)
 
 def app():
 # region Description: All about staking
-    st.title('Learn: Bonding and (4,4)')
-    st.markdown('''----''')
-    col1,col2 = st.columns((1.5,1))
+
+    col1,col2 = st.columns((0.6,1))
     with col1:
-        st.title('')
+        st.image(learnBonding_logo)
+    st.markdown('''----''')
+    st.title('The Bonding strategy')
+    col3, col4 = st.columns((1.8,1.4))
+    with col3:
         st.image(learnBonding_strat)
-    with col2:
-        st.title('The Bonding strategy')
+    with col4:
         bondLearnExpander = st.expander(label = 'Click to view Bonding Strategy', expanded=True)
         with bondLearnExpander:
             st.write(
                 '''
-                Bonding is the process of locking in a fixed reward in OHM. You trade in DAI for OHM at a discount
-                and the OHM is vested linearly over a period of 5 days
+                Bonding is the process of locking in a fixed reward in OHM, i.e. a discount of current market price, we call this (1,1) .
+                 You, the bonder, purchases  OHM directly from the Treasury at a discount and the OHM is vested linearly over a period of 5 days.
+                 
+                 There are two bond types, reserve and liquidity:
+                - Reserve bonds are the primary revenue stream for Olympus. This is simply buying OHM directly from the Treasury. The profit Olympus DAO makes from bonding goes to backing OHM.
+                - Liquidity bonds are how Olympus grows its liquidity. 
+                In this case you sell your liquidity share to Olympus DAO. This helps to create stability during volatility by ensuring thick liquidity and makes a rug pull much less likely.
                 
-                As a bonder, you win if the price of OHM increases during your vesting period; when this happens you benefit from the
-                discount on OHM and the increase in price. You also win if price remains relatively the same during the vesting period.
-                This is becuase profits are still gained from the discount
+                As a bonder, you win if the price of OHM increases during your vesting period; when this happens you benefit from the discount on OHM and the increase in price.
+                You also win if the price remains relatively the same during the vesting period. This is because profits are still gained from the discount.
     
-                As a bonder, you loose if the price of OHM decreases during your vesting period. If this happens, you will have to 
-                decide between OHM and SLP (whichever is worth more)
+                As a bonder, you lose if the price of OHM decreases during your vesting period.
                 ''')
         st.title('The (4,4) strategy')
         fourFourLearnEpander = st.expander(label = 'click to view (4,4) Strategy', expanded=False)
         with fourFourLearnEpander:
             st.write(
                 """
-                The (4,4) strategy is a maximizing strategy that combines the benefits of staking (3,3) and bonding (1,1). 
-                (4,4) simply means staking available OHMS during the vesting period to capture staking rewards during the vesting period
+                (4,4) is simply a combination of staking and bonding, (3,3) + (1,1) = (4,4). We employ a (4,4) strategy by staking our vested OHM before rebases.
+                 There are multiple ways to implement this strategy such as staking before every epoch or before every other epoch. The frequency would depend on the bond amount as well as gas prices.
+
+                (4,4) has a drawback of requiring a lot of gas since it requires 15 smart contract interactions for the optimal strategy. 
+                Thus using the Playground, you can simulate how often you should stake your vested OHM from your bond.
                 """)
     st.markdown('''----''')
 
     st.title('What is (4,4) Playground? ')
-    col3,col4 = st.columns((1.5,1))
-    with col3:
+    col5,col6 = st.columns((1.5,1))
+    with col5:
         fourFourLearnEpander_2 = st.expander(label = 'click to view (4,4) Strategy', expanded=True)
         with fourFourLearnEpander_2:
                 st.write(
@@ -71,13 +81,13 @@ def app():
                     **(4,4) Playground is a simulator for understanding and forecasting the bond, claim, and stake strategy**
 
                     Use this simulator to:
-                    - Strategize (4,4) profitability 
-                    - Forecast additional gains from using (4,4) compared to (3,3)
-                    - Forecast additional gains from staking bonding emissions at varying epochs
-                    - OHM growth over time with (4,4) strategy
+                    - Strategize (4,4) profitability
+                    - Compare OHM growth between (3,3) and (4,4) 
+                    - Compare Return on Investment between (3,3) and (4,4)
+                    - Determine how often to stake your vested OHM
                     """
                 )
-    with col4:
+    with col6:
         st.image(learn_44_playground)
     st.markdown('''----''')
     st.info('''

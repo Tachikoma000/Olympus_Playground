@@ -40,18 +40,18 @@ def app():
         with stakeLearnExpander:
             st.write(
                 '''
-                **Staking is the primary value accrual strategy of Olympus**. Stakers stake their OHM on the Olympus website to earn rebase rewards. 
-                The rebase rewards come from the proceed from bond sales, and can vary based on the number of OHM staked in the protocol and the reward rate set by monetary policy
+                **Staking is the primary value accrual strategy of Olympus, we call staking (3,3)**. Stakers stake their OHM on the Olympus website to earn rebase rewards. 
+                The rebase rewards come from the proceeds of bond sales, and can vary based on the number of OHM staked in the protocol and the reward rate set by monetary policy.
         
                 **Staking is a passive, long-term strategy**. The increase in your stake of OHM translates into a constantly falling cost basis converging on zero. 
-                This means even if the market price of OHM drops below your initial purchase price, given a long enough staking period, the increase in your staked OHM balance should eventually outpace the fall in price
+                This means even if the market price of OHM drops below your initial purchase price, given a long enough staking period, the increase in your staked OHM balance should eventually outpace the fall in price.
         
-                **When you stake, you lock OHM and receive an equal amount of sOHM**. Your sOHM balance rebases up automatically at the end of every epoch. 
-                sOHM is transferable and therefore composable with other DeFi protocols
+                **When you stake, you lock OHM and receive an equal amount of sOHM**. Your sOHM balance compounds  automatically at the end of every epoch. 
+                sOHM is transferable and therefore composable with other DeFi protocols such as Rari or Abracadabra. 
+                sOHM continues to rebase while being used in other DeFi protocols or even in your hardware wallet.
         
-                **When you unstake, you burn sOHM and receive an equal amount of OHM**. Unstaking means the user will forfeit the upcoming rebase reward. 
-                Note that the forfeited reward is only applicable to the unstaked amount; the remaining staked OHM (if any) will continue to receive rebase rewards
-            
+                **When you unstake, you burn sOHM and receive an equal amount of OHM**. Unstaking means the user will forfeit the upcoming rebase reward.
+                 Note that the forfeited reward is only applicable to the unstaked amount; the remaining staked OHM (if any) will continue to receive rebase rewards.
                 ''')
     st.markdown('''----''')
     with col4:
@@ -67,19 +67,20 @@ def app():
                 """
                 **(3,3) Playground is a simulator for staking, and income strategies**
 
-                Use this simulator to:
-                - Forecast ROI ar current and future reward yield percent
+                Use this simulator to forecast:
+                - ROI at current and future reward yield percent
                 - OHM growth over time
-                - OHM and USD value over time  
+                - OHM and USD value over time
                 """)
+            st.write("""---""")
 
             st.write(
                 """    
                 Also, use this simulator to strategize:
                 - Required staked OHM to reach desired daily income
-                - Count down until you are earning desired daily income
+                - Time until you are earning your desired daily income
                 - Required staked OHM to reach desired weekly income
-                - Count down until you are earning desired weekly income
+                - Time until you are earning your desired weekly income
                 """)
     st.markdown('''----''')
 
