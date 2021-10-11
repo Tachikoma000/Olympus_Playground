@@ -20,11 +20,11 @@ import base64
 # import awesome_streamlit as ast
 # endregion
 
-playgroundHome = Path(__file__).parents[1] / 'Assets/44_learn_2.png'
-playgroundHome  = Image.open(playgroundHome)
+learnBonding_strat = Path(__file__).parents[1] / 'Assets/44_learn_2.png'
+learnBonding_strat  = Image.open(learnBonding_strat)
 
-learn_44 = Path(__file__).parents[1] / 'Assets/44_curve.png'
-learn_44  = Image.open(learn_44)
+learn_44_playground = Path(__file__).parents[1] / 'Assets/PG_bond_curve_2.png'
+learn_44_playground  = Image.open(learn_44_playground)
 
 
 def app():
@@ -34,7 +34,7 @@ def app():
     col1,col2 = st.columns((1.5,1))
     with col1:
         st.title('')
-        st.image(playgroundHome)
+        st.image(learnBonding_strat)
     with col2:
         st.title('The Bonding strategy')
         bondLearnExpander = st.expander(label = 'Click to view Bonding Strategy', expanded=True)
@@ -78,7 +78,7 @@ def app():
                     """
                 )
     with col4:
-        st.image(learn_44)
+        st.image(learn_44_playground)
     st.markdown('''----''')
     st.info('''
     Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
