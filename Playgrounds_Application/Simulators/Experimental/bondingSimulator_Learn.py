@@ -46,7 +46,7 @@ def app():
             st.write(
                 '''
                 Bonding is the process of locking in a fixed reward in OHM, i.e. a discount of current market price, we call this (1,1) .
-                 You, the bonder, purchases  OHM directly from the Treasury at a discount and the OHM is vested linearly over a period of 5 days.
+                 You, the bonder, purchases  OHM directly from the Treasury at a discount and the OHM is vested linearly over a period of 5 days. Bonding is a short-term, active strategy.  
                  
                  There are two bond types, reserve and liquidity:
                 - Reserve bonds are the primary revenue stream for Olympus. This is simply buying OHM directly from the Treasury. The profit Olympus DAO makes from bonding goes to backing OHM.
