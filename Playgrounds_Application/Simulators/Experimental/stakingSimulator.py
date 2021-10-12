@@ -131,9 +131,9 @@ def app():
         sellDays = st.text_input('Sell Interval (Days)', value = 30)
         percentSale = st.text_input('Total OHMS to sell (%)', value = 5)
 
-    with st.sidebar.expander('Income forecast simulation controls'):
+    with st.sidebar.expander('Staking rewards forecast simulation controls'):
         st.info('''
-                This section allows you simulate what your "income" could be in the form of staking rewards.
+                This section allows you simulate what your staking rewards could be in the future.
             
                 Use this section to input:
                 - Your desired OHM value in USD
