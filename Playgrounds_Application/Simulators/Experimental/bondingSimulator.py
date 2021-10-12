@@ -112,7 +112,7 @@ def app():
         ''')
         st.header('Explanation')
         st.info('''
-        This chart shows you xx
+        The OHM growth comparison chart
         ''')
         st.download_button(
             "Press to download your (4,4) simulation results",
@@ -135,7 +135,16 @@ def app():
             ''')
         st.header('Explanation')
         st.info('''
-        This chart shows you xx
+        This chart contains two trend lines (3,3) ROI and (4,4) ROI. 
+        
+        The (4,4) ROI trend line depicts the bonding ROI based on claim/stake frequency throughout the vesting period. 
+        For example, depending on the control parameters, the highest ROI could be achieved by claiming/staking vested OHM tokens before every epoch, halfway through, or maybe the first four epochs. There might also be scenarios where it is not profitable for you to claim/stake at all. 
+        There could be many claim/stake combinations; the chart tries to predict the best possible combination. 
+        
+        The (3,3) ROI trend line depicts plain staking ROI throughout the same vesting period. 
+
+        This chart compares simple staking (3,3) and the claim/stake (4,4) ROIs throughout the vesting period 
+        (In Olympus, the vesting period is 15 epochs, equivalent to 5 days). 
         ''')
 
     st.write('''---''')

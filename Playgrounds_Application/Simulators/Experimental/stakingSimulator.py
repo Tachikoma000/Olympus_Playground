@@ -138,13 +138,13 @@ def app():
                 Use this section to input:
                 - Your desired OHM value in USD
                 - Your desired amount of OHMS
-                - Your desired daily incooom (AKA desired daily staking rewards)
-                - Your desired weekly incooom (AKA desired weekly staking rewards)
+                - Your desired daily staking rewards
+                - Your desired weekly staking rewards
                         ''')
         desiredUSDTarget = st.text_input('Desired OHM value (USD)', value=10000.0000,)
         desiredOHMTarget = st.text_input('Desired amount of OHMS', value=500.0000, )
-        desiredDailyIncooom = st.text_input('Desired daily incooom (USD)', value=5000.0000,)
-        desiredWeeklyIncooom = st.text_input('Desired weekly incooom (USD)', value=50000.000,)
+        desiredDailyIncooom = st.text_input('Desired daily staking rewards (USD)', value=5000.0000,)
+        desiredWeeklyIncooom = st.text_input('Desired weekly staking rewards (USD)', value=50000.000,)
 
 
         ohmGrowthDays = float(ohmGrowthDays)
@@ -215,7 +215,7 @@ def app():
         with col7:
             st.table(oip18_dataFrame)
         with col8:
-            st.info('Hello')
+            st.info('Learn more about OIP-18 Reward Rate Framework and why its important here: https://forum.olympusdao.finance/d/77-oip-18-reward-rate-framework-and-reduction')
 
     with col6:
         st.header('ROI')
@@ -243,7 +243,7 @@ def app():
         )
     st.write("-----------------------------")
 
-    st.header('Income Forecast')
+    st.header('Staking Rewards Forecast')
     col7, col8 = st.columns((0.25, 0.25))
     with col7:
         st.info(f'''
@@ -256,33 +256,33 @@ def app():
     col9, col10 = st.columns((0.25, 0.25))
     with col9:
         st.info(f'''
-        Days until desired daily income: {forcastDailyIncooom}
+        Days until desired daily staking rewards : {forcastDailyIncooom}
         ''')
     with col10:
         st.info(f'''
-        Days until desired weekly: {forcastWeeklyIncooom}
+        Days until desired weekly staking rewards: {forcastWeeklyIncooom}
         ''')
 
-    with st.expander("Income Breakdown"):
+    with st.expander("Staking Rewards Forcast Breakdown"):
         st.write(f'''
                 Based on your control parameters, these are the predicted outcomes assuming market stability and your parameters
                 hold true. 
 
-                - It would take **{forcastUSDTarget} days** until you accumulate enough ohms worth **$ {desiredUSDTarget}**. Keep in mind that you are also predicting 
+                - It would take **{forcastUSDTarget} days** until you accumulate enough OHMS worth **$ {desiredUSDTarget}**. Keep in mind that you are also predicting 
                 that the price of ohm will be **$ {ohmPrice}** on this day. 
 
-                - It would take **{forcastOHMTarget} days** until you accumulate **{desiredOHMTarget} ohms**. Keep in mind that this prediction is calculated based on 
-                    your selected rebase rate of **{rewardYield} %** and an initial of **{initialOhms} ohms** staked. Use the OIP-18 Framework to adjust your rebase rate parameter. 
+                - It would take **{forcastOHMTarget} days** until you accumulate **{desiredOHMTarget} OHMS**. Keep in mind that this prediction is calculated based on 
+                    your selected rebase rate of **{rewardYield} %** and an initial of **{initialOhms} OHMS** staked. Use the OIP-18 Framework to adjust your rebase rate parameter. 
 
-                - To start earning a daily income of **$ {desiredDailyIncooom}** from staking rewards, you will need **{requiredOHMDailyIncooom} ohms**, 
+                - To start earning daily rewards of **$ {desiredDailyIncooom}** from staking, you will need **{requiredOHMDailyIncooom} OHMS**, 
                 and based on the rebase rate you entered; it would take **{forcastDailyIncooom} days** to reach your goal. 
-                Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} ohms** staked,
-                and predicated price of **$ {ohmPrice}**/ohm
+                Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} OHMS** staked,
+                and predicated price of **$ {ohmPrice}**/OHMS
 
-                - To start earning a weekly income of **$ {desiredWeeklyIncooom}** from staking rewards, you will need **{requiredOHMWeeklyIncooom} ohms**, 
-                and based on the rebase rate you entered; it would take **{forcastWeeklyIncooom}** to reach your goal. 
-                Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} ohms** staked,
-                and predicated price of **$ {ohmPrice}**/ohm
+                - To start earning weekly income of **$ {desiredWeeklyIncooom}** from staking rewards, you will need **{requiredOHMWeeklyIncooom} OHMS**, 
+                and based on the rebase rate you entered; it would take **{forcastWeeklyIncooom} days** to reach your goal. 
+                Remember that this prediction relies on your selected rebase rate of **{rewardYield} %**, initial **{initialOhms} OHMS** staked,
+                and predicated price of **$ {ohmPrice}**/OHMS
                 ''')
     st.write("-----------------------------")
 
