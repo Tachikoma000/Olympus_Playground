@@ -110,17 +110,28 @@ def app():
         - Max (4,4): ** {maxBondGrowth} OHMs**
         - Bonus: ** {ohmGained} OHMs**
         ''')
-        st.header('Explanation')
-        st.info('''
-        The OHM growth comparison chart
-        ''')
-        st.download_button(
-            "Press to download your (4,4) simulation results",
-            vestedOhms_df_CSV,
-            "ohmGrowthSim.csv",
-            "text/csv",
-            key='browser-data'
-        )
+        #st.download_button(
+        #    "Press to download your (4,4) simulation results",
+        #    vestedOhms_df_CSV,
+        #    "ohmGrowthSim.csv",
+        #    "text/csv",
+        #    key='browser-data'
+        #)
+    st.header('Explanation')
+    with st.expander('Click to view'):
+        st.write('''
+                This chart contains two trend lines (3,3) OHM Growth and (4,4) OHM Growth.
+                The (4,4) OHM growth trend line depicts the OHM growth based on claim/stake frequency throughout the vesting period. 
+                As we have learned in the Bonding: Learn page, bonding allows to purchase OHM at a discount from the protocol. 
+                Bonding provides an opportunity to acquire more OHMs when compared to market buying. 
+                This opportunity could be further amplified by claiming/staking vested ohms as they become available to you. 
+                Please see the ROI comparison chart for details on the effects of claiming/staking frequency.
+
+                The (3,3) OHM growth trend line depicts OHM growth throughout the same vesting period.
+                
+                This chart compares simple staking (3,3) and the claim/stake (4,4) OHM growth throughout the vesting period 
+                (In Olympus, the vesting period is 15 epochs, equivalent to 5 days). 
+                    ''')
     st.write("-----------------------------")
     col5,col6 = st.columns((4,1.3))
     with col5:
@@ -133,20 +144,21 @@ def app():
         - Bond ROI: **{bondROI} %**
         - Max (4,4) ROI: **{maxBondROI} %**
             ''')
-        st.header('Explanation')
-        st.info('''
-        This chart contains two trend lines (3,3) ROI and (4,4) ROI. 
-        
-        The (4,4) ROI trend line depicts the bonding ROI based on claim/stake frequency throughout the vesting period. 
-        For example, depending on the control parameters, the highest ROI could be achieved by claiming/staking vested OHM tokens before every epoch, halfway through, or maybe the first four epochs. There might also be scenarios where it is not profitable for you to claim/stake at all. 
-        There could be many claim/stake combinations; the chart tries to predict the best possible combination. 
-        
-        The (3,3) ROI trend line depicts plain staking ROI throughout the same vesting period. 
 
-        This chart compares simple staking (3,3) and the claim/stake (4,4) ROIs throughout the vesting period 
-        (In Olympus, the vesting period is 15 epochs, equivalent to 5 days). 
-        ''')
+    st.header('Explanation')
+    with st.expander('Click to view'):
+        st.write('''
+                    This chart contains two trend lines (3,3) ROI and (4,4) ROI. 
 
+                    The (4,4) ROI trend line depicts the bonding ROI based on claim/stake frequency throughout the vesting period. 
+                    For example, depending on the control parameters, the highest ROI could be achieved by claiming/staking vested OHM tokens before every epoch, halfway through, or maybe the first four epochs. There might also be scenarios where it is not profitable for you to claim/stake at all. 
+                    There could be many claim/stake combinations; the chart tries to predict the best possible combination. 
+
+                    The (3,3) ROI trend line depicts plain staking ROI throughout the same vesting period. 
+
+                    This chart compares simple staking (3,3) and the claim/stake (4,4) ROIs throughout the vesting period 
+                    (In Olympus, the vesting period is 15 epochs, equivalent to 5 days). 
+                    ''')
     st.write('''---''')
 
     st.info('''

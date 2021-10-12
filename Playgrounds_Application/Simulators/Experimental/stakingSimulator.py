@@ -209,13 +209,15 @@ def app():
     with col5:
         st.header('OHM Growth Forecast')
         st.plotly_chart(ohmGrowthResult_df_Chart,use_container_width=True)
-        st.header('OIP-18 Reward Rate Framework')
+    st.header('Explanation')
+    with st.expander('Click to view', expanded=True):
+        st.write(f'''
+        This chart shows you the ohm growth projection over **{ohmGrowthDays} days** days. Projection is calculated based on your selected rebase rate of **{rewardYield} %** and an initial **{initialOhms} ohms**.
+                ''')
+    st.header('OIP-18 Reward Rate Framework')
     with st.expander('Click to view'):
-        col7, col8 = st.columns((3.2,1))
-        with col7:
-            st.table(oip18_dataFrame)
-        with col8:
-            st.info('Learn more about OIP-18 Reward Rate Framework and why its important here: https://forum.olympusdao.finance/d/77-oip-18-reward-rate-framework-and-reduction')
+        st.table(oip18_dataFrame)
+        st.info('Learn more about OIP-18 Reward Rate Framework and why its important here: https://forum.olympusdao.finance/d/77-oip-18-reward-rate-framework-and-reduction')
 
     with col6:
         st.header('ROI')
@@ -230,10 +232,6 @@ def app():
         
         - 1 Year ROI: **{oneYearROI} %**
         ''')
-        with st.expander('Chart Explanation', expanded=True):
-            st.write(f'''
-            This chart shows you the ohm growth projection over **{ohmGrowthDays} days** days. Projection is calculated based on your selected rebase rate of **{rewardYield} %** and an initial **{initialOhms} ohms**.
-                     ''')
         st.download_button(
             "Press to download your (3,3) simulation results",
             ohmGrowth_df_CSV,

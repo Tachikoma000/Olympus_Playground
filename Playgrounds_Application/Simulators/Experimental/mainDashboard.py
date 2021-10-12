@@ -113,7 +113,7 @@ def app():
     explorer_chart.update_yaxes(title = 'Metrics',showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,mirror=True)
     st.plotly_chart(explorer_chart, use_container_width=True)
     st.subheader('Selected metrics in tabulated view')
-    with st.expander("Click me!"):
+    with st.expander("Click to view"):
         st.write(selected_metric_df)
         st.download_button(
             "Press to download selected protocol metrics data",
