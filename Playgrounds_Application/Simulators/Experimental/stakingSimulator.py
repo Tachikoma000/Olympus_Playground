@@ -185,8 +185,8 @@ def app():
 
     ohmGrowthResult_df_Chart = go.Figure()
 
-    ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Total_Ohms, name='(3,3) ROI  ', fill=None, ))
-    ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Profit_Adjusted_Total_Ohms, name='(3,3) Profit adjusted ROI  ', fill='tonexty', ))
+    ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Total_Ohms, name='(3,3) ROI  ', fill=None ))
+    ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Profit_Adjusted_Total_Ohms, name='(3,3) Profit adjusted ROI  '))
     #ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Min_OhmGrowth, name='Min Growth Rate  ', fill=None, ))
     #ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Max_OhmGrowth, name='Max Growth Rate  ', fill='tonexty', ))
 
@@ -286,6 +286,16 @@ def app():
                 ''')
     st.write("-----------------------------")
 
+    st.info('''
+    Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
+
+    References to system governing equations can be found here
+    [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
+    the mechanics of Olympus protocol
+
+    Forecasts are for educational purposes alone and should not be construed as financial advice
+        ''')
+
     #st.info('Forcasts are for educational purposes alone and should not be used as financial advice')
 # end region
 
@@ -322,7 +332,7 @@ def ohmGrowth_Projection(initialOhms, rewardYield, ohmGrowthDays, percentSale, s
         pA_ohmStakedGrowth = pA_ohmStakedGrowth * (1 + rewardYield)
         if elements == sellEpochs:
             sellEpochs = sellEpochs + cadenceConst
-            print(totalOhms[-1] - (totalOhms[-1] * percentSale))
+            #print(totalOhms[-1] - (totalOhms[-1] * percentSale))
             pA_ohmStakedGrowth = pA_totalOhms[-1] - (pA_totalOhms[-1]*percentSale)
         else:
             pass

@@ -138,6 +138,18 @@ def app():
         This chart shows you xx
         ''')
 
+    st.write('''---''')
+
+    st.info('''
+    Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
+
+    References to system governing equations can be found here
+    [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
+    the mechanics of Olympus protocol
+
+    Forecasts are for educational purposes alone and should not be construed as financial advice
+        ''')
+
 # region Description: Function to calculate ohm growth over time
 def bondingSimulation(ohmPrice,priceofETH,initialOhms,bondROI,rewardYield,gwei):
     # Protocol and ohm calcs:
