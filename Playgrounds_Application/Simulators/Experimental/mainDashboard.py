@@ -19,8 +19,8 @@ import base64
 import requests
 
 
-bondingLearn_1 = Path(__file__).parents[1] / 'Assets/PG_bond.png'
-bondingLearn_1  = Image.open(bondingLearn_1)
+explorer_Logo = Path(__file__).parents[1] / 'Assets/PG_explorer_logo.png'
+explorer_Logo  = Image.open(explorer_Logo)
 
 # import awesome_stream lit as ast
 # endregion
@@ -72,18 +72,35 @@ def app():
 
 
 # do stuff with the data: app
-    st.sidebar.info('Some information on what this page is about')
-    st.sidebar.info('Instructions')
+    st.sidebar.info('''
+        **Playgrounds Ω Explorer** is designed to give you deeper insight into historical protocol data.
+        Using this tool, you can view the historical data for a single or multiple protocol metrics (i.e. RFV growth over time, supply growth,
+        or even the current runway).
+        
+        Have some fun! We can't wait to see the insight you discover!
+        ''')
+    st.sidebar.info('''
+        **Instructions**
+        - **Metrics filter tool**: Use the metrics filter dropdown tool to select the metric/metrics you care about! The chart is designed to scale and accommodate all protocol metrics available! 
+        - **Date filter**: In addition to filtering by metrics, you can also filter by time frames. Use the Start/End Date filter to expand or narrow down your time scale
+        - **Metrics Visualized**: The chart is an incredibly powerful tool for you to view and analyze your selected metric/metrics. Here are some cool things you can do:
 
-    st.title('Playgrounds Ω Explorer')
+            - Hide and view trend lines by clicking on the legend
+            - Use the toolbar to access tools such as zoom, pan, data comparison, spike lines, and download
+        
+        - **Selected Metrics**: For the data table lovers, access your selected metrics in tabular form and download them as CSV! 
+        ''')
+
+    col1, col2 = st.columns((1,1))
+    with col1:
+        st.image(explorer_Logo)
     st.markdown('''----''')
 
-
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric(label="OHM Price", value ="$ %.2f" % protocolMetrics_df.ohmPrice.iloc[0])
-    col2.metric(label="Market Cap", value = millify(protocolMetrics_df.marketCap.iloc[0], precision = 3))
-    col3.metric(label="Total Supply", value = millify(protocolMetrics_df.totalSupply.iloc[0], precision = 3))
-    col4.metric(label="Rebase Rate", value="%.4f" % protocolMetrics_df.nextEpochRebase.iloc[0])
+    col3, col4, col5, col6 = st.columns(4)
+    col3.metric(label="OHM Price", value ="$ %.2f" % protocolMetrics_df.ohmPrice.iloc[0])
+    col4.metric(label="Market Cap", value = millify(protocolMetrics_df.marketCap.iloc[0], precision = 3))
+    col5.metric(label="Total Supply", value = millify(protocolMetrics_df.totalSupply.iloc[0], precision = 3))
+    col6.metric(label="Rebase Rate", value="%.4f" % protocolMetrics_df.nextEpochRebase.iloc[0])
     st.markdown('''----''')
 
 
@@ -92,10 +109,10 @@ def app():
     selected_metric = st.multiselect("",protocolMetrics_df.columns.tolist(),default=cols)
     selected_metric_df = protocolMetrics_df[selected_metric]
     st.subheader('Filter by date')
-    col5,col6 = st.columns((1,1))
-    with col5:
+    col7,col8 = st.columns((1,1))
+    with col7:
         startDate = st.date_input('Start Date',selected_metric_df.index.min())
-    with col6:
+    with col8:
         endDate = st.date_input('End Date',selected_metric_df.index.max())
     if startDate < endDate:
         pass
