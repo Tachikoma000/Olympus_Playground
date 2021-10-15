@@ -65,7 +65,7 @@ def app():
         with threeThreeLearnExpander:
             st.write(
                 """
-                **(3,3) Playground is a simulator for staking, and income strategies**
+                **(3,3) Playground is a simulator for staking, and reward strategies**
 
                 Use this simulator to forecast:
                 - ROI at current and future reward yield percent
@@ -77,10 +77,10 @@ def app():
             st.write(
                 """    
                 Also, use this simulator to strategize:
-                - Required staked OHM to reach desired daily income
-                - Time until you are earning your desired daily income
-                - Required staked OHM to reach desired weekly income
-                - Time until you are earning your desired weekly income
+                - Required staked OHM to reach desired daily staking rewards
+                - Time until you are earning your desired daily staking rewards
+                - Required staked OHM to reach desired weekly staking rewards
+                - Time until you are earning your desired weekly staking rewards
                 """)
     st.markdown('''----''')
 

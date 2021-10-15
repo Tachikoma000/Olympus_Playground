@@ -24,7 +24,7 @@ bondingPlay_Logo  = Image.open(bondingPlay_Logo)
 # region Description: Build the app
 def app():
 
-    with st.sidebar.expander('How to use'):
+    with st.sidebar.expander('Welcome'):
         st.write('''
                 Bonding simulation charts show you optimum ROI based on claiming and staking frequency over the 5 day vesting period. 
                 
@@ -69,7 +69,7 @@ def app():
     stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_Growth,name='(3,3) Growth', line=dict(color='#ff2a0a', width=2)))
 
     stake_bond_chart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
-    stake_bond_chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01))
+    stake_bond_chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),xaxis_title = "Epochs (Vesting period)", yaxis_title = "Total Ohms")
     stake_bond_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
     stake_bond_chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
@@ -84,7 +84,7 @@ def app():
     stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_ROI,name='(3,3) ROI  ', fill=None,line=dict(color='#ff2a0a', width=2)))
 
     stake_bond_ROIchart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
-    stake_bond_ROIchart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01))
+    stake_bond_ROIchart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), xaxis_title = "Epochs (Vesting period)", yaxis_title = "ROI based on claim/stake frequency")
     stake_bond_ROIchart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
     stake_bond_ROIchart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
@@ -110,6 +110,14 @@ def app():
         - Max (4,4): ** {maxBondGrowth} OHMs**
         - Bonus: ** {ohmGained} OHMs**
         ''')
+        st.header('Chart Instructions')
+        with st.expander('Click to view'):
+            st.write('''
+             The chart is designed to be interactive and allows you to view and analyze your results. Here are some cool things you can do:
+
+             - Hide and view trend lines by clicking on the legends
+
+             - Use the toolbar to access tools such as zoom, pan, data comparison, spike lines, and download. The tool bar is revealed when you hover your mouse on the chart''')
         #st.download_button(
         #    "Press to download your (4,4) simulation results",
         #    vestedOhms_df_CSV,
@@ -144,6 +152,14 @@ def app():
         - Bond ROI: **{bondROI} %**
         - Max (4,4) ROI: **{maxBondROI} %**
             ''')
+        st.header('Chart Instructions')
+        with st.expander('Click to view'):
+            st.write('''
+             The chart is designed to be interactive and allows you to view and analyze your results. Here are some cool things you can do:
+
+             - Hide and view trend lines by clicking on the legends
+
+             - Use the toolbar to access tools such as zoom, pan, data comparison, spike lines, and download. The tool bar is revealed when you hover your mouse on the chart''')
 
     st.header('Explanation')
     with st.expander('Click to view'):
