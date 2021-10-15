@@ -145,7 +145,6 @@ def app():
 
     st.subheader('Metrics Definitions')
     st.info('''
-    Write code to pass definitions here
     - Total Value Deposited: Total Value Locked, is the dollar amount of all OHM staked in the protocol. 
                             This metric is often used as growth or health indicator in DeFi projects.
                             
