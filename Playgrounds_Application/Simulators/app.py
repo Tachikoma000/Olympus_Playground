@@ -60,7 +60,7 @@ with col3:
     st.write(' ')
     st.write(' ')
 
-lottie_waiting = load_lottieurl('https://lottiefiles.com/21319-particle-wave-with-depth')
+lottie_waiting = load_lottieurl('https://assets7.lottiefiles.com/packages/lf20_3GxFSt.json')
 st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
 #https://assets4.lottiefiles.com/packages/lf20_476npssk.json
 #https://assets1.lottiefiles.com/private_files/lf30_1Zdfht.json
