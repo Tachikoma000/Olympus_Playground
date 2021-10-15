@@ -67,7 +67,7 @@ def app():
                  There are multiple ways to implement this strategy such as staking before every epoch or before every other epoch. The frequency would depend on the bond amount as well as gas prices.
 
                 (4,4) has a drawback of requiring a lot of gas since it requires 15 smart contract interactions for the optimal strategy. 
-                Thus using the Playground, you can simulate how often you should stake your vested OHM from your bond.
+                With Playground, you can simulate how often you should stake your vested OHM from your bond.
                 """)
     st.markdown('''----''')
 

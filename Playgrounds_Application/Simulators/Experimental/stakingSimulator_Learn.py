@@ -41,7 +41,7 @@ def app():
             st.write(
                 '''
                 **Staking is the primary value accrual strategy of Olympus, we call staking (3,3)**. Stakers stake their OHM on the Olympus website to earn rebase rewards. 
-                The rebase rewards come from the proceeds of bond sales, and can vary based on the number of OHM staked in the protocol and the reward rate set by monetary policy.
+                The rebase rewards come from the proceeds of bond sales, and can vary based on the number of OHM staked in the protocol and the reward rate set by the protocol.
         
                 **Staking is a passive, long-term strategy**. The increase in your stake of OHM translates into a constantly falling cost basis converging on zero. 
                 This means even if the market price of OHM drops below your initial purchase price, given a long enough staking period, the increase in your staked OHM balance should eventually outpace the fall in price.

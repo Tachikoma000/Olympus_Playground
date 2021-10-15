@@ -138,7 +138,7 @@ def app():
 
     with st.sidebar.expander('Staking rewards forecast simulation controls'):
         st.info('''
-                This section allows you simulate what your staking rewards could be in the future.
+                This section allows you to simulate your future staking rewards.
             
                 Use this section to input:
                 - Your desired OHM value in USD
@@ -286,13 +286,13 @@ def app():
                 - It would take **{forcastOHMTarget} days** until you accumulate **{desiredOHMTarget} OHMS**. Keep in mind that this prediction is calculated based on 
                     your selected APY% of **{userAPY} %** and an initial of **{initialOhms} OHMS** staked. Use the OIP-18 Framework to adjust your APY% parameter. 
 
-                - To start earning daily rewards of **$ {desiredDailyIncooom}** from staking, you will need **{requiredOHMDailyIncooom} OHMS**, 
-                and based on the rebase rate you entered; it would take **{forcastDailyIncooom} days** to reach your goal. 
+                - To start earning daily rewards of **$ {desiredDailyIncooom}**, you will need **{requiredOHMDailyIncooom} OHMS**, 
+                and based on the APY% you entered; it would take **{forcastDailyIncooom} days** to reach your goal. 
                 Remember that this prediction relies on your selected APY% of **{userAPY} %**, initial **{initialOhms} OHMS** staked,
                 and predicated price of **$ {ohmPrice}**/OHMS
 
-                - To start earning weekly income of **$ {desiredWeeklyIncooom}** from staking rewards, you will need **{requiredOHMWeeklyIncooom} OHMS**, 
-                and based on the rebase rate you entered; it would take **{forcastWeeklyIncooom} days** to reach your goal. 
+                - To start earning weekly reward of **$ {desiredWeeklyIncooom}**, you will need **{requiredOHMWeeklyIncooom} OHMS**, 
+                and based on the APY% you entered; it would take **{forcastWeeklyIncooom} days** to reach your goal. 
                 Remember that this prediction relies on your selected APY% of **{userAPY} %**, initial **{initialOhms} OHMS** staked,
                 and predicated price of **$ {ohmPrice}**/OHMS
                 ''')
@@ -311,7 +311,7 @@ def app():
         ''')
         st.table(oip18_dataFrame)
         st.info('''
-                - Learn more about OIP-18 Reward Rate Framework and why its important here: https://forum.olympusdao.finance/d/77-oip-18-reward-rate-framework-and-reduction'
+                - Learn more about OIP-18 Reward Rate Framework and why it's important here: https://forum.olympusdao.finance/d/77-oip-18-reward-rate-framework-and-reduction'
                 - Gain deeper insight on the OIP-18 Frame work and view some tier transition predictions here: https://dune.xyz/pottedmeat/Emissions-Predictions
                 ''')
 
@@ -321,7 +321,7 @@ def app():
     Learn more here: https://docs.olympusdao.finance/protocol-internals/market-dynamics
 
     References to system governing equations can be found here
-    [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is a the best source for due diligence and understanding
+    [OlympusDAO Gitbook:](https://docs.olympusdao.finance/) The gitbook is the best source for due diligence and understanding
     the mechanics of Olympus protocol
 
     Forecasts are for educational purposes alone and should not be construed as financial advice
