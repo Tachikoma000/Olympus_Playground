@@ -136,6 +136,22 @@ def app():
         sellDays = st.text_input('Sell Interval (Days)', value = 30)
         percentSale = st.text_input('Total OHMS to sell (%)', value = 5)
 
+    with st.sidebar.expander('Dollar cost averaging simulation controls'):
+        st.info('''
+        This section allows you to simulte and compare your ohm growth if you decide to buy additional OHM at certain intervals
+        
+        Use this section to input:
+        - Buying intervals (Days). (I.e I want to buy every 30 days)
+        - Assumed price of OHM during your buy days.
+        - Value of OHMs to buy on your buy days. (I.e Assuming my desired price of OHM is reached, I want to buy $xx worth) 
+        
+        It is difficult to predict the price of OHM in the future, so please use this section with caution
+        ''')
+
+        ohmPrice_DCA = st.text_input('Assumed OHM price ($)', value = 1000)
+        valBuy = st.text_input('Value to buy ($)', value = 500)
+        buyDays = st.text_input('Buy interval (Days)', value = 30)
+
     with st.sidebar.expander('Staking rewards forecast simulation controls'):
         st.info('''
                 This section allows you to simulate your future staking rewards.
@@ -160,12 +176,15 @@ def app():
         maxAPY = float(maxAPY)
         sellDays = float(sellDays)
         percentSale = float(percentSale)
+        ohmPrice_DCA = float(ohmPrice_DCA)
+        buyDays = float(buyDays)
+        valBuy = float(valBuy)
         desiredUSDTarget = float(desiredUSDTarget)
         desiredOHMTarget = float(desiredOHMTarget)
         desiredDailyIncooom = float(desiredDailyIncooom)
         desiredWeeklyIncooom = float(desiredWeeklyIncooom)
 
-    ohmGrowthResult_df,ohmGrowth_df_CSV = ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays,minAPY,maxAPY, percentSale, sellDays)
+    ohmGrowthResult_df,ohmGrowth_df_CSV = ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays,minAPY,maxAPY, percentSale, sellDays, ohmPrice_DCA, valBuy, buyDays)
     roiSimulationResult_df,incooomSimulationResult_df,rewardYield = incooomProjection(ohmPrice,userAPY, initialOhms, desiredUSDTarget,desiredOHMTarget, desiredDailyIncooom,desiredWeeklyIncooom)
 
     dailyROI = float(roiSimulationResult_df.Percentage[0])
@@ -185,6 +204,7 @@ def app():
     ohmGrowth_X = ohmGrowthResult_df.Days
     ohmGrowth_Y = ohmGrowthResult_df.Total_Ohms
     ProfitAdjusted_ohmGrowth_Y = ohmGrowthResult_df.Profit_Adjusted_Total_Ohms
+    dollarCostAverage_ohmGrowth_Y = ohmGrowthResult_df.DCA_Adjusted_Total_Ohms
     minohmGrowth_Y = ohmGrowthResult_df.Min_OhmGrowth
     maxohmGrowth_Y = ohmGrowthResult_df.Max_OhmGrowth
 
@@ -192,6 +212,7 @@ def app():
 
     ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Total_Ohms, name='(3,3) ROI  ', fill=None ))
     ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Profit_Adjusted_Total_Ohms, name='(3,3) Profit adjusted ROI  '))
+    ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.DCA_Adjusted_Total_Ohms,name='(3,3) DCA adjusted ROI  '))
     ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Min_OhmGrowth, name='Min Growth Rate  ', fill=None, ))
     ohmGrowthResult_df_Chart.add_trace(go.Scatter(x=ohmGrowthResult_df.Days, y=ohmGrowthResult_df.Max_OhmGrowth, name='Max Growth Rate  ', fill=None, ))
 
@@ -332,16 +353,20 @@ def app():
 
 
 # region Description: Function to calculate ohm growth over time
-def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,percentSale, sellDays):
+def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,percentSale, sellDays, ohmPrice_DCA, valBuy, buyDays):
 
     # Data frame to hold all required data point. Data required would be Epochs since rebase are distributed every Epoch
     ohmGrowthEpochs = (ohmGrowthDays * 3)+1
     sellEpochs = sellDays * 3
+    buyEpochs = buyDays * 3
     cadenceConst = sellEpochs
+    cadenceConst_BUY = buyEpochs
+    dcaAmount = valBuy/ohmPrice_DCA
     percentSale = percentSale/100
     userAPY = userAPY/100
     minAPY = minAPY/100
     maxAPY = maxAPY/100
+
 
     rewardYield = ((1+userAPY)**(1/float(1095)))-1
     minOIPYield = ((1 + minAPY) ** (1 / float(1095))) - 1
@@ -354,32 +379,54 @@ def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,per
     profitAdjusted_ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])
     profitAdjusted_ohmGrowth_df['Days'] = profitAdjusted_ohmGrowth_df.Epochs / 3
 
+    dollarCostAVG_ohmGrowth_df = pd.DataFrame(np.arange(ohmGrowthEpochs),columns=['Epochs'])
+    dollarCostAVG_ohmGrowth_df['Days'] = profitAdjusted_ohmGrowth_df.Epochs / 3
+
     # To Calculate the ohm growth over 3000 Epochs or 1000 days, we loop through the exponential ohm growth equation every epoch
     totalOhms = []  # create an empty array that will hold the componded rewards
     pA_totalOhms = []
+    dcA_totalOhms = []
 
     rewardYield = round(rewardYield, 5)
     ohmStakedGrowth = initialOhms  # Initial staked ohms used to project growth over time
     pA_ohmStakedGrowth = initialOhms
+    dcA_ohmStakedGrowth = initialOhms
 
 
     # Initialize the for loop to have loops equal to number of rows or number of epochs
     for elements in ohmGrowth_df.Epochs:
         totalOhms.append(ohmStakedGrowth)  # populate the empty array with calclated values each iteration
         pA_totalOhms.append(pA_ohmStakedGrowth)
+        dcA_totalOhms.append(dcA_ohmStakedGrowth)
+
+
         ohmStakedGrowth = ohmStakedGrowth * (1 + rewardYield)  # compound the total amount of ohms
         pA_ohmStakedGrowth = pA_ohmStakedGrowth * (1 + rewardYield)
+        dcA_ohmStakedGrowth = dcA_ohmStakedGrowth * (1 + rewardYield)
+
         if elements == sellEpochs:
             sellEpochs = sellEpochs + cadenceConst
             #print(totalOhms[-1] - (totalOhms[-1] * percentSale))
             pA_ohmStakedGrowth = pA_totalOhms[-1] - (pA_totalOhms[-1]*percentSale)
         else:
             pass
+
+        if elements == buyEpochs:
+            buyEpochs = buyEpochs + cadenceConst_BUY
+            #print(dcA_ohmStakedGrowth)
+            dcA_ohmStakedGrowth = dcA_ohmStakedGrowth + dcaAmount
+            #print(dcA_ohmStakedGrowth)
+        else:
+            pass
+
     ohmGrowth_df['Total_Ohms'] = totalOhms  # Clean up and add the new array to the main data frame
     ohmGrowth_df['Profit_Adjusted_Total_Ohms'] = pA_totalOhms
+    ohmGrowth_df['DCA_Adjusted_Total_Ohms'] = dcA_totalOhms
     ohmGrowth_df.Days = np.around( ohmGrowth_df.Days, decimals=1)  # Python is funny so let's round up our numbers . 1 decimal place for days",
     ohmGrowth_df.Total_Ohms = np.around( ohmGrowth_df.Total_Ohms, decimals=3 )  # Python is funny so let's round up our numbers . 3 decimal place for ohms"
     ohmGrowth_df.Profit_Adjusted_Total_Ohms = np.around(ohmGrowth_df.Profit_Adjusted_Total_Ohms, decimals=3)
+    ohmGrowth_df.DCA_Adjusted_Total_Ohms = np.around(ohmGrowth_df.DCA_Adjusted_Total_Ohms, decimals=3)
+
 
     totalOhms_minOIPRate = []
     minOIPYield = round(minOIPYield, 5)
