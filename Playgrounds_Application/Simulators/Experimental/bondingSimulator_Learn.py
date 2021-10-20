@@ -98,5 +98,14 @@ def app():
     the mechanics of Olympus protocol
     
     Forecasts are for educational purposes alone and should not be construed as financial advice
+    
+    **Disclaimer**
+    
+    Olympus Playgrounds is for educational purposes only and is not an individualized recommendation.
+    Further Olympus Playgrounds are an educational tool and should not be relied upon as the primary basis for investment, financial, tax-planning, or retirement decisions.
+    These metrics are not tailored to the investment objectives of a specific user.
+    This educational information neither is, nor should be construed as, investment advice, financial guidance or an offer or a solicitation or recommendation to buy, sell, or hold any security, or to engage in any specific investment strategy by Olympus Playgrounds.
+    These metrics used herein may change at any time and Olympus Playgrounds will not notify you when such changes are made. 
+    You are responsible for doing your own diligence at all times.
         ''')
 # endregion

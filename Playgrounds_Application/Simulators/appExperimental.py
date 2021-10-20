@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from Experimental import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator, mainDashboard
+from Experimental import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator, mainDashboard, disclaimer
 import pathlib
 from pathlib import Path
 st.set_page_config(layout="wide")
@@ -16,7 +16,8 @@ PAGES = {
     "Staking: Learn": stakingSimulator_Learn,
     "Staking:  Playground": stakingSimulator,
     "Bonding: Learn": bondingSimulator_Learn,
-    "Bonding: Playground": bondingSimulator
+    "Bonding: Playground": bondingSimulator,
+    "Disclaimer": disclaimer
     # end of section 4
 }
 
