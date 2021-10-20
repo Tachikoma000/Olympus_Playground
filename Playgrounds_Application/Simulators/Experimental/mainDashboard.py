@@ -161,6 +161,11 @@ def app():
             
     - Runway Available: Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway
     
+    **API information**
+    
+    API calls for Protocol metrics could be delayed up to 24 hours
+    ''')
+    st.info('''
     **Disclaimer**
     
     Olympus Playgrounds is for educational purposes only and is not an individualized recommendation.
@@ -169,5 +174,6 @@ def app():
     This educational information neither is, nor should be construed as, investment advice, financial guidance or an offer or a solicitation or recommendation to buy, sell, or hold any security, or to engage in any specific investment strategy by Olympus Playgrounds.
     These metrics used herein may change at any time and Olympus Playgrounds will not notify you when such changes are made. 
     You are responsible for doing your own diligence at all times.
+    
     ''')
 # endregion
