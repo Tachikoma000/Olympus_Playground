@@ -1,0 +1,28 @@
+Needs:
+
+Klima Playgrounds
+- Need data infrastructure: Api, data sources
+- BCT tracking and usd value tracking
+- ORACLE and subgraph
+
+
+Operationsl stuff
+- CI pipeline for production 
+
+
+- Forking repo for klima and rename to klima playground
+
+Compensation
+- Defer to core team
+
+shared functionality
+- Feature request on both communities
+
+
+Mugen
+- Compensation will be easier to track 
+- Will be easier to provide assets to KlimaDAO
+
+
+Time frame
+Few weeks to a month

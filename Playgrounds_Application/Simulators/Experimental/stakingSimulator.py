@@ -151,6 +151,8 @@ def app():
         ohmPrice_DCA = st.text_input('Assumed OHM price ($)', value = 1000)
         valBuy = st.text_input('Value to buy ($)', value = 500)
         buyDays = st.text_input('Buy interval (Days)', value = 30)
+        #priceofETH = st.text_input('Price of ETH ($) (Needed for gas calculation)', value = 3000)
+        #gwei = st.text_input('Eth network fee', value = 40)
 
     with st.sidebar.expander('Staking rewards forecast simulation controls'):
         st.info('''
@@ -179,6 +181,8 @@ def app():
         ohmPrice_DCA = float(ohmPrice_DCA)
         buyDays = float(buyDays)
         valBuy = float(valBuy)
+        #priceofETH = float(priceofETH)
+        #gwei = float(gwei)
         desiredUSDTarget = float(desiredUSDTarget)
         desiredOHMTarget = float(desiredOHMTarget)
         desiredDailyIncooom = float(desiredDailyIncooom)
@@ -376,6 +380,9 @@ def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,per
     minAPY = minAPY/100
     maxAPY = maxAPY/100
 
+    #stakingGasFee = 179123 * ((gwei * priceofETH) / (10 ** 9))
+    #unstakingGasFee = 89654 * ((gwei * priceofETH) / (10 ** 9))
+
 
     rewardYield = ((1+userAPY)**(1/float(1095)))-1
     minOIPYield = ((1 + minAPY) ** (1 / float(1095))) - 1
@@ -423,7 +430,7 @@ def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,per
         if elements == buyEpochs:
             buyEpochs = buyEpochs + cadenceConst_BUY
             #print(dcA_ohmStakedGrowth)
-            dcA_ohmStakedGrowth = dcA_ohmStakedGrowth + dcaAmount
+            dcA_ohmStakedGrowth = (dcA_ohmStakedGrowth + dcaAmount)
             #print(dcA_ohmStakedGrowth)
         else:
             pass
