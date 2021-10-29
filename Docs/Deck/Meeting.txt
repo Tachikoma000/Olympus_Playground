@@ -1,0 +1,75 @@
+protean labs (the graph) - Thierry and stopher
+	Domain specific language for the graph 
+	wave2 cohort from the graph grant program
+	research on data analytics tool ontop of the graph
+	Simplification of the graph schemas
+	overlap between playgrounds and protean labs!
+
+khyezr - Real life - tradefi job in finance
+	- generalist
+	- mod on klimaDAO
+	- Creative side (photoshop experience, photography, final cut pro)
+	- Testing and creative 
+
+kschan - Content team in olympus DAO
+	- Manages the various teams
+	- Provides feedback on playgrounds
+	- Testing on playgrounds
+	
+Marcus  - KlimaDAO 
+	- Mod Klima community
+	- Discord bots
+	- Core developer and dev ops engineer and data engineer
+	- Convert infrastructure
+
+Mugen - OlympusDAO
+	- Day 1 OG 
+	- Master collaborator and creative chief
+
+Reikuman - KlimaDAO
+	- Finance in realife
+	- mod in Klima
+
+
+Classroom 
+- People are not interested in reading.
+- Gamified NFT reward model
+
+
+
+	- Educational content and infographics
+	- Brought in by tigerlilly
+
+Stooopid - KlimaDAO
+	- Klimaplayground
+	- Creatives and information design
+	- Data extrapolation
+
+Tigerlilly - OlympusDAO
+	- Playgrounds admin and master helper
+	- Operations manager
+	- Data and web analytics
+	- Marketing, operations, data
+
+
+Playgrounds Logo
+- Creativity
+- Product main brand
+- Bigger umbrella and sub logos
+- Generic 
+
+Place classroom for future until we have more capacity
+output will be plotly 
+move away from streamlit to dash and plotly 
+automating importation of data model and automatically generate code like an ORM
+shared schema that will display data and dashboard
+auto genrated subgraphs 
+
+Notion for work tracking anf project management
+need a universal work tracking tool 
+github as source of truth 
+github issues and project management
+Toggle for time tracking
+for content team, deliverables is used for compensations
+time tracking and feautures delivered and tickets closed is a good way
+variable component 

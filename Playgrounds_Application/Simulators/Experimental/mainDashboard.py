@@ -25,7 +25,6 @@ explorer_Logo  = Image.open(explorer_Logo)
 # import awesome_stream lit as ast
 # endregion
 def app():
-    @st.cache
     def run_query(q):
 
         # endpoint where you are making the request

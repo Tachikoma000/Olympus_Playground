@@ -3,7 +3,14 @@ from PIL import Image
 from Experimental import home, stakingSimulator, stakingSimulator_Learn, bondingSimulator_Learn, bondingSimulator, mainDashboard, disclaimer
 import pathlib
 from pathlib import Path
-st.set_page_config(layout="wide")
+
+
+
+menu_items = {
+	'Report a bug': 'https://ohm.fyi/feedback',
+    'Get help': 'https://discord.com/invite/6QjjtUcfM4',
+}
+st.set_page_config(layout="wide", menu_items=menu_items)
 
 CURRENT_THEME = "dark"
 IS_DARK_THEME = True
@@ -31,10 +38,9 @@ st.sidebar.write('------------------')
 
 hide_streamlit_style = """
             <style>
-                #MainMenu {visibility: hidden;}
                 footer {visibility: hidden;}
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
+#MainMenu {visibility: hidden;}
 page.app()
