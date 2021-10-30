@@ -151,8 +151,8 @@ def app():
         ohmPrice_DCA = st.text_input('Assumed OHM price ($)', value = 1000)
         valBuy = st.text_input('Value to buy ($)', value = 500)
         buyDays = st.text_input('Buy interval (Days)', value = 30)
-        #priceofETH = st.text_input('Price of ETH ($) (Needed for gas calculation)', value = 3000)
-        #gwei = st.text_input('Eth network fee', value = 40)
+        priceofETH = st.text_input('Price of ETH ($) (Needed for gas calculation)', value = 3000)
+        gwei = st.text_input('Eth network fee', value = 40)
 
     with st.sidebar.expander('Staking rewards forecast simulation controls'):
         st.info('''
@@ -181,14 +181,14 @@ def app():
         ohmPrice_DCA = float(ohmPrice_DCA)
         buyDays = float(buyDays)
         valBuy = float(valBuy)
-        #priceofETH = float(priceofETH)
-        #gwei = float(gwei)
+        priceofETH = float(priceofETH)
+        gwei = float(gwei)
         desiredUSDTarget = float(desiredUSDTarget)
         desiredOHMTarget = float(desiredOHMTarget)
         desiredDailyIncooom = float(desiredDailyIncooom)
         desiredWeeklyIncooom = float(desiredWeeklyIncooom)
 
-    ohmGrowthResult_df,ohmGrowth_df_CSV = ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays,minAPY,maxAPY, percentSale, sellDays, ohmPrice_DCA, valBuy, buyDays)
+    ohmGrowthResult_df,ohmGrowth_df_CSV = ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays,minAPY,maxAPY, percentSale, sellDays, ohmPrice_DCA, valBuy, buyDays, gwei, priceofETH)
     roiSimulationResult_df,incooomSimulationResult_df,rewardYield = incooomProjection(ohmPrice,userAPY, initialOhms, desiredUSDTarget,desiredOHMTarget, desiredDailyIncooom,desiredWeeklyIncooom)
 
     dailyROI = float(roiSimulationResult_df.Percentage[0])
@@ -366,7 +366,7 @@ def app():
 
 
 # region Description: Function to calculate ohm growth over time
-def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,percentSale, sellDays, ohmPrice_DCA, valBuy, buyDays):
+def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,percentSale, sellDays, ohmPrice_DCA, valBuy, buyDays, gwei, priceofETH):
 
     # Data frame to hold all required data point. Data required would be Epochs since rebase are distributed every Epoch
     ohmGrowthEpochs = (ohmGrowthDays * 3)+1
@@ -380,7 +380,10 @@ def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,per
     minAPY = minAPY/100
     maxAPY = maxAPY/100
 
-    #stakingGasFee = 179123 * ((gwei * priceofETH) / (10 ** 9))
+    gwei = 100
+    priceofETH = 4000
+    stakingGasFee = 179123 * ((gwei * priceofETH) / (10 ** 9))
+    stakingGasFee_OHMAmount = stakingGasFee/ohmPrice_DCA
     #unstakingGasFee = 89654 * ((gwei * priceofETH) / (10 ** 9))
 
 
@@ -430,7 +433,8 @@ def ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays, minAPY, maxAPY,per
         if elements == buyEpochs:
             buyEpochs = buyEpochs + cadenceConst_BUY
             #print(dcA_ohmStakedGrowth)
-            dcA_ohmStakedGrowth = (dcA_ohmStakedGrowth + dcaAmount)
+            dcA_ohmStakedGrowth = (dcA_ohmStakedGrowth + (dcaAmount-stakingGasFee_OHMAmount))
+            #st.write(stakingGasFee_OHMAmount)
             #print(dcA_ohmStakedGrowth)
         else:
             pass
