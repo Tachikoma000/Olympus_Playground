@@ -108,7 +108,7 @@ def app():
         st.write('**Staking playground** is designed to help predict ohm growth over time based on your selected control parameters.'
                 ' Use each control section provided below to fine tune your results and generate new insight on possible staking reward outcomes ')
 
-    with st.sidebar.expander('OHM growth simulation Controls'):
+    with st.sidebar.expander('OHM Growth Simulation Controls'):
         st.info('''
         This section allows you to simulate your ohm growth over any number of days
         
@@ -124,7 +124,7 @@ def app():
         minAPY = st.text_input('Min APY% (Current Tier)', value=1000)
         maxAPY = st.text_input('Max APY% (Current Tier)', value=10000)
 
-    with st.sidebar.expander('Profit taking simulation controls'):
+    with st.sidebar.expander('Profit Taking Simulation Controls'):
         st.info('''
         This section allows you simulate and compare your ohm growth if you decide to take profit at certain intervals
         
@@ -136,7 +136,7 @@ def app():
         sellDays = st.text_input('Sell Interval (Days)', value = 30)
         percentSale = st.text_input('Total OHMS to sell (%)', value = 5)
 
-    with st.sidebar.expander('Dollar cost averaging simulation controls'):
+    with st.sidebar.expander('Dollar Cost Averaging Simulation Controls'):
         st.info('''
         This section allows you to simulte and compare your ohm growth if you decide to buy additional OHM at certain intervals
         
@@ -154,7 +154,7 @@ def app():
         priceofETH = st.text_input('Price of ETH ($) (Needed for gas calculation)', value = 3000)
         gwei = st.text_input('Eth network fee', value = 40)
 
-    with st.sidebar.expander('Staking rewards forecast simulation controls'):
+    with st.sidebar.expander('Rewards Strategizer'):
         st.info('''
                 This section allows you to simulate your future staking rewards.
             
@@ -273,11 +273,11 @@ def app():
         This chart shows you the ohm growth projection over **{ohmGrowthDays} days** days. Projection is calculated based on your selected APY of **{userAPY} %** (Equivalent to a reward yield of **{round((rewardYield*100),5)}%**)
          and an initial **{initialOhms} ohms**.
          
-        The (3,3) Profit adjusted ROI trend line shows you the adjusted OHM growth if you decide to sell a Percentage of your OHM at a fixed interval (For example, 5% every 30 days).
+        The (3,3) Profit Adjusted ROI trend line shows you the adjusted OHM growth if you decide to sell a percentage of your OHM at a fixed interval (For example, 5% every 30 days).
         
         The Min Growth Rate shows you the estimated ohm growth rate if the APY was on the minimum APY of the current tier dictated by the OIP-18 Reward Rate Framework.
         
-        The MAX Growth Rate shows you the estimated ohm growth rate if the APY was on the Maximum APY of the current tier dictated by OIP-18 Reward Rate Framework.
+        The Max Growth Rate shows you the estimated ohm growth rate if the APY was on the Maximum APY of the current tier dictated by OIP-18 Reward Rate Framework.
                 ''')
     st.write("-----------------------------")
 

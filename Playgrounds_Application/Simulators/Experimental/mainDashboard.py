@@ -144,7 +144,7 @@ def app():
 
     st.subheader('Metrics Definitions')
     st.info('''
-    - Total Value Deposited: Total Value Locked, is the dollar amount of all OHM staked in the protocol. 
+    - Total Value Locked: Total Value Locked, is the dollar amount of all OHM staked in the protocol. 
                             This metric is often used as growth or health indicator in DeFi projects.
                             
     - Treasury Market Value: Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury.
