@@ -143,27 +143,67 @@ def app():
 
 
     st.subheader('Metrics Definitions')
-    st.info('''
-    - Total Value Deposited: Total Value Locked, is the dollar amount of all OHM staked in the protocol. 
-                            This metric is often used as growth or health indicator in DeFi projects.
-                            
-    - Treasury Market Value: Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury.
-    
-    - Treasury Risk Free Value: Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.
-    
-    - Reward Rate: Reward rate is the configured percentage of OHM distributed to all stakers on each rebase relative to the total supply. 
-                    The reward rate is precisely set by the policy team, and voted upon by the community.
-    
-    - APY: Annual Percentage Yield, is the normalized representation of an interest rate,
-            based on a compounding period over one year. 
-            Note that APYs provided are rather ballpark level indicators and not so much precise future results.
+
+    with st.expander('Click to view', expanded=True):
+            st.markdown('''
+        <span style="color:#3E9EF3">**Current APY -** Annual percentage yield (in OHM tokens) based on the current rebase 
+        rate</span>    
+            This calculation shows 
+            what the APY would be if the current rebase rate remained unchanged while compounding every epoch for one year.
+            As you can see by the graph, the rebase rate does change. It's best to take this value in consideration with 
+            OIP-18's reward rate framework. And remember, this is yield in OHM!
             
-    - Runway Available: Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway
+        <span style="color:#3E9EF3">**Market Cap -**  Total value of all OHM in circulation</span>  
+            This number is calculated by taking the total number of OHM tokens that exist and multiplying that by the 
+            current price of one OHM.
+            
+        <span style="color:#3E9EF3">**Next Distribution OHM -**  sOHM tokens to be distributed at the next rebase</span>    
+            This number is the total amount of sOHM that will be distributed across all current sOHM holders at the next rebase.
+            This is calculated by taking the total circulating supply of sOHM tokens and multiplying by the rebase 
+            percentage.
+        
+        <span style="color:#3E9EF3">**Next Epoch Rebase -**  The percentage by which your staked OHM balance increases on the next 
+        epoch</span>  
+            For example: 1 sOHM with rebase of 0.1% will increase in amount to 1.001 sOHM when the next epoch starts. Each epoch 
+            is roughly 8 hours. The rebase rate is precisely set by the policy team. Changes to the rate will always be 
+            voted on by the community. The rate is set based on 90% OHM being staked and so can fluctuate slightly based on the 
+            total percentage staked.
+            
+        <span style="color:#3E9EF3">**OHM Circulating Supply -**  The total amount of OHM that exists</span>  
+            This number includes all circulating and locked OHM.
+            
+        <span style="color:#3E9EF3">**sOHM Circulating Supply -**  The total amount of sOHM that exists</span>  
+            When you stake OHM, you lock that OHM and receive an equal amount of sOHM. This metric is the total number of sOHM, but
+            also can be viewed as the amount of OHM that has been locked into the protocol via staking.
     
-    **API information**
+        <span style="color:#3E9EF3">**OHM Price -**  The price in USD for one OHM</span>  
+            This is the trading or exchange price for one OHM as compared to USD.
+        
+        <span style="color:#3E9EF3">**Runway Current -**  Number of days sOHM emissions can be sustained at the current rebase 
+        rate if all protocol income ceased</span>  
+            In general a higher runway is better. However, if there is already a healthy runway, extending this further comes at an 
+            opportunity cost to use treasury funds for other potentially profitable endeavours.
+        
+        <span style="color:#3E9EF3">**Total Value Locked -**  Value in USD of all OHM staked in the protocol</span>  
+            This metric is often used as growth or health indicator in DeFi projects. These are the funds that the protocol can 
+            use to earn revenue through providing liquidity and other means.
+        
+        <span style="color:#3E9EF3">**Treasury Market Value -**  Value in USD of treasury assets if sold on the open market</span>  
+            Treasury Market Value, is the the value in USD of all assets held by the treasury. This value becomes more relevant 
+            as OHM becomes backed by more diverse assets other than pegged stable coins. 
+                                
+        <span style="color:#3E9EF3">**Treasury Risk Free Value -** Value in USD of stable coin assets in the treasury</span>  
+            Treasury Risk Free Value, is the amount of funds the treasury holds in stable coins. The term "risk free" means that 
+            these assets do not have market values that fluctuate. They are pegged to $1 USD and are guaranteed so long as these 
+            stable coins remain _stable_.
     
-    API calls for Protocol metrics could be delayed up to 24 hours
+        ''', unsafe_allow_html=True)
+
+
+    st.info('''
+        **API calls for protocol metrics could be delayed up to 24 hours.**
     ''')
+
     st.info('''
     **Disclaimer**
     
