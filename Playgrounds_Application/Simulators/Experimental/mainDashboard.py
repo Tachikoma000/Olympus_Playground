@@ -181,9 +181,7 @@ def app():
 
                     <span style="color:#3E9EF3">**Runway Current -**  Number of days sOHM emissions can be sustained at the current rebase 
                     rate if all protocol income ceased</span>  
-                        A healthy runway is desirable, but it may not be correct to increase runway for it's own sake. Runway is balanced 
-                        against emissions and the opportunity cost of using those funds to generate increased income for the protocol. 
-                        A steady increase or decrease in runway should be viewed in the context of larger initiatives at Olympus. 
+                        Runway is calculated using the current risk-free value (RFV) in the treasury.
 
                     <span style="color:#3E9EF3">**Total Value Locked -**  Value in USD of all OHM staked in the protocol</span>  
                         This metric is often used as growth or health indicator in DeFi projects. These are the funds that the protocol can 
