@@ -117,7 +117,15 @@ def app():
         - OHM price at end of selected number of days
         - APY% throughout the simulation period (Your selected days) 
                 ''')
-        ohmGrowthDays = st.slider('Days', value=365, min_value=1, max_value=730, step=1)
+
+        daysWidgetContainer = st.empty()
+        if not st.checkbox("Use Slider for Days Input", value=True):
+            ohmGrowthDays = daysWidgetContainer.number_input("Days", value=365, min_value=1, max_value=730, step=1)
+        else:
+            ohmGrowthDays = daysWidgetContainer.slider('Days', value=365, min_value=1, max_value=730, step=1,
+                                                   help="Use left/right arrow keys for fine control of the slider.")
+
+
         ohmPrice = st.text_input('Price of OHM to simulate ($)', value=500.000)
         initialOhms = st.text_input('Starting amount of OHM (Units)', value=1.0000)
         userAPY = st.text_input('Current APY%', value=7722.7)
