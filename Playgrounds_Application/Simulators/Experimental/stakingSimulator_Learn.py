@@ -65,7 +65,7 @@ def app():
         with threeThreeLearnExpander:
             st.write(
                 """
-                **(3,3) Playground is a simulator for staking, and reward strategies**
+                **(3,3) Playground is a simulator for staking and reward strategies**
 
                 Use this simulator to forecast:
                 - ROI at current and future reward yield percent
