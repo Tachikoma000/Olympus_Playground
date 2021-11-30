@@ -169,12 +169,13 @@ def app():
                         voted on by the community. The rate is set based on 90% OHM being staked and so can fluctuate slightly based on the 
                         total percentage staked.
 
-                    <span style="color:#3E9EF3">**OHM Circulating Supply -**  The total amount of OHM that exists</span>  
-                        This number includes all circulating and locked OHM.
+                    <span style="color:#3E9EF3">**OHM Circulating Supply -**  The total amount of OHM in circulation</span>  
+                        This number does not include OHM controlled by the DAO since it is not in circulation.
 
-                    <span style="color:#3E9EF3">**sOHM Circulating Supply -**  The total amount of sOHM that exists</span>  
-                        When you stake OHM, you lock that OHM and receive an equal amount of sOHM. This metric is the total number of sOHM, but
-                        also can be viewed as the amount of OHM that has been locked into the protocol via staking.
+                    <span style="color:#3E9EF3">**sOHM Circulating Supply -**  The total amount of sOHM in circulation</span>  
+                        When you stake OHM, you lock that OHM in the protocol and receive an equal amount of sOHM. This metric is 
+                        the total number of sOHM, but also can be viewed as the amount of OHM that has been locked into the 
+                        protocol via staking.
 
                     <span style="color:#3E9EF3">**OHM Price -**  The price in USD for one OHM</span>  
                         This is the trading or exchange price for one OHM as compared to USD.
