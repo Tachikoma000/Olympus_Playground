@@ -199,10 +199,6 @@ def app():
                     ''', unsafe_allow_html=True)
 
     st.info('''
-        **API calls for protocol metrics could be delayed up to 24 hours.**
-    ''')
-
-    st.info('''
     **Disclaimer**
     
     Olympus Playgrounds is for educational purposes only and is not an individualized recommendation.
