@@ -283,7 +283,7 @@ def app():
         return ['{0:.2f} %'.format(roi_val), '{0:.2f}'.format(_total_ohm), '{0:.2f}'.format(_delta)]
 
     # Using UserAPY instead because the calculated Annual ROI is noticeably eroded by rounding math.
-    # *List of lists to simplify display code
+    # NOTE: List of lists to simplify display code
     roi_list = [get_ohm_total(dailyROI),
                 get_ohm_total(sevenDayROI),
                 get_ohm_total(oneMonthROI),
