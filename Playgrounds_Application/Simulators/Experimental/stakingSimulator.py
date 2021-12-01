@@ -196,14 +196,20 @@ def app():
         desiredDailyIncooom = float(desiredDailyIncooom)
         desiredWeeklyIncooom = float(desiredWeeklyIncooom)
 
-    ohmGrowthResult_df,ohmGrowth_df_CSV = ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays,minAPY,maxAPY, percentSale, sellDays, ohmPrice_DCA, valBuy, buyDays, gwei, priceofETH)
-    roiSimulationResult_df,incooomSimulationResult_df,rewardYield = incooomProjection(ohmPrice,userAPY, initialOhms, desiredUSDTarget,desiredOHMTarget, desiredDailyIncooom,desiredWeeklyIncooom)
+    ohmGrowthResult_df,ohmGrowth_df_CSV = ohmGrowth_Projection(initialOhms, userAPY, ohmGrowthDays,minAPY,maxAPY, percentSale,
+                                                               sellDays, ohmPrice_DCA, valBuy, buyDays, gwei, priceofETH)
+
+    roiSimulationResult_df,incooomSimulationResult_df,rewardYield = incooomProjection(ohmPrice,userAPY, initialOhms,
+                                                                                      desiredUSDTarget,desiredOHMTarget,
+                                                                                      desiredDailyIncooom,desiredWeeklyIncooom)
 
     dailyROI = float(roiSimulationResult_df.Percentage[0])
     fiveDayROI = float(roiSimulationResult_df.Percentage[1])
     sevenDayROI = float(roiSimulationResult_df.Percentage[2])
     oneMonthROI = float(roiSimulationResult_df.Percentage[3])
-    oneYearROI = float(roiSimulationResult_df.Percentage[4])
+    threeMonthROI = float(roiSimulationResult_df.Percentage[4])
+    sixMonthROI = float(roiSimulationResult_df.Percentage[5])
+    oneYearROI = float(roiSimulationResult_df.Percentage[6])
 
     forcastUSDTarget = float(incooomSimulationResult_df.Results[0])
     forcastOHMTarget = float(incooomSimulationResult_df.Results[1])
@@ -246,26 +252,22 @@ def app():
     col3, col4 = st.columns((4, 1.3))
     with col3:
         st.header('OHM Growth Forecast')
-        st.plotly_chart(ohmGrowthResult_df_Chart,use_container_width=True)
+        st.plotly_chart(ohmGrowthResult_df_Chart, use_container_width=True)
+
     with col4:
-        st.header('ROI')
-        st.info(f'''
-        - Daily ROI: **{dailyROI} %**
-
-        - 5 Day ROI: **{fiveDayROI} %**
-
-        - 7 Day ROI: **{sevenDayROI} %**
-
-        - 1 Month ROI: **{oneMonthROI} %**
-        ''')
         st.header('Chart Instructions')
-        with st.expander('Click to view'):
+        with st.expander('Click to view', expanded=True):
             st.write('''
-            The chart is designed to be interactive and allows you to view and analyze your results. Here are some cool things you can do:
+            ##### This Chart is Interactive!  
+            - Click on the legend to <span style="color:#3E9EF3">hide/show</span> trends lines  
+            - Access the <span style="color:#3E9EF3">toolbar (on mouse over)</span> to:
+                - Zoom
+                - Pan
+                - Compare Trend Lines
+                - Show Spike Lines
+                - Download PNG
+            ''', unsafe_allow_html=True)
 
-            - Hide and view trend lines by clicking on the legends
-
-            - Use the toolbar to access tools such as zoom, pan, data comparison, spike lines, and download. The tool bar is revealed when you hover your mouse on the chart''')
         st.download_button(
             "Press to download your (3,3) simulation results",
             ohmGrowth_df_CSV,
@@ -273,19 +275,57 @@ def app():
             "text/csv",
             key='browser-data'
         )
+
+    # Pass in an roi and get back roi, total ohm, and delta as formatted strings for display
+    def get_ohm_total(roi_val):
+        _total_ohm = initialOhms + (roi_val * initialOhms) * 0.01
+        _delta = _total_ohm - initialOhms
+        return ['{0:.2f} %'.format(roi_val), '{0:.2f}'.format(_total_ohm), '{0:.2f}'.format(_delta)]
+
+    # Using UserAPY instead because the calculated Annual ROI is noticeably eroded by rounding math.
+    # *List of lists to simplify display code
+    roi_list = [get_ohm_total(dailyROI),
+                get_ohm_total(sevenDayROI),
+                get_ohm_total(oneMonthROI),
+                get_ohm_total(threeMonthROI),
+                get_ohm_total(sixMonthROI),
+                get_ohm_total(userAPY)]
+
+    with st.expander("ROI", expanded=True):
+        col1, col3, col4, col5, col6, col7 = st.columns([0.8,0.8,0.9,0.9,0.9,1])
+        col1.metric("1 Day ROI",   roi_list[0][0])
+        col3.metric("7 Day ROI",   roi_list[1][0])
+        col4.metric("1 Month ROI", roi_list[2][0])
+        col5.metric("3 Month ROI", roi_list[3][0])
+        col6.metric("6 Month ROI", roi_list[4][0])
+        col7.metric("Annual ROI",  roi_list[5][0])
+
+    with st.expander("OHM Totals"):
+        col1, col3, col4, col5, col6, col7 = st.columns([0.8,0.8,0.9,0.9,0.9,1])
+        col1.metric("1 Day",    roi_list[0][1], delta=roi_list[0][2])
+        col3.metric("7 Days",   roi_list[1][1], delta=roi_list[1][2])
+        col4.metric("1 Month",  roi_list[2][1], delta=roi_list[2][2])
+        col5.metric("3 Months", roi_list[3][1], delta=roi_list[3][2])
+        col6.metric("6 Months", roi_list[4][1], delta=roi_list[4][2])
+        col7.metric("1 Year",   roi_list[5][1], delta=roi_list[5][2])
+
     st.write("-----------------------------")
 
     st.header('Results Explanation')
     with st.expander('Click to view'):
         st.write(f'''
-        This chart shows you the ohm growth projection over **{ohmGrowthDays} days** days. Projection is calculated based on your selected APY of **{userAPY} %** (Equivalent to a reward yield of **{round((rewardYield*100),5)}%**)
-         and an initial **{initialOhms} ohms**.
+        This chart shows you the ohm growth projection over **{ohmGrowthDays} days** days. Projection is calculated based on your 
+        selected APY of **{userAPY} %** (Equivalent to a reward yield of **{round((rewardYield*100),5)}%**) and an initial *
+        *{initialOhms} ohms**.
          
-        The (3,3) Profit Adjusted ROI trend line shows you the adjusted OHM growth if you decide to sell a percentage of your OHM at a fixed interval (For example, 5% every 30 days).
+        The (3,3) Profit Adjusted ROI trend line shows you the adjusted OHM growth if you decide to sell a percentage of your 
+        OHM at a fixed interval (For example, 5% every 30 days).
         
-        The Min Growth Rate shows you the estimated ohm growth rate if the APY was on the minimum APY of the current tier dictated by the OIP-18 Reward Rate Framework.
+        The Min Growth Rate shows you the estimated ohm growth rate if the APY was on the minimum APY of the current tier 
+        dictated by the OIP-18 Reward Rate Framework.
         
-        The Max Growth Rate shows you the estimated ohm growth rate if the APY was on the Maximum APY of the current tier dictated by OIP-18 Reward Rate Framework.
+        The Max Growth Rate shows you the estimated ohm growth rate if the APY was on the Maximum APY of the current tier 
+        dictated by OIP-18 Reward Rate Framework.
                 ''')
     st.write("-----------------------------")
 
@@ -494,37 +534,33 @@ def incooomProjection(ohmPrice,userAPY, initialOhms, desiredUSDTarget,desiredOHM
     # current staking %APY. Need to make this read from a source or user entry
     #currentAPY = 17407 / 100
 
+    def get_roi(num_days):
+        roi = (1 + rewardYield)**(num_days * 3)-1 # Equation to calculate your daily ROI based on reward Yield
+        return roi
+
+    def get_roi_as_percentage(roi):
+        roi_percent = round(roi * 100, 1)
+        return roi_percent
+
     # Let's get some ROI Outputs starting with the daily
-    dailyROI = (1+rewardYield)**3 -1  # Equation to calculate your daily ROI based on reward Yield
-    dailyROI_P = round(dailyROI * 100, 1)  # daily ROI in Percentage
-    # ================================================================================
-
-    # 5 day ROI
-    fivedayROI = (1+rewardYield)**(5*3)-1   # Equation to calculate your 5 day ROI based on reward Yield
-    fivedayROI_P = round(fivedayROI * 100, 1)  # 5 day ROI in Percentage
-    # ================================================================================
-
-    # 7 day ROI
-    sevendayROI = (1+rewardYield)**( 7 * 3)-1  # Equation to calculate your 7 day ROI based on reward Yield
-    sevendayROI_P = round(sevendayROI * 100, 1)  # 7 day ROI in Percentage
-    # ================================================================================
-
-    # 30 day ROI
-    monthlyROI = (1+rewardYield)**( 30 *3)-1  # Equation to calculate your 30 day ROI based on reward Yield
-    monthlyROI_P = round(monthlyROI * 100, 1)  # 30 day ROI in Percentage
-    # ================================================================================
-
-    # Annual ROI
-    annualROI = (1+rewardYield)**( 365 *3)-1  # Equation to calculate your annual ROI based on reward Yield
-    annualROI_P = round(annualROI * 100, 1)  # Equation to calculate your annual ROI based on reward Yield
+    onedayROI = get_roi(1)
+    fivedayROI = get_roi(5)
+    sevendayROI = get_roi(7)
+    thirtyDayROI = get_roi(30)
+    ninetyDayROI = get_roi(90)
+    sixmonthROI = get_roi(180)
+    annualROI = get_roi(365)
     # ================================================================================
 
     # Let's create a nice looking table to view the results of our calculations. The table will contain the ROIs and the percentages
-    roiData = [['Daily', dailyROI_P],
-               ['5 Day', fivedayROI_P],
-               ['7 Day', sevendayROI_P],
-               ['1 Month', monthlyROI_P],
-               ['1 Year', annualROI_P]]
+    roiData = [['Daily', get_roi_as_percentage(onedayROI)],
+               ['5 Day', get_roi_as_percentage(fivedayROI)],
+               ['7 Day', get_roi_as_percentage(sevendayROI)],
+               ['1 Month', get_roi_as_percentage(thirtyDayROI)],
+               ['3 Month', get_roi_as_percentage(ninetyDayROI)],
+               ['6 Month', get_roi_as_percentage(sixmonthROI)],
+               ['1 Year', get_roi_as_percentage(annualROI)]]
+
     roiTabulated_df = pd.DataFrame(roiData, columns=['Cadence', 'Percentage'])
     roiDataTable = roiTabulated_df.to_dict('rows')
     columns = [{'name': i,'id': i,} for i in (roiTabulated_df.columns)]
@@ -537,7 +573,7 @@ def incooomProjection(ohmPrice,userAPY, initialOhms, desiredUSDTarget,desiredOHM
     # ================================================================================
     # Daily Incooom calculations
     # Required OHMs until you are earning your desired daily incooom
-    requiredOHMDailyIncooom = round((desiredDailyIncooom / dailyROI) / ohmPrice)
+    requiredOHMDailyIncooom = round((desiredDailyIncooom / onedayROI) / ohmPrice)
     # Days until you are earning your desired daily incooom from your current initial staked OHM amount
     forcastDailyIncooom = round(math.log((requiredOHMDailyIncooom / ohmStakedInit), rebaseConst) / 3)
     requiredUSDForDailyIncooom = requiredOHMDailyIncooom * ohmPrice
