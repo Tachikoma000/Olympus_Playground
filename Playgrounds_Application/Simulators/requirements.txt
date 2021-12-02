@@ -9,3 +9,4 @@ plotly_express==0.4.0
 pycoingecko
 DateTime
 millify
+streamlit-lottie>=0.0.3

@@ -76,7 +76,7 @@ def app():
         st.write('')
         st.image(playgroundHome, use_column_width=True)
         lottie_waiting = load_lottieurl('https://assets9.lottiefiles.com/packages/lf20_anre6w2q.json')
-        st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, renderer='svg', height=200, key=None)
+        st_lottie(lottie_waiting, speed=1, reverse=False, loop=True, height=200, key=None)
         #st.markdown(
          #   """<a style='display: block;ffont-family: Montserrat, sans-serif;font-style: normal;font-weight: 100;color:#d93c68; text-align: center;' href="https://www.example.com/">Enter</a>
           #  """,
