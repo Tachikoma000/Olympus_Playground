@@ -18,7 +18,6 @@ from pathlib import Path
 import base64
 import requests
 
-
 explorer_Logo = Path(__file__).parents[1] / 'Assets/PG_explorer_logo.png'
 explorer_Logo  = Image.open(explorer_Logo)
 
@@ -28,7 +27,8 @@ def app():
     def run_query(q):
 
         # endpoint where you are making the request
-        request = requests.post('https://api.thegraph.com/subgraphs/name/drondin/olympus-graph'
+        # previous api for metrics explorer: https://api.thegraph.com/subgraphs/name/drondin/olympus-graph-dev
+        request = requests.post('https://api.thegraph.com/subgraphs/name/drondin/olympus-graph-dev'
                                 '',
                                 json={'query': query})
         if request.status_code == 200:
@@ -38,7 +38,6 @@ def app():
 
     # The Graph query... these queries are made available to us on the olympus sub graph -
     query = """
-
     {
     protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
         timestamp
@@ -60,50 +59,51 @@ def app():
     # assign the results to a variable called results
     result = run_query(query)
 
-    # results come as a list of dictionaries, which is in a nested dictionary. so we have to extract the dictionary we care about
+    # results come as a list of dictionaries, which is in a nested dictionary. so we have to extract the
+    # dictionary we care about
     dataDict = result['data']['protocolMetrics']
     protocolMetrics_df = pd.DataFrame(dataDict)
     protocolMetrics_df = protocolMetrics_df.astype(float)
-    protocolMetrics_df['dateTime'] = pd.to_datetime(protocolMetrics_df.timestamp,unit='s')
+    protocolMetrics_df['dateTime'] = pd.to_datetime(protocolMetrics_df.timestamp, unit='s')
     protocolMetrics_df['dateTime'] = protocolMetrics_df['dateTime'].dt.date
     protocolMetrics_df = protocolMetrics_df.set_index('dateTime')
-
-
+    protocolMetrics_df = protocolMetrics_df.rename(columns=str.lower)
 
 # do stuff with the data: app
     st.sidebar.info('''
         **Playgrounds Ω Explorer** is designed to give you deeper insight into historical protocol data.
-        Using this tool, you can view the historical data for a single or multiple protocol metrics (i.e. RFV growth over time, supply growth,
+        Using this tool, you can view the historical data for a single or multiple protocol metrics 
+        (i.e. RFV growth over time, supply growth,
         or even the current runway).
         
         Have some fun! We can't wait to see the insight you discover!
         ''')
     st.sidebar.info('''
         **Instructions**
-        - **Metrics filter tool**: Use the metrics filter dropdown tool to select the metric/metrics you care about! The chart is designed to scale and accommodate all protocol metrics available! 
-        - **Date filter**: In addition to filtering by metrics, you can also filter by time frames. Use the Start/End Date filter to expand or narrow down your time scale
-        - **Metrics Visualized**: The chart is an incredibly powerful tool for you to view and analyze your selected metric/metrics. Here are some cool things you can do:
+        - **Metrics filter tool**: Use the metrics filter dropdown tool to select the metric/metrics you care about! 
+        The chart is designed to scale and accommodate all protocol metrics available! 
+        - **Date filter**: In addition to filtering by metrics, you can also filter by time frames. Use the Start/End 
+        Date filter to expand or narrow down your time scale
+        - **Metrics Visualized**: The chart is an incredibly powerful tool for you to view and analyze your selected
+         metric/metrics. Here are some cool things you can do:
 
             - Hide and view trend lines by clicking on the legend
             - Use the toolbar to access tools such as zoom, pan, data comparison, spike lines, and download
         
-        - **Selected Metrics**: For the data table lovers, access your selected metrics in tabular form and download them as CSV! 
+        - **Selected Metrics**: For the data table lovers, access your selected metrics in tabular form and download 
+        them as CSV! 
         ''')
-
     col1, col2 = st.columns((1,1))
     with col1:
         st.image(explorer_Logo)
     st.markdown('''----''')
-
     col3, col4, col5, col6 = st.columns(4)
-    col3.metric(label="OHM Price", value ="$ %.2f" % protocolMetrics_df.ohmPrice.iloc[0])
-    col4.metric(label="Market Cap", value = millify(protocolMetrics_df.marketCap.iloc[0], precision = 3))
-    col5.metric(label="Total Supply", value = millify(protocolMetrics_df.totalSupply.iloc[0], precision = 3))
-    col6.metric(label="Rebase Rate", value="%.4f" % protocolMetrics_df.nextEpochRebase.iloc[0])
+    col3.metric(label="OHM Price", value ="$ %.2f" % protocolMetrics_df.ohmprice.iloc[0])
+    col4.metric(label="Market Cap", value = millify(protocolMetrics_df.marketcap.iloc[0], precision = 3))
+    col5.metric(label="Total Supply", value = millify(protocolMetrics_df.totalsupply.iloc[0], precision = 3))
+    col6.metric(label="Rebase Rate", value="%.4f" % protocolMetrics_df.nextepochrebase.iloc[0])
     st.markdown('''----''')
-
-
-    cols = ["ohmCirculatingSupply", "sOhmCirculatingSupply", "totalSupply"]
+    cols = ["ohmcirculatingsupply", "sohmcirculatingsupply", "totalsupply"]
     st.subheader('Select metrics to explore')
     selected_metric = st.multiselect("",protocolMetrics_df.columns.tolist(),default=cols)
     selected_metric_df = protocolMetrics_df[selected_metric]
@@ -120,14 +120,22 @@ def app():
     mask = (selected_metric_df.index > startDate) & (selected_metric_df.index <= endDate)
     selected_metric_df = selected_metric_df.loc[mask]
     selected_metric_df_CSV = selected_metric_df.to_csv().encode('utf-8')
+
     st.subheader('Metrics visualized')
     explorer_chart = px.line(selected_metric_df)
-    explorer_chart.update_layout(autosize=True, showlegend=True ,legend_title_text='Metrics', margin=dict(l=20, r=30, t=10, b=20))
-    explorer_chart.update_layout(legend=dict(yanchor="top",y=0.99,xanchor="left",x=0.01))
+    explorer_chart.update_layout(autosize=True, showlegend=True ,legend_title_text='Metrics',
+                                 margin=dict(l=20, r=30, t=10, b=20))
+    explorer_chart.update_traces(mode="lines", hovertemplate=None)
+    explorer_chart.update_layout(legend=dict(yanchor="top",y=0.99,xanchor="left",x=0.01), hovermode='x unified',
+                                 hoverlabel_bgcolor="#04001f", hoverlabel_align='auto', hoverlabel_namelength=-1,
+                                 hoverlabel_font_size=15)
     explorer_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
-    explorer_chart.update_xaxes(title = 'Date',showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.1,mirror=True)
-    explorer_chart.update_yaxes(title = 'Metrics',showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,mirror=True)
+    explorer_chart.update_xaxes(title = 'Date',showline=True, linewidth=0.1, linecolor='#31333F',
+                                showgrid=False, gridwidth=0.1,mirror=True)
+    explorer_chart.update_yaxes(title = 'Metrics',showline=True, linewidth=0.1, linecolor='#31333F',
+                                showgrid=False, gridwidth=0.01,mirror=True)
     st.plotly_chart(explorer_chart, use_container_width=True)
+
     st.subheader('Selected metrics in tabulated view')
     with st.expander("Click to view"):
         st.write(selected_metric_df)
@@ -138,63 +146,80 @@ def app():
             "text/csv",
             key='browser-data'
         )
-
     st.markdown('''----''')
-
-
     st.subheader('Metrics Definitions')
-
     with st.expander('Click to view', expanded=True):
         st.markdown('''
-                    <span style="color:#3E9EF3">**Current APY -** Annual percentage yield (in OHM tokens) based on the current rebase 
+                    <span style="color:#3E9EF3">**Current APY -** Annual percentage yield (in OHM tokens) 
+                    based on the current rebase 
                     rate</span>    
                         This calculation shows 
-                        what the APY would be if the current rebase rate remained unchanged while compounding every epoch for one year.
-                        As you can see by the graph, the rebase rate does change. It's best to take this value in consideration with 
+                        what the APY would be if the current rebase rate remained unchanged while compounding
+                         every epoch for one year.
+                        As you can see by the graph, the rebase rate does change. It's best to take this value 
+                        in consideration with 
                         OIP-18's reward rate framework. And remember, this is yield in OHM!
 
                     <span style="color:#3E9EF3">**Market Cap -**  Total value of all OHM in circulation</span>  
-                        This number is calculated by taking the total number of OHM tokens that exist and multiplying that by the 
+                        This number is calculated by taking the total number of OHM tokens that exist and multiplying 
+                        that by the 
                         current price of one OHM.
 
-                    <span style="color:#3E9EF3">**Next Distribution OHM -**  sOHM tokens to be distributed at the next rebase</span>    
-                        This number is the total amount of sOHM that will be distributed across all current sOHM holders at the next rebase.
-                        This is calculated by taking the total circulating supply of sOHM tokens and multiplying by the rebase 
-                        percentage.
+                    <span style="color:#3E9EF3">**Next Distribution OHM -**  sOHM tokens to be distributed at the next 
+                    rebase</span>    
+                        This number is the total amount of sOHM that will be distributed across all current sOHM 
+                        holders at the next rebase.
+                        This is calculated by taking the total circulating supply of sOHM tokens and multiplying by
+                        the rebase percentage.
 
-                    <span style="color:#3E9EF3">**Next Epoch Rebase -**  The percentage by which your staked OHM balance increases on the next 
+                    <span style="color:#3E9EF3">**Next Epoch Rebase -**  
+                    The percentage by which your staked OHM balance increases on the next 
                     epoch</span>  
-                        For example: 1 sOHM with rebase of 0.1% will increase in amount to 1.001 sOHM when the next epoch starts. Each epoch 
-                        is roughly 8 hours. The rebase rate is precisely set by the policy team. Changes to the rate will always be 
-                        voted on by the community. The rate is set based on 90% OHM being staked and so can fluctuate slightly based on the 
+                        For example: 1 sOHM with rebase of 0.1% will increase in amount to 1.001 
+                        sOHM when the next epoch starts. Each epoch 
+                        is roughly 8 hours. The rebase rate is precisely set by the policy team. 
+                        Changes to the rate will always be 
+                        voted on by the community. The rate is set based on 90% OHM being staked
+                         and so can fluctuate slightly based on the 
                         total percentage staked.
 
-                    <span style="color:#3E9EF3">**OHM Circulating Supply -**  The total amount of OHM in circulation</span>  
+                    <span style="color:#3E9EF3">**OHM Circulating Supply -** 
+                     The total amount of OHM in circulation</span>  
                         This number does not include OHM controlled by the DAO since it is not in circulation.
 
-                    <span style="color:#3E9EF3">**sOHM Circulating Supply -**  The total amount of sOHM in circulation</span>  
-                        When you stake OHM, you lock that OHM in the protocol and receive an equal amount of sOHM. This metric is 
-                        the total number of sOHM, but also can be viewed as the amount of OHM that has been locked into the 
-                        protocol via staking.
+                    <span style="color:#3E9EF3">**sOHM Circulating Supply -**  
+                    The total amount of sOHM in circulation</span>  
+                        When you stake OHM, you lock that OHM in the protocol and receive an equal amount of sOHM. 
+                        This metric is 
+                        the total number of sOHM, but also can be viewed as the amount of OHM that has been locked
+                         into the protocol via staking.
 
                     <span style="color:#3E9EF3">**OHM Price -**  The price in USD for one OHM</span>  
                         This is the trading or exchange price for one OHM as compared to USD.
 
-                    <span style="color:#3E9EF3">**Runway Current -**  Number of days sOHM emissions can be sustained at the current rebase 
+                    <span style="color:#3E9EF3">**Runway Current -**  
+                    Number of days sOHM emissions can be sustained at the current rebase 
                     rate if all protocol income ceased</span>  
                         Runway is calculated using the current risk-free value (RFV) in the treasury.
 
-                    <span style="color:#3E9EF3">**Total Value Locked -**  Value in USD of all OHM staked in the protocol</span>  
-                        This metric is often used as growth or health indicator in DeFi projects. These are the funds that the protocol can 
+                    <span style="color:#3E9EF3">**Total Value Locked -**  
+                    Value in USD of all OHM staked in the protocol</span>  
+                        This metric is often used as growth or health indicator in DeFi projects. 
+                        These are the funds that the protocol can 
                         use to earn revenue through providing liquidity and other means.
 
-                    <span style="color:#3E9EF3">**Treasury Market Value -**  Value in USD of treasury assets if sold on the open market</span>  
-                        Treasury Market Value, is the the value in USD of all assets held by the treasury. This value becomes more relevant 
+                    <span style="color:#3E9EF3">**Treasury Market Value -** 
+                     Value in USD of treasury assets if sold on the open market</span>  
+                        Treasury Market Value, is the the value in USD of all assets held by the treasury.
+                         This value becomes more relevant 
                         as OHM becomes backed by more diverse assets other than pegged stable coins. 
 
-                    <span style="color:#3E9EF3">**Treasury Risk Free Value -** Value in USD of stable coin assets in the treasury</span>  
-                        Treasury Risk Free Value, is the amount of funds the treasury holds in stable coins. The term "risk free" means that 
-                        these assets do not have market values that fluctuate. They are pegged to $1 USD and are guaranteed so long as these 
+                    <span style="color:#3E9EF3">**Treasury Risk Free Value -** Value in USD of stable
+                     coin assets in the treasury</span>  
+                        Treasury Risk Free Value, is the amount of funds the treasury holds in stable coins.
+                         The term "risk free" means that 
+                        these assets do not have market values that fluctuate. They are pegged to $1 USD and 
+                        are guaranteed so long as these 
                         stable coins remain _stable_.
 
                     ''', unsafe_allow_html=True)
@@ -203,10 +228,14 @@ def app():
     **Disclaimer**
     
     Olympus Playgrounds is for educational purposes only and is not an individualized recommendation.
-    Further Olympus Playgrounds are an educational tool and should not be relied upon as the primary basis for investment, financial, tax-planning, or retirement decisions.
+    Further Olympus Playgrounds are an educational tool and should not be relied upon as the primary basis for
+     investment, financial, tax-planning, or retirement decisions.
     These metrics are not tailored to the investment objectives of a specific user.
-    This educational information neither is, nor should be construed as, investment advice, financial guidance or an offer or a solicitation or recommendation to buy, sell, or hold any security, or to engage in any specific investment strategy by Olympus Playgrounds.
-    These metrics used herein may change at any time and Olympus Playgrounds will not notify you when such changes are made. 
+    This educational information neither is, nor should be construed as, investment advice, financial guidance or
+     an offer or a solicitation or recommendation to buy, sell, or hold any security, or to engage in any specific 
+     investment strategy by Olympus Playgrounds.
+    These metrics used herein may change at any time and Olympus Playgrounds will not notify you when such changes
+     are made. 
     You are responsible for doing your own diligence at all times.
     
     ''')
