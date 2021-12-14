@@ -28,7 +28,7 @@ def app():
 
         # endpoint where you are making the request
         # previous api for metrics explorer: https://api.thegraph.com/subgraphs/name/drondin/olympus-graph-dev
-        request = requests.post('https://api.thegraph.com/subgraphs/name/drondin/olympus-graph-dev'
+        request = requests.post('https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics'
                                 '',
                                 json={'query': query})
         if request.status_code == 200:
