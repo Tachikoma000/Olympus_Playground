@@ -300,7 +300,7 @@ def app():
         col6.metric("6 Month ROI", roi_list[4][0])
         col7.metric("Annual ROI",  roi_list[5][0])
 
-    with st.expander("OHM Totals"):
+    with st.expander("OHM Totals: (3,3) ROI"):
         col1, col3, col4, col5, col6, col7 = st.columns([0.8,0.8,0.9,0.9,0.9,1])
         col1.metric("1 Day",    roi_list[0][1], delta=roi_list[0][2])
         col3.metric("7 Days",   roi_list[1][1], delta=roi_list[1][2])
