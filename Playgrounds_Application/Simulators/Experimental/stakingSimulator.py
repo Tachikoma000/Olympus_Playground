@@ -292,7 +292,7 @@ def app():
         Given the inputs provided, after <span style="color:#3E9EF3">{ohmGrowthDays} days</span> your initial OHM 
         total of <span style="color:#3E9EF3">{initialOhms:.2f}</span> will have 
         increased to about <span style="color:#3E9EF3">{ohmTotalAfterXDays:.2f} OHM</span>.  
-        Based on your price target of <span style="color:#3E9EF3">${ohmPrice} per OHM</span> that calculates to 
+        Based on your price prediction of <span style="color:#3E9EF3">${ohmPrice} per OHM</span> that calculates to 
         <span style="color:#3E9EF3">${ohmTotalAfterXDays * ohmPrice:.2f} USD</span>. 
     ''', unsafe_allow_html=True)
     # endregion
