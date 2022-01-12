@@ -282,21 +282,6 @@ def app():
         _delta = _total_ohm - initialOhms
         return ['{0:.2f} %'.format(roi_val), '{0:.2f}'.format(_total_ohm), '{0:.2f}'.format(_delta)]
 
-    # region Simple Sentence Summary
-
-    # Calculate Ohm Total after arbitrary number of days
-    ohmTotalAfterXDays = (get_roi(ohmGrowthDays, userAPY) * initialOhms + initialOhms) - 1
-
-    st.write(f'''
-     #### (3,3) ROI Summary
-        Given the inputs provided, after <span style="color:#3E9EF3">{ohmGrowthDays} days</span> your initial OHM 
-        total of <span style="color:#3E9EF3">{initialOhms:.2f}</span> will have 
-        increased to about <span style="color:#3E9EF3">{ohmTotalAfterXDays:.2f} OHM</span>.  
-        Based on your price prediction of <span style="color:#3E9EF3">${ohmPrice} per OHM</span> that calculates to 
-        <span style="color:#3E9EF3">${ohmTotalAfterXDays * ohmPrice:.2f} USD</span>. 
-    ''', unsafe_allow_html=True)
-    # endregion
-
     # Using UserAPY instead because the calculated Annual ROI is noticeably eroded by rounding math.
     # NOTE: List of lists to simplify display code
     roi_list = [get_ohm_total(dailyROI),
@@ -306,7 +291,24 @@ def app():
                 get_ohm_total(sixMonthROI),
                 get_ohm_total(userAPY)]
 
-    with st.expander("ROI", expanded=True):
+    # Calculate Ohm Total after arbitrary number of days
+    ohmTotalAfterXDays = (get_roi(ohmGrowthDays, userAPY) * initialOhms + initialOhms) - 1
+
+    st.header('(3,3) ROI Summary')
+    with st.expander('Click to expand/minimize', expanded=True):
+        # region Simple Sentence Summary
+        st.write(f'''
+            ##### Summary
+            Given the inputs provided, after <span style="color:#3E9EF3">{ohmGrowthDays} days</span> your initial OHM 
+            total of <span style="color:#3E9EF3">{initialOhms:.2f}</span> will have 
+            increased to about <span style="color:#3E9EF3">{ohmTotalAfterXDays:.2f} OHM</span>.  
+            Based on your price prediction of <span style="color:#3E9EF3">${ohmPrice} per OHM</span> that calculates to 
+            <span style="color:#3E9EF3">${ohmTotalAfterXDays * ohmPrice:.2f} USD</span>.
+            ''', unsafe_allow_html=True)
+        # endregion
+        st.write('''
+        ---
+        ##### Return On Investment''')
         col1, col3, col4, col5, col6, col7 = st.columns([0.8, 0.8, 0.9, 0.9, 0.9, 1])
         col1.metric("1 Day ROI",   roi_list[0][0])
         col3.metric("7 Day ROI",   roi_list[1][0])
@@ -315,7 +317,9 @@ def app():
         col6.metric("6 Month ROI", roi_list[4][0])
         col7.metric("Annual ROI",  roi_list[5][0])
 
-    with st.expander("OHM Totals: (3,3) ROI"):
+        st.write('''
+        ---
+        ##### Return in Ohm''')
         col1, col3, col4, col5, col6, col7 = st.columns([0.8, 0.8, 0.9, 0.9, 0.9, 1])
         col1.metric("1 Day",    roi_list[0][1], delta=roi_list[0][2])
         col3.metric("7 Days",   roi_list[1][1], delta=roi_list[1][2])
