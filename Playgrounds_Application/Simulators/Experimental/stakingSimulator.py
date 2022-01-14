@@ -294,9 +294,9 @@ def app():
     # Calculate Ohm Total after arbitrary number of days
     ohmTotalAfterXDays = (get_roi(ohmGrowthDays, userAPY) * initialOhms + initialOhms) - 1
 
+    # region 33 ROI Summary
     st.header('(3,3) ROI Summary')
     with st.expander('Click to expand/minimize', expanded=True):
-        # region Simple Sentence Summary
         st.write(f'''
             ##### Summary
             Given the inputs provided, after <span style="color:#3E9EF3">{ohmGrowthDays} days</span> your initial OHM 
@@ -305,10 +305,9 @@ def app():
             Based on your price prediction of <span style="color:#3E9EF3">${ohmPrice} per OHM</span> that calculates to 
             <span style="color:#3E9EF3">${ohmTotalAfterXDays * ohmPrice:.2f} USD</span>.
             ''', unsafe_allow_html=True)
-        # endregion
         st.write('''
         ---
-        ##### Return On Investment''')
+        ##### ROI Metrics''')
         col1, col3, col4, col5, col6, col7 = st.columns([0.8, 0.8, 0.9, 0.9, 0.9, 1])
         col1.metric("1 Day ROI",   roi_list[0][0])
         col3.metric("7 Day ROI",   roi_list[1][0])
@@ -327,7 +326,7 @@ def app():
         col5.metric("3 Months", roi_list[3][1], delta=roi_list[3][2])
         col6.metric("6 Months", roi_list[4][1], delta=roi_list[4][2])
         col7.metric("1 Year",   roi_list[5][1], delta=roi_list[5][2])
-
+    # endregion
     st.write("-----------------------------")
 
     st.header('Results Explanation')
