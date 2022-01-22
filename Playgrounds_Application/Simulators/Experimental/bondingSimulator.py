@@ -65,32 +65,41 @@ def app():
     # plots
     stake_bond_chart = go.Figure()
 
-    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Vested_Ohms, name='(4,4) Growth', fill=None, line=dict(color='#00aff3', width=2)))
-    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_Growth,name='(3,3) Growth', line=dict(color='#ff2a0a', width=2)))
+    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Vested_Ohms, name='(4,4) Growth',
+                                          fill=None, line=dict(color='#00aff3', width=2)))
+    stake_bond_chart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_Growth, name='(3,3) Growth',
+                                          line=dict(color='#ff2a0a', width=2)))
 
-    stake_bond_chart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
-    stake_bond_chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),xaxis_title = "Epochs (Vesting period)", yaxis_title = "Total Ohms")
-    stake_bond_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
+    stake_bond_chart.update_layout(autosize=True, showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
+    stake_bond_chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+                                   xaxis_title="Epochs (Vesting period)", yaxis_title = "Total Ohms")
+    stake_bond_chart.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
-    stake_bond_chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
-    stake_bond_chart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.01,mirror=True)
+    stake_bond_chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.1, mirror=True)
+    stake_bond_chart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01, mirror=True)
 
+    bonding_hover_template = "<b>Epoch: </b> %{x} <br>"
+    bonding_hover_template += "<b>Ohm: </b> %{y} <br>"
+    stake_bond_chart.update_traces(hovertemplate=bonding_hover_template)
 
     #=============================
 
     stake_bond_ROIchart = go.Figure()
 
-    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Bond_ROI, name='(4,4) ROI  ',line=dict(color='#00aff3', width=2)))
-    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_ROI,name='(3,3) ROI  ', fill=None,line=dict(color='#ff2a0a', width=2)))
+    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Bond_ROI, name='(4,4) ROI  ',
+                                             line=dict(color='#00aff3', width=2)))
+    stake_bond_ROIchart.add_trace(go.Scatter(x=stake_bond_df.Epochs, y=stake_bond_df.Stake_ROI, name='(3,3) ROI  ', fill=None,
+                                             line=dict(color='#ff2a0a', width=2)))
 
     stake_bond_ROIchart.update_layout(autosize = True,showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
-    stake_bond_ROIchart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), xaxis_title = "Epochs (Vesting period)", yaxis_title = "ROI based on claim/stake frequency")
-    stake_bond_ROIchart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
+    stake_bond_ROIchart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+                                      xaxis_title = "Epochs (Vesting period)", yaxis_title = "ROI based on claim/stake frequency")
+    stake_bond_ROIchart.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
 
-    stake_bond_ROIchart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.1,mirror=True)
-    stake_bond_ROIchart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F',showgrid=False, gridwidth=0.01,mirror=True)
+    stake_bond_ROIchart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.1, mirror=True)
+    stake_bond_ROIchart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01, mirror=True)
 
-
+    stake_bond_ROIchart.update_traces(hovertemplate=bonding_hover_template)
 # end region
 
 

@@ -123,17 +123,21 @@ def app():
 
     st.subheader('Metrics visualized')
     explorer_chart = px.line(selected_metric_df)
-    explorer_chart.update_layout(autosize=True, showlegend=True ,legend_title_text='Metrics',
+    explorer_chart.update_layout(autosize=True, showlegend=True, legend_title_text='Metrics',
                                  margin=dict(l=20, r=30, t=10, b=20))
-    explorer_chart.update_traces(mode="lines", hovertemplate=None)
-    explorer_chart.update_layout(legend=dict(yanchor="top",y=0.99,xanchor="left",x=0.01), hovermode='x unified',
+    explorer_chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
                                  hoverlabel_bgcolor="#04001f", hoverlabel_align='auto', hoverlabel_namelength=-1,
                                  hoverlabel_font_size=15)
-    explorer_chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
-    explorer_chart.update_xaxes(title = 'Date',showline=True, linewidth=0.1, linecolor='#31333F',
-                                showgrid=False, gridwidth=0.1,mirror=True)
-    explorer_chart.update_yaxes(title = 'Metrics',showline=True, linewidth=0.1, linecolor='#31333F',
-                                showgrid=False, gridwidth=0.01,mirror=True)
+    explorer_chart.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
+    explorer_chart.update_xaxes(title='Date', showline=True, linewidth=0.1, linecolor='#31333F',
+                                showgrid=False, gridwidth=0.1, mirror=True)
+    explorer_chart.update_yaxes(title='Metrics', showline=True, linewidth=0.1, linecolor='#31333F',
+                                showgrid=False, gridwidth=0.01, mirror=True)
+
+    explorer_hover_template = "<b>Value: </b> %{y} <br>"
+    explorer_hover_template += "<b>Date: </b> %{x} <br>"
+    explorer_chart.update_traces(hovertemplate=explorer_hover_template)
+
     st.plotly_chart(explorer_chart, use_container_width=True)
 
     st.subheader('Selected metrics in tabulated view')

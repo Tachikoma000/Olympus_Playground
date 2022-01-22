@@ -241,9 +241,9 @@ def app():
                                                   y=ohmGrowthResult_df.Max_OhmGrowth, name='Max Growth Rate  ', fill=None, ))
 
     ohmGrowthResult_df_Chart.update_layout(autosize=True, showlegend=True, margin=dict(l=20, r=30, t=10, b=20))
-    ohmGrowthResult_df_Chart.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
-    ohmGrowthResult_df_Chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), xaxis_title = "Days",
-                                           yaxis_title = "Total Ohms")
+    ohmGrowthResult_df_Chart.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
+    ohmGrowthResult_df_Chart.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), xaxis_title="Days",
+                                           yaxis_title="Total Ohms")
     ohmGrowthResult_df_Chart.update_xaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,
                                           mirror=True)
     ohmGrowthResult_df_Chart.update_yaxes(showline=True, linewidth=0.1, linecolor='#31333F', showgrid=False, gridwidth=0.01,
