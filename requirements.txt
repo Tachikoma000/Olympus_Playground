@@ -1,7 +1,7 @@
 matplotlib==3.3.4
 numpy==1.20.2
 dash
-requests
+requests~=2.26.0
 flask
 retrying
 ipython
@@ -17,7 +17,10 @@ jupyterlab_launcher>=0.5.0
 jupyter_server_proxy
 jupyterlab-dash
 jupyter-dash
-pycoingecko
+pycoingecko~=2.2.0
 dash_bootstrap_components
 dash_html_components
 dash_table
+streamlit~=1.2.0
+Pillow~=8.4.0
+millify~=0.1.1
